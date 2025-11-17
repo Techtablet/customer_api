@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('crm_tags', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_crm_tag')->primary(); // clé primaire
+            $table->id('id_crm_tag'); // clé primaire
             $table->text('description');
             $table->boolean('inactive')->default(0);
             $table->timestamps();

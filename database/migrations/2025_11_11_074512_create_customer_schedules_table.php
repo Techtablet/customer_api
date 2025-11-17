@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_schedules', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_schedule')->primary();
+            $table->id('id_schedule');
             $table->unsignedBigInteger('id_customer');
             $table->foreign('id_customer')->references('id_customer')->on('customers')->onDelete('restrict');
             $table->text('day');

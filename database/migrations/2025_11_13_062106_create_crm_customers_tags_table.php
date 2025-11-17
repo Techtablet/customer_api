@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('crm_customers_tags', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_crm_customers_tag')->primary(); // clé primaire non auto-incrémentée
+            $table->id('id_crm_customers_tag'); // clé primaire non auto-incrémentée
             $table->unsignedBigInteger('id_crm_tag');
             $table->foreign('id_crm_tag')->references('id_crm_tag')->on('crm_tags')->onDelete('restrict');
             $table->unsignedBigInteger('id_customer');

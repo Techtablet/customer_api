@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_statuses', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_customer_status')->primary(); // correspond à INT(11) NOT NULL PRIMARY KEY
+            $table->id('id_customer_status'); // correspond à INT(11) NOT NULL PRIMARY KEY
             $table->string('name', 60);       // VARCHAR(60) NOT NULL
             $table->string('color', 15);      // VARCHAR(15) NOT NULL
             $table->timestamps();

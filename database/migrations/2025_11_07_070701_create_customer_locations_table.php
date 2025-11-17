@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_locations', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_customer_location')->primary();              // INT(11) NOT NULL PRIMARY KEY
+            $table->id('id_customer_location');              // INT(11) NOT NULL PRIMARY KEY
             $table->string('name', 50)->default('');       // VARCHAR(50) NOT NULL DEFAULT ''
             $table->timestamps();
         });

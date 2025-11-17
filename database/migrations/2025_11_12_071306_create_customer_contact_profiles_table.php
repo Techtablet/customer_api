@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_contact_profiles', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_contact_profile')->primary(); // PRIMARY KEY
+            $table->id('id_contact_profile'); // PRIMARY KEY
             $table->unsignedBigInteger('id_profile');
             $table->foreign('id_profile')->references('id_profile')->on('profiles')->onDelete('restrict');
             $table->unsignedBigInteger('id_contact');

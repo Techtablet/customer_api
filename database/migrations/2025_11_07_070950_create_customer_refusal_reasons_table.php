@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_refusal_reasons', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_customer_refusal_reason')->primary();     // INT(11) NOT NULL PRIMARY KEY
+            $table->id('id_customer_refusal_reason');     // INT(11) NOT NULL PRIMARY KEY
             $table->text('description');          // TEXT NOT NULL
             $table->timestamps();
         });

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_stats', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_customer_stat')->primary();
+            $table->id('id_customer_stat');
             $table->unsignedBigInteger('id_customer');
             $table->foreign('id_customer')->references('id_customer')->on('customers')->onDelete('restrict');
             $table->float('arevage_ordervalue');

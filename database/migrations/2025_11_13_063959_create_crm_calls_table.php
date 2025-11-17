@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('crm_calls', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_crm_call')->primary(); // clé primaire
+            $table->id('id_crm_call'); // clé primaire
             $table->unsignedBigInteger('id_customer')->index(); // index sur id_customer
             
             $table->unsignedBigInteger('id_techtablet_seller');

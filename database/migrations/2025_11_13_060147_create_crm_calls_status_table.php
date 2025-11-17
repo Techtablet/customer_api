@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('crm_calls_statuses', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_crm_calls_status')->primary(); // clé primaire non auto-incrémentée
+            $table->id('id_crm_calls_status'); // clé primaire non auto-incrémentée
             $table->string('name', 255);
             $table->timestamps();
         });
