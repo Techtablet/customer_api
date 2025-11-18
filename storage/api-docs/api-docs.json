@@ -1,0 +1,276 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Customer API Documentation",
+        "description": "Documentation de l'API Customer",
+        "contact": {
+            "email": "support@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/customer-statuses": {
+            "get": {
+                "tags": [
+                    "CustomerStatus"
+                ],
+                "summary": "Liste tous les statuts clients",
+                "description": "Liste tous les statuts clients",
+                "operationId": "8d761a67b46d4ec0fbf42bee281b6933",
+                "responses": {
+                    "200": {
+                        "description": "Opération réussite",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Opération réussite"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerStatus"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerStatus"
+                ],
+                "summary": "Créer un statut client",
+                "description": "Crée un nouveau statut client",
+                "operationId": "eec9147bac35ad75849cc4724ef13c24",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomerStatus"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Statut créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut créé avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerStatus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/customer-statuses/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerStatus"
+                ],
+                "summary": "Afficher un statut client par ID",
+                "description": "Affiche un statut client par ID",
+                "operationId": "2771c2423e1e4b8599f0ae8193f7da13",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du statut client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opération réussite",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Opération réussite"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerStatus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statut non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerStatus"
+                ],
+                "summary": "Mettre à jour un statut client",
+                "description": "Met à jour un statut client",
+                "operationId": "02b426060dc8c2ab58433d26231f2141",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du statut client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomerStatus"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Statut mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut mis à jour avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerStatus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statut non trouvé"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerStatus"
+                ],
+                "summary": "Supprimer un statut client",
+                "description": "Supprime un statut client",
+                "operationId": "3c306a668c26f6c9ae62d2edb7312013",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du statut client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statut supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut supprimé avec succès"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statut non trouvé"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CustomerStatus": {
+                "title": "CustomerStatus",
+                "description": "Représente un statut client",
+                "properties": {
+                    "id_customer_status": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Actif"
+                    },
+                    "color": {
+                        "type": "string",
+                        "example": "#00FF00"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "CustomerStatus",
+            "description": "API pour gérer les statuts clients"
+        }
+    ]
+}
