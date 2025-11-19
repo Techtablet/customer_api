@@ -20,7 +20,7 @@ class CustomerStatusController extends Controller
      * Liste tous les statuts clients
      *
      * @OA\Get(
-     *     path="/api/customer-statuses",
+     *     path="/customer-statuses",
      *     tags={"CustomerStatus"},
      *     summary="Liste tous les statuts clients",
      *     @OA\Response(
@@ -55,7 +55,7 @@ class CustomerStatusController extends Controller
      * Crée un nouveau statut client
      *
      * @OA\Post(
-     *     path="/api/customer-statuses",
+     *     path="/customer-statuses",
      *     tags={"CustomerStatus"},
      *     summary="Créer un statut client",
      *     @OA\RequestBody(
@@ -92,7 +92,7 @@ class CustomerStatusController extends Controller
      * Affiche un statut client par ID
      *
      * @OA\Get(
-     *     path="/api/customer-statuses/{id}",
+     *     path="/customer-statuses/{id}",
      *     tags={"CustomerStatus"},
      *     summary="Afficher un statut client par ID",
      *     @OA\Parameter(
@@ -131,7 +131,7 @@ class CustomerStatusController extends Controller
      * Met à jour un statut client
      *
      * @OA\Put(
-     *     path="/api/customer-statuses/{id}",
+     *     path="/customer-statuses/{id}",
      *     tags={"CustomerStatus"},
      *     summary="Mettre à jour un statut client",
      *     @OA\Parameter(
@@ -177,7 +177,7 @@ class CustomerStatusController extends Controller
      * Supprime un statut client
      *
      * @OA\Delete(
-     *     path="/api/customer-statuses/{id}",
+     *     path="/customer-statuses/{id}",
      *     tags={"CustomerStatus"},
      *     summary="Supprimer un statut client",
      *     @OA\Parameter(

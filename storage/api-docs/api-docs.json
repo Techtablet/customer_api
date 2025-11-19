@@ -9,14 +9,14 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/customer-statuses": {
+        "/customer-statuses": {
             "get": {
                 "tags": [
                     "CustomerStatus"
                 ],
                 "summary": "Liste tous les statuts clients",
                 "description": "Liste tous les statuts clients",
-                "operationId": "8d761a67b46d4ec0fbf42bee281b6933",
+                "operationId": "e45dedb7569d4061d98febe8ef7bae49",
                 "responses": {
                     "200": {
                         "description": "Opération réussite",
@@ -52,7 +52,7 @@
                 ],
                 "summary": "Créer un statut client",
                 "description": "Crée un nouveau statut client",
-                "operationId": "eec9147bac35ad75849cc4724ef13c24",
+                "operationId": "25a4da6ccf871f5de8d547449f2f5c70",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -90,14 +90,14 @@
                 }
             }
         },
-        "/api/customer-statuses/{id}": {
+        "/customer-statuses/{id}": {
             "get": {
                 "tags": [
                     "CustomerStatus"
                 ],
                 "summary": "Afficher un statut client par ID",
                 "description": "Affiche un statut client par ID",
-                "operationId": "2771c2423e1e4b8599f0ae8193f7da13",
+                "operationId": "7cdbc5d92d30d2df1770927657f0bacb",
                 "parameters": [
                     {
                         "name": "id",
@@ -145,7 +145,7 @@
                 ],
                 "summary": "Mettre à jour un statut client",
                 "description": "Met à jour un statut client",
-                "operationId": "02b426060dc8c2ab58433d26231f2141",
+                "operationId": "4cfa63600d2a692ff8c07352a8232c1a",
                 "parameters": [
                     {
                         "name": "id",
@@ -203,7 +203,7 @@
                 ],
                 "summary": "Supprimer un statut client",
                 "description": "Supprime un statut client",
-                "operationId": "3c306a668c26f6c9ae62d2edb7312013",
+                "operationId": "148d67022449ff3a0f405a5d05ce683e",
                 "parameters": [
                     {
                         "name": "id",
@@ -242,6 +242,240 @@
                     }
                 }
             }
+        },
+        "/stock-softwares": {
+            "get": {
+                "tags": [
+                    "StockSoftware"
+                ],
+                "summary": "Liste tous les logiciels",
+                "description": "Liste tous les logiciels",
+                "operationId": "a7e48c50262a6f9cac458d4f52e5fd31",
+                "responses": {
+                    "200": {
+                        "description": "Liste des logiciels récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des logiciels récupérée avec succès"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/StockSoftware"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "StockSoftware"
+                ],
+                "summary": "Créer un logiciel",
+                "description": "Crée un nouveau logiciel",
+                "operationId": "1856c96a6825c821eb45836de5b16e7d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StockSoftware"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Logiciel créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logiciel créé avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/StockSoftware"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/stock-softwares/{id}": {
+            "get": {
+                "tags": [
+                    "StockSoftware"
+                ],
+                "summary": "Afficher un logiciel par ID",
+                "description": "Affiche un logiciel par ID",
+                "operationId": "a03d9c9ec065fc3cd749c21b9a6fece9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du logiciel",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logiciel récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logiciel récupéré avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/StockSoftware"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Logiciel non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "StockSoftware"
+                ],
+                "summary": "Mettre à jour un logiciel",
+                "description": "Met à jour un logiciel",
+                "operationId": "4a8047ea2731d69688eaf8d3e75c3b7f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du logiciel",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StockSoftware"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Logiciel mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logiciel mis à jour avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/StockSoftware"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Logiciel non trouvé"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "StockSoftware"
+                ],
+                "summary": "Supprimer un logiciel",
+                "description": "Supprime un logiciel",
+                "operationId": "7072f4490217db95a8b34c88a58f96a0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du logiciel",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logiciel supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logiciel supprimé avec succès"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Logiciel non trouvé"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -264,6 +498,21 @@
                     }
                 },
                 "type": "object"
+            },
+            "StockSoftware": {
+                "title": "StockSoftware",
+                "description": "Représente un logiciel disponible",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Win GSM"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -271,6 +520,10 @@
         {
             "name": "CustomerStatus",
             "description": "API pour gérer les statuts clients"
+        },
+        {
+            "name": "StockSoftware",
+            "description": "API pour gérer les logiciels disponibles"
         }
     ]
 }
