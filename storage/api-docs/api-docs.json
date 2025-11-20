@@ -6,9 +6,937 @@
         "contact": {
             "email": "support@example.com"
         },
-        "version": "1.0.0"
+        "version": "2.0.0"
     },
     "paths": {
+        "/customer-countries": {
+            "get": {
+                "tags": [
+                    "CustomerCountries"
+                ],
+                "summary": "Liste tous les pays clients",
+                "operationId": "f4c982c7c324d35f6bb365745a82c768",
+                "responses": {
+                    "200": {
+                        "description": "Liste des pays clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerCountry"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des pays clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerCountries"
+                ],
+                "summary": "Crée un nouveau pays client",
+                "operationId": "0ca39a9897e091dd63158c7181307543",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerCountryRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pays client créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCountry"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pays client créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-countries/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerCountries"
+                ],
+                "summary": "Affiche les détails d'un pays client spécifique",
+                "operationId": "efe7668f829728044ba9a4be08b3cb24",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du pays client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pays client récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCountry"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pays client récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pays client non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerCountries"
+                ],
+                "summary": "Met à jour un pays client existant",
+                "operationId": "553c1de3cd31f7eb20201ee9e3e6d0b6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du pays client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerCountryRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pays client mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCountry"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pays client mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pays client non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerCountries"
+                ],
+                "summary": "Supprime un pays client",
+                "operationId": "89c4e5e52747e1ba72a2049461256f04",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du pays client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pays client supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pays client supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pays client non trouvé"
+                    }
+                }
+            }
+        },
+        "/customer-langs": {
+            "get": {
+                "tags": [
+                    "CustomerLangs"
+                ],
+                "summary": "Liste toutes les langues clients",
+                "operationId": "cb26602595a4acd44d916784c40ff349",
+                "responses": {
+                    "200": {
+                        "description": "Liste des langues clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerLang"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des langues clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerLangs"
+                ],
+                "summary": "Crée une nouvelle langue client",
+                "operationId": "2361ab6b0b2d5a5052557469f53befa4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerLangRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Langue client créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerLang"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Langue client créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-langs/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerLangs"
+                ],
+                "summary": "Affiche les détails d'une langue client spécifique",
+                "operationId": "aa19e86158616e7a32337105ee3ffa92",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la langue client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Langue client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerLang"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Langue client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Langue client non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerLangs"
+                ],
+                "summary": "Met à jour une langue client existante",
+                "operationId": "8d61222e789a81f71ba97768f1367c8f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la langue client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerLangRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Langue client mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerLang"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Langue client mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Langue client non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerLangs"
+                ],
+                "summary": "Supprime une langue client",
+                "operationId": "493d5b6af5566124dd686a423fc87cfd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la langue client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Langue client supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Langue client supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Langue client non trouvée"
+                    }
+                }
+            }
+        },
+        "/customer-locations": {
+            "get": {
+                "tags": [
+                    "CustomerLocations"
+                ],
+                "summary": "Liste toutes les localisations clients",
+                "operationId": "67b48d271c10f1f02fdcc166295f55e2",
+                "responses": {
+                    "200": {
+                        "description": "Liste des localisations clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerLocation"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des localisations clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerLocations"
+                ],
+                "summary": "Crée une nouvelle localisation client",
+                "operationId": "5252d522857e0212b23bfccc46da3d13",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerLocationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Localisation client créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerLocation"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Localisation client créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-locations/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerLocations"
+                ],
+                "summary": "Affiche les détails d'une localisation client spécifique",
+                "operationId": "820ce4f90c0530e480a7c537ff7a6809",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la localisation client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Localisation client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerLocation"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Localisation client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Localisation client non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerLocations"
+                ],
+                "summary": "Met à jour une localisation client existante",
+                "operationId": "f1ebd876c0a6f5191b5f3ef83c2c3429",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la localisation client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerLocationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Localisation client mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerLocation"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Localisation client mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Localisation client non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerLocations"
+                ],
+                "summary": "Supprime une localisation client",
+                "operationId": "66c58d96d112eaea47a9285b87787f67",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la localisation client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Localisation client supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Localisation client supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Localisation client non trouvée"
+                    }
+                }
+            }
+        },
+        "/customer-refusal-reasons": {
+            "get": {
+                "tags": [
+                    "CustomerRefusalReasons"
+                ],
+                "summary": "Liste toutes les raisons de refus clients",
+                "operationId": "03f4f98fd8031e8deaf703853b6f4208",
+                "responses": {
+                    "200": {
+                        "description": "Liste des raisons de refus clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerRefusalReason"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des raisons de refus clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerRefusalReasons"
+                ],
+                "summary": "Crée une nouvelle raison de refus client",
+                "operationId": "b180740424bcc4f052f06b24def3442b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerRefusalReasonRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Raison de refus client créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerRefusalReason"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Raison de refus client créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-refusal-reasons/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerRefusalReasons"
+                ],
+                "summary": "Affiche les détails d'une raison de refus client spécifique",
+                "operationId": "aaf66bd70e5caf860e84a7d8fbc8bdc7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la raison de refus client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Raison de refus client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerRefusalReason"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Raison de refus client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Raison de refus client non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerRefusalReasons"
+                ],
+                "summary": "Met à jour une raison de refus client existante",
+                "operationId": "6d54f5474edc3859c8ef09e6cbd5a418",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la raison de refus client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerRefusalReasonRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Raison de refus client mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerRefusalReason"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Raison de refus client mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Raison de refus client non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerRefusalReasons"
+                ],
+                "summary": "Supprime une raison de refus client",
+                "operationId": "b21b5f75d4af0bc39c98e0f01b455d59",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la raison de refus client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Raison de refus client supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Raison de refus client supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Raison de refus client non trouvée"
+                    }
+                }
+            }
+        },
         "/customer-statuses": {
             "get": {
                 "tags": [
@@ -239,6 +1167,543 @@
                     },
                     "404": {
                         "description": "Statut non trouvé"
+                    }
+                }
+            }
+        },
+        "/customer-typologies": {
+            "get": {
+                "tags": [
+                    "CustomerTypologies"
+                ],
+                "summary": "Liste toutes les typologies clients",
+                "operationId": "f0590bb490a8039bca09bd991a39625a",
+                "responses": {
+                    "200": {
+                        "description": "Liste des typologies clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerTypology"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des typologies clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerTypologies"
+                ],
+                "summary": "Crée une nouvelle typologie client",
+                "operationId": "98cd1d0cca842ab7a826e30b10d21f63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerTypologyRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Typologie client créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerTypology"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Typologie client créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-typologies/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerTypologies"
+                ],
+                "summary": "Affiche les détails d'une typologie client spécifique",
+                "operationId": "e33d6e5f39719efc2f3c0f1c462baec2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la typologie client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Typologie client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerTypology"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Typologie client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Typologie client non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerTypologies"
+                ],
+                "summary": "Met à jour une typologie client existante",
+                "operationId": "c580c255cb615500b8c62ccf79967eb6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la typologie client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerTypologyRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Typologie client mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerTypology"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Typologie client mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Typologie client non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerTypologies"
+                ],
+                "summary": "Supprime une typologie client",
+                "operationId": "959a413b11f27d622a511030b38d6d4e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la typologie client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Typologie client supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Typologie client supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Typologie client non trouvée"
+                    }
+                }
+            }
+        },
+        "/franchises": {
+            "get": {
+                "tags": [
+                    "Franchises"
+                ],
+                "summary": "Liste toutes les franchises",
+                "operationId": "e6ea012114de677c6c7aa821e3a2899f",
+                "responses": {
+                    "200": {
+                        "description": "Liste des franchises récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_franchise": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Ma Franchise"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des franchises récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Franchises"
+                ],
+                "summary": "Crée une nouvelle franchise",
+                "operationId": "614b97ec9762a5fbafc4cf632a6ef4e7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 30,
+                                        "example": "Nouvelle Franchise"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Franchise créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_franchise": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Nouvelle Franchise"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Franchise créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/franchises/{id}": {
+            "get": {
+                "tags": [
+                    "Franchises"
+                ],
+                "summary": "Affiche les détails d'une franchise spécifique",
+                "operationId": "26667a397a4c4b0d48a49e60933f7359",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la franchise",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Franchise récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_franchise": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Ma Franchise"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Franchise récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Franchise non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Franchises"
+                ],
+                "summary": "Met à jour une franchise existante",
+                "operationId": "aa35215e0db62c676a7e70a5512af76d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la franchise à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 30,
+                                        "example": "Franchise Modifiée"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Franchise mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_franchise": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Franchise Modifiée"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Franchise mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Franchise non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Franchises"
+                ],
+                "summary": "Supprime une franchise",
+                "operationId": "a1c97554c0b0c200e52cf0e4059974be",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la franchise à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Franchise supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Franchise supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Franchise non trouvée"
                     }
                 }
             }
@@ -480,6 +1945,410 @@
     },
     "components": {
         "schemas": {
+            "StoreCustomerCountryRequest": {
+                "required": [
+                    "name",
+                    "name_en",
+                    "name_de",
+                    "isocode"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom du pays en français",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "France"
+                    },
+                    "name_en": {
+                        "description": "Nom du pays en anglais",
+                        "type": "string",
+                        "maxLength": 70,
+                        "example": "France"
+                    },
+                    "name_de": {
+                        "description": "Nom du pays en allemand",
+                        "type": "string",
+                        "maxLength": 70,
+                        "example": "Frankreich"
+                    },
+                    "isocode": {
+                        "description": "Code ISO du pays",
+                        "type": "string",
+                        "maxLength": 5,
+                        "example": "FR"
+                    },
+                    "ccn3": {
+                        "description": "Code numérique du pays",
+                        "type": "integer",
+                        "example": 250,
+                        "nullable": true
+                    },
+                    "phone_code": {
+                        "description": "Indicatif téléphonique",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "+33",
+                        "nullable": true
+                    },
+                    "is_intracom_vat": {
+                        "description": "Pays intracommunautaire pour TVA (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_ue_export": {
+                        "description": "Pays UE pour export (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerCountryRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom du pays en français",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "France"
+                    },
+                    "name_en": {
+                        "description": "Nom du pays en anglais",
+                        "type": "string",
+                        "maxLength": 70,
+                        "example": "France"
+                    },
+                    "name_de": {
+                        "description": "Nom du pays en allemand",
+                        "type": "string",
+                        "maxLength": 70,
+                        "example": "Frankreich"
+                    },
+                    "isocode": {
+                        "description": "Code ISO du pays",
+                        "type": "string",
+                        "maxLength": 5,
+                        "example": "FR"
+                    },
+                    "ccn3": {
+                        "description": "Code numérique du pays",
+                        "type": "integer",
+                        "example": 250,
+                        "nullable": true
+                    },
+                    "phone_code": {
+                        "description": "Indicatif téléphonique",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "+33",
+                        "nullable": true
+                    },
+                    "is_intracom_vat": {
+                        "description": "Pays intracommunautaire pour TVA (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_ue_export": {
+                        "description": "Pays UE pour export (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerLangRequest": {
+                "required": [
+                    "name",
+                    "code_iso"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom de la langue",
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Français"
+                    },
+                    "code_iso": {
+                        "description": "Code ISO de la langue",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "fr"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerLangRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom de la langue",
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Français Modifié"
+                    },
+                    "code_iso": {
+                        "description": "Code ISO de la langue",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "fr-FR"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerLocationRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom de la localisation",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Paris"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerLocationRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom de la localisation",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Lyon"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerRefusalReasonRequest": {
+                "required": [
+                    "description"
+                ],
+                "properties": {
+                    "description": {
+                        "description": "Description de la raison de refus",
+                        "type": "string",
+                        "example": "Le client n'a pas le budget nécessaire pour le projet"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerRefusalReasonRequest": {
+                "properties": {
+                    "description": {
+                        "description": "Description de la raison de refus",
+                        "type": "string",
+                        "example": "Le projet ne correspond pas aux besoins actuels du client"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerTypologyRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom de la typologie",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Particulier"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerTypologyRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom de la typologie",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Professionnel"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreFranchiseRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom de la franchise",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "Ma Nouvelle Franchise"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateFranchiseRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom de la franchise",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "Franchise Modifiée"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerCountry": {
+                "title": "CustomerCountry",
+                "description": "Modèle de pays client",
+                "properties": {
+                    "id_customer_country": {
+                        "description": "ID unique du pays client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom du pays en français",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "France"
+                    },
+                    "name_en": {
+                        "description": "Nom du pays en anglais",
+                        "type": "string",
+                        "maxLength": 70,
+                        "example": "France"
+                    },
+                    "name_de": {
+                        "description": "Nom du pays en allemand",
+                        "type": "string",
+                        "maxLength": 70,
+                        "example": "Frankreich"
+                    },
+                    "isocode": {
+                        "description": "Code ISO du pays",
+                        "type": "string",
+                        "maxLength": 5,
+                        "example": "FR"
+                    },
+                    "ccn3": {
+                        "description": "Code numérique du pays",
+                        "type": "integer",
+                        "example": 250,
+                        "nullable": true
+                    },
+                    "phone_code": {
+                        "description": "Indicatif téléphonique",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "+33",
+                        "nullable": true
+                    },
+                    "is_intracom_vat": {
+                        "description": "Pays intracommunautaire pour TVA (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_ue_export": {
+                        "description": "Pays UE pour export (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerLang": {
+                "title": "CustomerLang",
+                "description": "Modèle de langue client",
+                "properties": {
+                    "id_customer_lang": {
+                        "description": "ID unique de la langue client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom de la langue",
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "Français"
+                    },
+                    "code_iso": {
+                        "description": "Code ISO de la langue",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "fr"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerLocation": {
+                "title": "CustomerLocation",
+                "description": "Modèle de localisation client",
+                "properties": {
+                    "id_customer_location": {
+                        "description": "ID unique de la localisation client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom de la localisation",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Paris"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerRefusalReason": {
+                "title": "CustomerRefusalReason",
+                "description": "Modèle de raison de refus client",
+                "properties": {
+                    "id_customer_refusal_reason": {
+                        "description": "ID unique de la raison de refus client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "description": {
+                        "description": "Description de la raison de refus",
+                        "type": "string",
+                        "example": "Budget insuffisant"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "CustomerStatus": {
                 "title": "CustomerStatus",
                 "description": "Représente un statut client",
@@ -495,6 +2364,62 @@
                     "color": {
                         "type": "string",
                         "example": "#00FF00"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerTypology": {
+                "title": "CustomerTypology",
+                "description": "Modèle de typologie client",
+                "properties": {
+                    "id_customer_typologie": {
+                        "description": "ID unique de la typologie client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom de la typologie",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Particulier"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Franchise": {
+                "title": "Franchise",
+                "description": "Modèle de franchise",
+                "properties": {
+                    "id_franchise": {
+                        "description": "ID unique de la franchise",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom de la franchise",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "Ma Franchise"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
@@ -518,8 +2443,32 @@
     },
     "tags": [
         {
+            "name": "CustomerCountries",
+            "description": "Opérations CRUD pour les pays clients"
+        },
+        {
+            "name": "CustomerLangs",
+            "description": "Opérations CRUD pour les langues clients"
+        },
+        {
+            "name": "CustomerLocations",
+            "description": "Opérations CRUD pour les localisations clients"
+        },
+        {
+            "name": "CustomerRefusalReasons",
+            "description": "Opérations CRUD pour les raisons de refus clients"
+        },
+        {
             "name": "CustomerStatus",
             "description": "API pour gérer les statuts clients"
+        },
+        {
+            "name": "CustomerTypologies",
+            "description": "Opérations CRUD pour les typologies clients"
+        },
+        {
+            "name": "Franchises",
+            "description": "Opérations CRUD pour les franchises"
         },
         {
             "name": "StockSoftware",
