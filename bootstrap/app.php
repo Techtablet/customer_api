@@ -6,7 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        using: function (Route $route) {
+        using: function () {
             Route::prefix('')
                 ->middleware(['api', \Illuminate\Http\Middleware\HandleCors::class])
                 ->group(base_path('routes/api.php'));

@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('customer_canvassing_steps', function (Blueprint $table) {
             $table->id('id_customer_canvassing_step');
             $table->string('name', 200);
-            $table->integer('ordre');
+            $table->unsignedInteger('order');
             $table->timestamps();
         });
     }

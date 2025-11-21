@@ -28,8 +28,10 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Ajout du commentaire sur la table
-        DB::statement("ALTER TABLE crm_calls COMMENT = 'Table for a new call object (CRM)'");
+        // Ajout du commentaire sur la table (uniquement pour MySQL/PostgreSQL)
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE crm_calls COMMENT = 'Table for a new call object (CRM)'");
+        }
     }
 
     /**

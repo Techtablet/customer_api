@@ -9,6 +9,702 @@
         "version": "2.0.0"
     },
     "paths": {
+        "/customer-addresses": {
+            "get": {
+                "tags": [
+                    "CustomerAddresses"
+                ],
+                "summary": "Liste toutes les adresses clients",
+                "operationId": "df466a4bec3008e7972aa803f65ca464",
+                "responses": {
+                    "200": {
+                        "description": "Liste des adresses clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerAddress"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des adresses clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerAddresses"
+                ],
+                "summary": "Crée une nouvelle adresse client",
+                "operationId": "9f09f924361a46d9cb95743b472c4fcd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerAddressRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Adresse client créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse client créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-addresses/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerAddresses"
+                ],
+                "summary": "Affiche les détails d'une adresse client spécifique",
+                "operationId": "dfe50df677b6603e3de66df646b11f50",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adresse client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse client non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerAddresses"
+                ],
+                "summary": "Met à jour une adresse client existante",
+                "operationId": "33d0ef10fdd3a59e0fba461bea3035ca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerAddressRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Adresse client mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse client mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse client non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerAddresses"
+                ],
+                "summary": "Supprime une adresse client",
+                "operationId": "d6cfbfa8dbda8876b396a8231442174f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adresse client supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse client supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse client non trouvée"
+                    }
+                }
+            }
+        },
+        "/customer-canvassing-steps": {
+            "get": {
+                "tags": [
+                    "CustomerCanvassingSteps"
+                ],
+                "summary": "Liste toutes les étapes de démarchage clients",
+                "operationId": "e61cdbc33f4d905b0de13879337d32e6",
+                "responses": {
+                    "200": {
+                        "description": "Liste des étapes de démarchage clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerCanvassingStep"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des étapes de démarchage clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerCanvassingSteps"
+                ],
+                "summary": "Crée une nouvelle étape de démarchage client",
+                "operationId": "9607ca5273add357142976bdf9dcbdc9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerCanvassingStepRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Étape de démarchage client créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCanvassingStep"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Étape de démarchage client créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-canvassing-steps/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerCanvassingSteps"
+                ],
+                "summary": "Affiche les détails d'une étape de démarchage client spécifique",
+                "operationId": "58485a09f2773d2145c4ced3a5ac4e53",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'étape de démarchage client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Étape de démarchage client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCanvassingStep"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Étape de démarchage client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Étape de démarchage client non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerCanvassingSteps"
+                ],
+                "summary": "Met à jour une étape de démarchage client existante",
+                "operationId": "ebb94efbca14bc704c1e48dc7bdf0fbd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'étape de démarchage client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerCanvassingStepRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Étape de démarchage client mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCanvassingStep"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Étape de démarchage client mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Étape de démarchage client non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerCanvassingSteps"
+                ],
+                "summary": "Supprime une étape de démarchage client",
+                "operationId": "8a0ba590ad35ff1de42f9e815ee2389c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'étape de démarchage client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Étape de démarchage client supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Étape de démarchage client supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Étape de démarchage client non trouvée"
+                    }
+                }
+            }
+        },
+        "/customer-contact-titles": {
+            "get": {
+                "tags": [
+                    "CustomerContactTitles"
+                ],
+                "summary": "Liste toutes les civilités clients",
+                "operationId": "773d77e6b50e7041252de8fb678c1afd",
+                "responses": {
+                    "200": {
+                        "description": "Liste des civilités clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerContactTitle"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des civilités clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerContactTitles"
+                ],
+                "summary": "Crée une nouvelle civilité client",
+                "operationId": "84f87c10072b162f180b0ee81525dec2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerContactTitleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Civilité client créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactTitle"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Civilité client créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-contact-titles/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerContactTitles"
+                ],
+                "summary": "Affiche les détails d'une civilité client spécifique",
+                "operationId": "67955bc90bc8801b2aa88513fda60cc0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la civilité client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Civilité client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactTitle"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Civilité client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Civilité client non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerContactTitles"
+                ],
+                "summary": "Met à jour une civilité client existante",
+                "operationId": "07f418e20ed5d548288009f1c0709552",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la civilité client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerContactTitleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Civilité client mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactTitle"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Civilité client mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Civilité client non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerContactTitles"
+                ],
+                "summary": "Supprime une civilité client",
+                "operationId": "3ea493d84435d748a54eb37bdf79b942",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la civilité client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Civilité client supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Civilité client supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Civilité client non trouvée"
+                    }
+                }
+            }
+        },
         "/customer-countries": {
             "get": {
                 "tags": [
@@ -1941,10 +2637,498 @@
                     }
                 }
             }
+        },
+        "/techtablet-sellers": {
+            "get": {
+                "tags": [
+                    "TechtabletSellers"
+                ],
+                "summary": "Liste tous les vendeurs Techtablet",
+                "operationId": "1b5d8df36d9b3badcda19da995df33bd",
+                "responses": {
+                    "200": {
+                        "description": "Liste des vendeurs Techtablet récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TechtabletSeller"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des vendeurs Techtablet récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "TechtabletSellers"
+                ],
+                "summary": "Crée un nouveau vendeur Techtablet",
+                "operationId": "7443a4d718baccc2c7da92da0ae982a6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreTechtabletSellerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vendeur Techtablet créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TechtabletSeller"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vendeur Techtablet créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/techtablet-sellers/{id}": {
+            "get": {
+                "tags": [
+                    "TechtabletSellers"
+                ],
+                "summary": "Affiche les détails d'un vendeur Techtablet spécifique",
+                "operationId": "7d2e887c1e156edeb12d2f93638ad736",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du vendeur Techtablet",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vendeur Techtablet récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TechtabletSeller"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vendeur Techtablet récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vendeur Techtablet non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "TechtabletSellers"
+                ],
+                "summary": "Met à jour un vendeur Techtablet existant",
+                "operationId": "26d84c4c3f5925cc51388fd1d7efeed6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du vendeur Techtablet à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTechtabletSellerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vendeur Techtablet mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TechtabletSeller"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vendeur Techtablet mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vendeur Techtablet non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "TechtabletSellers"
+                ],
+                "summary": "Supprime un vendeur Techtablet",
+                "operationId": "8506d5f603d13b59404134f6a03158e8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du vendeur Techtablet à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vendeur Techtablet supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vendeur Techtablet supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vendeur Techtablet non trouvé"
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "StoreCustomerAddressRequest": {
+                "required": [
+                    "first_name",
+                    "last_name",
+                    "address",
+                    "postal_code",
+                    "city",
+                    "id_country",
+                    "phone"
+                ],
+                "properties": {
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Dupont"
+                    },
+                    "address": {
+                        "description": "Adresse",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "123 Rue de la République"
+                    },
+                    "complement_address": {
+                        "description": "Complément d'adresse",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Bâtiment A, étage 2",
+                        "nullable": true
+                    },
+                    "postal_code": {
+                        "description": "Code postal",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "75001"
+                    },
+                    "city": {
+                        "description": "Ville",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Paris"
+                    },
+                    "id_country": {
+                        "description": "ID du pays",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "phone": {
+                        "description": "Téléphone",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456789"
+                    },
+                    "fax": {
+                        "description": "Fax",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456780",
+                        "nullable": true
+                    },
+                    "longitude": {
+                        "description": "Longitude",
+                        "type": "number",
+                        "format": "float",
+                        "example": 2.3522219,
+                        "nullable": true
+                    },
+                    "latitude": {
+                        "description": "Latitude",
+                        "type": "number",
+                        "format": "float",
+                        "example": 48.856614,
+                        "nullable": true
+                    },
+                    "place_id": {
+                        "description": "ID de lieu Google Maps",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
+                        "nullable": true
+                    },
+                    "address_name": {
+                        "description": "Nom personnalisé de l'adresse",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Domicile",
+                        "nullable": true
+                    },
+                    "has_difficult_access": {
+                        "description": "Accès difficile",
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerAddressRequest": {
+                "properties": {
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Dupont"
+                    },
+                    "address": {
+                        "description": "Adresse",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "123 Rue de la République"
+                    },
+                    "complement_address": {
+                        "description": "Complément d'adresse",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Bâtiment A, étage 2",
+                        "nullable": true
+                    },
+                    "postal_code": {
+                        "description": "Code postal",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "75001"
+                    },
+                    "city": {
+                        "description": "Ville",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Paris"
+                    },
+                    "id_country": {
+                        "description": "ID du pays",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "phone": {
+                        "description": "Téléphone",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456789"
+                    },
+                    "fax": {
+                        "description": "Fax",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456780",
+                        "nullable": true
+                    },
+                    "longitude": {
+                        "description": "Longitude",
+                        "type": "number",
+                        "format": "float",
+                        "example": 2.3522219,
+                        "nullable": true
+                    },
+                    "latitude": {
+                        "description": "Latitude",
+                        "type": "number",
+                        "format": "float",
+                        "example": 48.856614,
+                        "nullable": true
+                    },
+                    "place_id": {
+                        "description": "ID de lieu Google Maps",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
+                        "nullable": true
+                    },
+                    "address_name": {
+                        "description": "Nom personnalisé de l'adresse",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Domicile",
+                        "nullable": true
+                    },
+                    "has_difficult_access": {
+                        "description": "Accès difficile",
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerCanvassingStepRequest": {
+                "required": [
+                    "name",
+                    "order"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom de l'étape",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Premier contact"
+                    },
+                    "order": {
+                        "description": "Ordre d'affichage",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerCanvassingStepRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom de l'étape",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Premier contact"
+                    },
+                    "order": {
+                        "description": "Ordre d'affichage",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerContactTitleRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom de la civilité",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Dr"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerContactTitleRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom de la civilité",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Dr"
+                    }
+                },
+                "type": "object"
+            },
             "StoreCustomerCountryRequest": {
                 "required": [
                     "name",
@@ -2187,6 +3371,310 @@
                         "type": "string",
                         "maxLength": 30,
                         "example": "Franchise Modifiée"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreTechtabletSellerRequest": {
+                "required": [
+                    "first_name",
+                    "employee_code"
+                ],
+                "properties": {
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Pierre"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Martin",
+                        "nullable": true
+                    },
+                    "primary_phone": {
+                        "description": "Téléphone principal",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456789",
+                        "nullable": true
+                    },
+                    "secondary_phone": {
+                        "description": "Téléphone secondaire",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33612345678",
+                        "nullable": true
+                    },
+                    "email": {
+                        "description": "Email professionnel",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "pierre.martin@techtablet.com",
+                        "nullable": true
+                    },
+                    "job_title": {
+                        "description": "Poste/emploi occupé",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "Commercial Senior",
+                        "nullable": true
+                    },
+                    "employee_code": {
+                        "description": "Code employé unique",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "EMP001"
+                    },
+                    "digital_signature": {
+                        "description": "Signature numérique",
+                        "type": "string",
+                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "description": "Statut actif",
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateTechtabletSellerRequest": {
+                "properties": {
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Pierre"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Martin",
+                        "nullable": true
+                    },
+                    "primary_phone": {
+                        "description": "Téléphone principal",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456789",
+                        "nullable": true
+                    },
+                    "secondary_phone": {
+                        "description": "Téléphone secondaire",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33612345678",
+                        "nullable": true
+                    },
+                    "email": {
+                        "description": "Email professionnel",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "pierre.martin@techtablet.com",
+                        "nullable": true
+                    },
+                    "job_title": {
+                        "description": "Poste/emploi occupé",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "Commercial Senior",
+                        "nullable": true
+                    },
+                    "employee_code": {
+                        "description": "Code employé unique",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "EMP001"
+                    },
+                    "digital_signature": {
+                        "description": "Signature numérique",
+                        "type": "string",
+                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "description": "Statut actif",
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerAddress": {
+                "title": "CustomerAddress",
+                "description": "Modèle d'adresse client",
+                "properties": {
+                    "id_customer_address": {
+                        "description": "ID unique de l'adresse client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Dupont"
+                    },
+                    "address": {
+                        "description": "Adresse",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "123 Rue de la République"
+                    },
+                    "complement_address": {
+                        "description": "Complément d'adresse",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Bâtiment A, étage 2",
+                        "nullable": true
+                    },
+                    "postal_code": {
+                        "description": "Code postal",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "75001"
+                    },
+                    "city": {
+                        "description": "Ville",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Paris"
+                    },
+                    "id_country": {
+                        "description": "ID du pays",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "phone": {
+                        "description": "Téléphone",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456789"
+                    },
+                    "fax": {
+                        "description": "Fax",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456780",
+                        "nullable": true
+                    },
+                    "longitude": {
+                        "description": "Longitude",
+                        "type": "number",
+                        "format": "float",
+                        "example": 2.3522219,
+                        "nullable": true
+                    },
+                    "latitude": {
+                        "description": "Latitude",
+                        "type": "number",
+                        "format": "float",
+                        "example": 48.856614,
+                        "nullable": true
+                    },
+                    "place_id": {
+                        "description": "ID de lieu Google Maps",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
+                        "nullable": true
+                    },
+                    "address_name": {
+                        "description": "Nom personnalisé de l'adresse",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Domicile",
+                        "nullable": true
+                    },
+                    "has_difficult_access": {
+                        "description": "Accès difficile",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "country": {
+                        "$ref": "#/components/schemas/CustomerCountry"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerCanvassingStep": {
+                "title": "CustomerCanvassingStep",
+                "description": "Modèle d'étape de démarchage client",
+                "properties": {
+                    "id_customer_canvassing_step": {
+                        "description": "ID unique de l'étape de démarchage",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom de l'étape",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Premier contact"
+                    },
+                    "order": {
+                        "description": "Ordre d'affichage",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerContactTitle": {
+                "title": "CustomerContactTitle",
+                "description": "Modèle de civilité client",
+                "properties": {
+                    "id_customer_contact_title": {
+                        "description": "ID unique de la civilité client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom de la civilité",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Mr"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
@@ -2438,10 +3926,102 @@
                     }
                 },
                 "type": "object"
+            },
+            "TechtabletSeller": {
+                "title": "TechtabletSeller",
+                "description": "Modèle de vendeur Techtablet",
+                "properties": {
+                    "id_techtablet_seller": {
+                        "description": "ID unique du vendeur Techtablet",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Pierre"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Martin",
+                        "nullable": true
+                    },
+                    "primary_phone": {
+                        "description": "Téléphone principal",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33123456789",
+                        "nullable": true
+                    },
+                    "secondary_phone": {
+                        "description": "Téléphone secondaire",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "+33612345678",
+                        "nullable": true
+                    },
+                    "email": {
+                        "description": "Email professionnel",
+                        "type": "string",
+                        "maxLength": 150,
+                        "example": "pierre.martin@techtablet.com",
+                        "nullable": true
+                    },
+                    "job_title": {
+                        "description": "Poste/emploi occupé",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "Commercial Senior",
+                        "nullable": true
+                    },
+                    "employee_code": {
+                        "description": "Code employé unique",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "EMP001"
+                    },
+                    "digital_signature": {
+                        "description": "Signature numérique",
+                        "type": "string",
+                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
+                        "nullable": true
+                    },
+                    "is_active": {
+                        "description": "Statut actif",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
             }
         }
     },
     "tags": [
+        {
+            "name": "CustomerAddresses",
+            "description": "Opérations CRUD pour les adresses clients"
+        },
+        {
+            "name": "CustomerCanvassingSteps",
+            "description": "Opérations CRUD pour les étapes de démarchage clients"
+        },
+        {
+            "name": "CustomerContactTitles",
+            "description": "Opérations CRUD pour les civilités clients"
+        },
         {
             "name": "CustomerCountries",
             "description": "Opérations CRUD pour les pays clients"
@@ -2473,6 +4053,10 @@
         {
             "name": "StockSoftware",
             "description": "API pour gérer les logiciels disponibles"
+        },
+        {
+            "name": "TechtabletSellers",
+            "description": "Opérations CRUD pour les vendeurs Techtablet"
         }
     ]
 }

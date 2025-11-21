@@ -33,3 +33,19 @@ Route::prefix('customer-refusal-reasons')->group(function () {
 Route::prefix('customer-countries')->group(function () {
     require __DIR__.'/api/customer-countries.php';
 });
+
+Route::prefix('customer-addresses')->group(function () {
+    require __DIR__.'/api/customer-addresses.php';
+});
+
+Route::prefix('techtablet-sellers')->group(function () {
+    require __DIR__.'/api/techtablet-sellers.php';
+});
+
+Route::prefix('customer-canvassing-steps')->group(function () {
+    require __DIR__.'/api/customer-canvassing-steps.php';
+});
+
+Route::prefix('customer-contact-titles')->group(function () {
+    require __DIR__.'/api/customer-contact-titles.php';
+});

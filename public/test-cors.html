@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test CORS - Customer API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-top: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-error {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🧪 Test CORS - Customer API</h1>
+        <p class="subtitle">Testez la configuration CORS de votre API Laravel</p>
+
+        <div class="input-group">
+            <label for="apiUrl">URL de l'API</label>
+            <input type="text" id="apiUrl" value="http://localhost:8000/customer-countries"
+                placeholder="http://localhost:8000/...">
+        </div>
+
+        <div class="input-group">
+            <label for="method">Méthode HTTP</label>
+            <select id="method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="requestBody">Corps de la requête (JSON) - Pour POST/PUT</label>
+            <input type="text" id="requestBody"
+                placeholder='{"name": "Test", "name_en": "Test", "name_de": "Test", "isocode": "TS"}'>
+        </div>
+
+        <button onclick="testCORS()">🚀 Tester CORS</button>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        async function testCORS() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            const method = document.getElementById('method').value;
+            const requestBody = document.getElementById('requestBody').value;
+            const resultDiv = document.getElementById('result');
+
+            resultDiv.style.display = 'none';
+            resultDiv.className = 'result';
+
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                };
+
+                // Ajouter le body pour POST/PUT
+                if ((method === 'POST' || method === 'PUT') && requestBody) {
+                    options.body = requestBody;
+                }
+
+                console.log('🔄 Envoi de la requête...', options);
+
+                const startTime = performance.now();
+                const response = await fetch(apiUrl, options);
+                const endTime = performance.now();
+                const duration = (endTime - startTime).toFixed(2);
+
+                const data = await response.json();
+
+                // Afficher le résultat
+                resultDiv.style.display = 'block';
+
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Succès CORS <span class="status-badge status-success">HTTP ${response.status}</span></h3>
+                        <p><strong>Temps de réponse:</strong> ${duration}ms</p>
+                        <p><strong>Headers CORS reçus:</strong></p>
+                        <ul>
+                            <li><strong>Access-Control-Allow-Origin:</strong> ${response.headers.get('Access-Control-Allow-Origin') || 'Non défini'}</li>
+                            <li><strong>Access-Control-Allow-Methods:</strong> ${response.headers.get('Access-Control-Allow-Methods') || 'Non défini'}</li>
+                            <li><strong>Access-Control-Allow-Headers:</strong> ${response.headers.get('Access-Control-Allow-Headers') || 'Non défini'}</li>
+                        </ul>
+                        <p><strong>Réponse de l'API:</strong></p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <h3>⚠️ Erreur HTTP <span class="status-badge status-error">HTTP ${response.status}</span></h3>
+                        <p><strong>Message:</strong> ${response.statusText}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result error';
+
+                if (error.message.includes('CORS')) {
+                    resultDiv.innerHTML = `
+                        <h3>❌ Erreur CORS</h3>
+                        <p><strong>Message:</strong> ${error.message}</p>
+                        <p><strong>Cause probable:</strong></p>
+                        <ul>
+                            <li>L'origine actuelle (${window.location.origin}) n'est pas dans la liste des origines autorisées</li>
+                            <li>Le middleware CORS n'est pas activé</li>
+                            <li>La configuration CORS est incorrecte</li>
+                        </ul>
+                        <p><strong>Solutions:</strong></p>
+                        <ol>
+                            <li>Ajoutez <code>${window.location.origin}</code> dans <code>config/cors.php</code></li>
+                            <li>Vérifiez que le middleware CORS est activé dans <code>bootstrap/app.php</code></li>
+                            <li>Videz le cache: <code>php artisan config:clear</code></li>
+                        </ol>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>❌ Erreur Réseau</h3>
+                        <p><strong>Message:</strong> ${error.message}</p>
+                        <p><strong>Vérifiez que:</strong></p>
+                        <ul>
+                            <li>Le serveur Laravel est démarré (<code>php artisan serve</code>)</li>
+                            <li>L'URL de l'API est correcte</li>
+                            <li>Vous avez une connexion réseau</li>
+                        </ul>
+                    `;
+                }
+            }
+        }
+
+        // Test automatique au chargement
+        window.addEventListener('load', () => {
+            console.log('📍 Origine actuelle:', window.location.origin);
+            console.log('💡 Assurez-vous que cette origine est dans config/cors.php');
+        });
+    </script>
+</body>
+
+</html>

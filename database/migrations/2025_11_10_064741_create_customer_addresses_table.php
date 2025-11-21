@@ -10,22 +10,44 @@ return new class extends Migration
     {
         Schema::create('customer_addresses', function (Blueprint $table) {
             $table->id('id_customer_address');
+            
+            // Informations personnelles
             $table->string('first_name', 64);
             $table->string('last_name', 64);
-            $table->string('complement_adress', 200)->nullable();
-            $table->string('adress', 255);
-            $table->string('pc', 64);
-            $table->string('ville', 64);
+            
+            // Adresse
+            $table->string('address', 255);
+            $table->string('complement_address', 200)->nullable();
+            $table->string('postal_code', 10);
+            $table->string('city', 64);
             $table->unsignedBigInteger('id_country');
-            $table->foreign('id_country')->references('id_customer_country')->on('customer_countries')->onDelete('restrict');
-            $table->string('phone', 16);
-            $table->string('fax', 20);
-            $table->decimal('lng', 11, 7);
-            $table->decimal('lat', 11, 7);
-            $table->string('place_id', 150);
-            $table->string('named', 64);
-            $table->tinyInteger('difficult_access');
+            
+            // Coordonnées
+            $table->string('phone', 20);
+            $table->string('fax', 20)->nullable();
+            
+            // Géolocalisation
+            $table->decimal('longitude', 11, 7)->nullable();
+            $table->decimal('latitude', 11, 7)->nullable();
+            $table->string('place_id', 150)->nullable();
+            
+            // Métadonnées
+            $table->string('address_name', 64)->nullable()->comment('Nom personnalisé de l\'adresse');
+            $table->boolean('has_difficult_access')->default(false)->comment('Accès difficile');
+            
             $table->timestamps();
+            
+            // Clé étrangère
+            $table->foreign('id_country')
+                  ->references('id_customer_country')
+                  ->on('customer_countries')
+                  ->onDelete('restrict');
+            
+            // Index
+            $table->index('id_country');
+            $table->index('postal_code');
+            $table->index(['city', 'postal_code']);
+            $table->index('has_difficult_access');
         });
     }
 
