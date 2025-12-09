@@ -49,3 +49,15 @@ Route::prefix('customer-canvassing-steps')->group(function () {
 Route::prefix('customer-contact-titles')->group(function () {
     require __DIR__.'/api/customer-contact-titles.php';
 });
+
+Route::prefix('profiles')->group(function () {
+    require __DIR__.'/api/profiles.php';
+});
+
+Route::prefix('customer-contact-roles')->group(function () {
+    require __DIR__.'/api/customer-contact-roles.php';
+});
+
+Route::prefix('store-groups')->group(function () {
+    require __DIR__.'/api/store-groups.php';
+});

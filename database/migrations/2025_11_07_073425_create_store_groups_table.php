@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('group_name', 200);              // VARCHAR(200) NOT NULL
             $table->string('group_key', 100);               // VARCHAR(100) NOT NULL
             $table->string('group_logo', 200)->nullable();  // VARCHAR(200) NULL DEFAULT NULL
-            $table->string('name', 200);                    // VARCHAR(200) NOT NULL
-            $table->string('lastname', 200);                // VARCHAR(200) NOT NULL
+            $table->string('first_name', 200);                    // VARCHAR(200) NOT NULL
+            $table->string('last_name', 200);                // VARCHAR(200) NOT NULL
             $table->tinyInteger('is_sepa')->default(0);    // TINYINT(4) NOT NULL DEFAULT 0
             $table->timestamps();
         });

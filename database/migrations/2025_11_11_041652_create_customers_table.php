@@ -11,14 +11,16 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id('id_customer');
             
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('restrict');
+            //$table->unsignedBigInteger('id_user');
+            //$table->foreign('id_user')->references('id_user')->on('users')->onDelete('restrict');
+            $table->foreignId('id_user')->constrained('users')->restrictOnDelete();
             
             $table->string('name', 100);
             $table->string('siren', 32);
             $table->string('siret', 32);
-            $table->integer('newsletter');
-            $table->integer('alreadycalled');
+            $table->boolean('newsletter');
+            //alreadycalled
+            $table->boolean('already_called')->comment('Anciennement alreadycalled');;
 
             //franchise
             $table->unsignedBigInteger('id_franchise');
@@ -27,7 +29,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_stock_software');
             $table->foreign('id_stock_software')->references('id_stock_software')->on('stock_softwares')->onDelete('restrict');
 
-            $table->integer('to_callback');
+            $table->boolean('to_callback');
 
             //status
             $table->unsignedBigInteger('id_status');
@@ -59,7 +61,7 @@ return new class extends Migration
             $table->tinyInteger('tourist_area')->default(2)->comment('2: PAS ENCORE DEMANDE, 0: NON, 1: OUI');
             $table->string('denomination', 50)->default('Formel');
             
-            $table->unsignedBigInteger('id_store_group')->nullable()->default(0);
+            $table->unsignedBigInteger('id_store_group')->nullable();
             $table->foreign('id_store_group')->references('id_store_group')->on('store_groups')->onDelete('restrict');
             
             $table->text('shipping_schedule');
@@ -78,15 +80,15 @@ return new class extends Migration
             $table->unsignedBigInteger('id_price_list_info');
 
             //id_location
-            $table->unsignedBigInteger('id_location')->nullable()->default(0);
+            $table->unsignedBigInteger('id_location')->nullable();
             $table->foreign('id_location')->references('id_customer_location')->on('customer_locations')->onDelete('restrict');
 
             //typologie
-            $table->unsignedBigInteger('id_typologie')->nullable()->default(0);
+            $table->unsignedBigInteger('id_typologie')->nullable()->comment('Anciennement typologie');
             $table->foreign('id_typologie')->references('id_customer_typologie')->on('customer_typologies')->onDelete('restrict');
             
             //id_canvassing
-            $table->unsignedBigInteger('id_canvassing_step')->default(0);
+            $table->unsignedBigInteger('id_canvassing_step')->nullable()->comment('Anciennement id_canvassing');
             $table->foreign('id_canvassing_step')->references('id_customer_canvassing_step')->on('customer_canvassing_steps')->onDelete('restrict');
             
             $table->tinyInteger('refund_by_ic')->default(0);

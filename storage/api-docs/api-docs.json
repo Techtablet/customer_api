@@ -473,6 +473,238 @@
                 }
             }
         },
+        "/customer-contact-roles": {
+            "get": {
+                "tags": [
+                    "CustomerContactRoles"
+                ],
+                "summary": "Liste tous les rôles de contacts clients",
+                "operationId": "064645f9ba7b3b60b62fa9f0adf43b5d",
+                "responses": {
+                    "200": {
+                        "description": "Liste des rôles de contacts clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerContactRole"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des rôles de contacts clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerContactRoles"
+                ],
+                "summary": "Crée un nouveau rôle de contact client",
+                "operationId": "444edbe485c03de4a16ada1bd7baeaa9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerContactRoleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rôle de contact client créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactRole"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rôle de contact client créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-contact-roles/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerContactRoles"
+                ],
+                "summary": "Affiche les détails d'un rôle de contact client spécifique",
+                "operationId": "a260cf9313d63d1318ac0929669bce8f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du rôle de contact client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rôle de contact client récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactRole"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rôle de contact client récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Rôle de contact client non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerContactRoles"
+                ],
+                "summary": "Met à jour un rôle de contact client existant",
+                "operationId": "f4a131e1d9095c086a8c216ddd6dec7b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du rôle de contact client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerContactRoleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rôle de contact client mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactRole"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rôle de contact client mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Rôle de contact client non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerContactRoles"
+                ],
+                "summary": "Supprime un rôle de contact client",
+                "operationId": "6117f66107afd1edc6771bb375efbee1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du rôle de contact client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rôle de contact client supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rôle de contact client supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Rôle de contact client non trouvé"
+                    }
+                }
+            }
+        },
         "/customer-contact-titles": {
             "get": {
                 "tags": [
@@ -2404,6 +2636,238 @@
                 }
             }
         },
+        "/profiles": {
+            "get": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Liste tous les profils",
+                "operationId": "41b89a8b93a04ae5e520bed1e866c3c9",
+                "responses": {
+                    "200": {
+                        "description": "Liste des profils récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Profile"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des profils récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Crée un nouveau profil",
+                "operationId": "f1c71949c7042f6bb2684e305c01b431",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Profil créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Profile"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profil créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/profiles/{id}": {
+            "get": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Affiche les détails d'un profil spécifique",
+                "operationId": "93cd4e6ae4e3078f83dae1c3590df67f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du profil",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profil récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Profile"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profil récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Profil non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Met à jour un profil existant",
+                "operationId": "9ba64d9a40fc33433789ebda618eaaa9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du profil à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profil mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Profile"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profil mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Profil non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "Supprime un profil",
+                "operationId": "66f2e216eca23f9f4e44299573b0e71e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du profil à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profil supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profil supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Profil non trouvé"
+                    }
+                }
+            }
+        },
         "/stock-softwares": {
             "get": {
                 "tags": [
@@ -2634,6 +3098,238 @@
                     },
                     "404": {
                         "description": "Logiciel non trouvé"
+                    }
+                }
+            }
+        },
+        "/store-groups": {
+            "get": {
+                "tags": [
+                    "StoreGroups"
+                ],
+                "summary": "Liste tous les groupes de magasins",
+                "operationId": "272056320b776c7ade9dd9f6698f43d2",
+                "responses": {
+                    "200": {
+                        "description": "Liste des groupes de magasins récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/StoreGroup"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des groupes de magasins récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "StoreGroups"
+                ],
+                "summary": "Crée un nouveau groupe de magasins",
+                "operationId": "0e7676b8f73dd980d1b80ed7d8fa5f0a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreStoreGroupRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Groupe de magasins créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/StoreGroup"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Groupe de magasins créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/store-groups/{id}": {
+            "get": {
+                "tags": [
+                    "StoreGroups"
+                ],
+                "summary": "Affiche les détails d'un groupe de magasins spécifique",
+                "operationId": "fbeb2397ec016329f931e7c2c49e5d1c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du groupe de magasins",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Groupe de magasins récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/StoreGroup"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Groupe de magasins récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Groupe de magasins non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "StoreGroups"
+                ],
+                "summary": "Met à jour un groupe de magasins existant",
+                "operationId": "7d1188d72f92923c5dfaf47bfe9f1ae9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du groupe de magasins à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateStoreGroupRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Groupe de magasins mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/StoreGroup"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Groupe de magasins mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Groupe de magasins non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "StoreGroups"
+                ],
+                "summary": "Supprime un groupe de magasins",
+                "operationId": "2f2da229aded4b7d9f3ce5e30a36db0c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du groupe de magasins à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Groupe de magasins supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Groupe de magasins supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Groupe de magasins non trouvé"
                     }
                 }
             }
@@ -3104,6 +3800,31 @@
                 },
                 "type": "object"
             },
+            "StoreCustomerContactRoleRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom du rôle",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Directeur"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerContactRoleRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom du rôle",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Directeur"
+                    }
+                },
+                "type": "object"
+            },
             "StoreCustomerContactTitleRequest": {
                 "required": [
                     "name"
@@ -3371,6 +4092,119 @@
                         "type": "string",
                         "maxLength": 30,
                         "example": "Franchise Modifiée"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreProfileRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom du profil",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Administrateur"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateProfileRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom du profil",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Administrateur"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreStoreGroupRequest": {
+                "required": [
+                    "group_name",
+                    "group_key",
+                    "first_name",
+                    "last_name"
+                ],
+                "properties": {
+                    "group_name": {
+                        "description": "Nom du groupe",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Groupe Paris Centre"
+                    },
+                    "group_key": {
+                        "description": "Clé unique du groupe",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "PARIS_CENTRE_01"
+                    },
+                    "group_logo": {
+                        "description": "Logo du groupe",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "logos/paris-centre.png",
+                        "nullable": true
+                    },
+                    "first_name": {
+                        "description": "Prénom du responsable",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom du responsable",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Dupont"
+                    },
+                    "is_sepa": {
+                        "description": "Activation SEPA (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateStoreGroupRequest": {
+                "properties": {
+                    "group_name": {
+                        "description": "Nom du groupe",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Groupe Paris Centre"
+                    },
+                    "group_key": {
+                        "description": "Clé unique du groupe",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "PARIS_CENTRE_01"
+                    },
+                    "group_logo": {
+                        "description": "Logo du groupe",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "logos/paris-centre.png",
+                        "nullable": true
+                    },
+                    "first_name": {
+                        "description": "Prénom du responsable",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom du responsable",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Dupont"
+                    },
+                    "is_sepa": {
+                        "description": "Activation SEPA (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
                     }
                 },
                 "type": "object"
@@ -3651,6 +4485,34 @@
                 },
                 "type": "object"
             },
+            "CustomerContactRole": {
+                "title": "CustomerContactRole",
+                "description": "Modèle de rôle de contact client",
+                "properties": {
+                    "id_contact_role": {
+                        "description": "ID unique du rôle de contact",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom du rôle",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Directeur"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "CustomerContactTitle": {
                 "title": "CustomerContactTitle",
                 "description": "Modèle de civilité client",
@@ -3912,6 +4774,34 @@
                 },
                 "type": "object"
             },
+            "Profile": {
+                "title": "Profile",
+                "description": "Modèle de profil",
+                "properties": {
+                    "id_profile": {
+                        "description": "ID unique du profil",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom du profil",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Administrateur"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "StockSoftware": {
                 "title": "StockSoftware",
                 "description": "Représente un logiciel disponible",
@@ -3923,6 +4813,64 @@
                     "name": {
                         "type": "string",
                         "example": "Win GSM"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreGroup": {
+                "title": "StoreGroup",
+                "description": "Modèle de groupe de magasins",
+                "properties": {
+                    "id_store_group": {
+                        "description": "ID unique du groupe de magasins",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "group_name": {
+                        "description": "Nom du groupe",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Groupe Paris Centre"
+                    },
+                    "group_key": {
+                        "description": "Clé unique du groupe",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "PARIS_CENTRE_01"
+                    },
+                    "group_logo": {
+                        "description": "Logo du groupe",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "logos/paris-centre.png",
+                        "nullable": true
+                    },
+                    "first_name": {
+                        "description": "Prénom du responsable",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom du responsable",
+                        "type": "string",
+                        "maxLength": 200,
+                        "example": "Dupont"
+                    },
+                    "is_sepa": {
+                        "description": "Activation SEPA (0=non, 1=oui)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
@@ -4019,6 +4967,10 @@
             "description": "Opérations CRUD pour les étapes de démarchage clients"
         },
         {
+            "name": "CustomerContactRoles",
+            "description": "Opérations CRUD pour les rôles de contacts clients"
+        },
+        {
             "name": "CustomerContactTitles",
             "description": "Opérations CRUD pour les civilités clients"
         },
@@ -4051,8 +5003,16 @@
             "description": "Opérations CRUD pour les franchises"
         },
         {
+            "name": "Profiles",
+            "description": "Opérations CRUD pour les profils"
+        },
+        {
             "name": "StockSoftware",
             "description": "API pour gérer les logiciels disponibles"
+        },
+        {
+            "name": "StoreGroups",
+            "description": "Opérations CRUD pour les groupes de magasins"
         },
         {
             "name": "TechtabletSellers",
