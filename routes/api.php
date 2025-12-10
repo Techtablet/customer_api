@@ -61,3 +61,15 @@ Route::prefix('customer-contact-roles')->group(function () {
 Route::prefix('store-groups')->group(function () {
     require __DIR__.'/api/store-groups.php';
 });
+
+Route::prefix('customers')->group(function () {
+    require __DIR__.'/api/customers.php';
+});
+
+Route::prefix('customer-comptas')->group(function () {
+    require __DIR__.'/api/customer-comptas.php';
+});
+
+Route::prefix('customer-stats')->group(function () {
+    require __DIR__.'/api/customer-stats.php';
+});

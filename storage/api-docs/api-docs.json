@@ -937,6 +937,238 @@
                 }
             }
         },
+        "/customers": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Liste tous les clients",
+                "operationId": "cda07c455deb3862267a3326b0c9d8fd",
+                "responses": {
+                    "200": {
+                        "description": "Liste des clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Customer"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Crée un nouveau client",
+                "operationId": "05089f633eadb677aafc9f3d471e7d3e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Client créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Customer"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Client créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customers/{id}": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Affiche les détails d'un client spécifique",
+                "operationId": "8ff33c8391977ff2f950c85d509becd8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Customer"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Client récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Client non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Met à jour un client existant",
+                "operationId": "0e9dc1f3fbfd267a624adde82139ca1b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Client mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Customer"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Client mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Client non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Supprime un client",
+                "operationId": "d53b3c4dec56ab411134df9f4f80d98c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Client supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Client supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Client non trouvé"
+                    }
+                }
+            }
+        },
         "/customer-countries": {
             "get": {
                 "tags": [
@@ -4046,6 +4278,568 @@
                 },
                 "type": "object"
             },
+            "StoreCustomerRequest": {
+                "required": [
+                    "id_user",
+                    "name",
+                    "siren",
+                    "siret",
+                    "newsletter",
+                    "already_called",
+                    "id_franchise",
+                    "id_stock_software",
+                    "to_callback",
+                    "id_status",
+                    "id_refusal_reason",
+                    "id_seller",
+                    "repurchase_menu",
+                    "dropshipping_menu",
+                    "information_request_send",
+                    "information_request_validated",
+                    "information_request_validated_once",
+                    "ape",
+                    "rcs",
+                    "shipping_schedule",
+                    "has_customer_order_number",
+                    "last_website_key",
+                    "receive_stock_software_file",
+                    "supplier_id_for_techtablet"
+                ],
+                "properties": {
+                    "id_user": {
+                        "description": "ID de l'utilisateur",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom du client",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "TechCorp SARL"
+                    },
+                    "siren": {
+                        "description": "Numéro SIREN",
+                        "type": "string",
+                        "maxLength": 32,
+                        "example": "123456789"
+                    },
+                    "siret": {
+                        "description": "Numéro SIRET",
+                        "type": "string",
+                        "maxLength": 32,
+                        "example": "12345678900010"
+                    },
+                    "newsletter": {
+                        "description": "Abonnement à la newsletter",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "already_called": {
+                        "description": "Déjà appelé",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "id_franchise": {
+                        "description": "ID de la franchise",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_stock_software": {
+                        "description": "ID du logiciel de stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "to_callback": {
+                        "description": "À rappeler",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "id_status": {
+                        "description": "ID du statut client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_refusal_reason": {
+                        "description": "ID de la raison de refus",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "survey_actif": {
+                        "description": "Enquête active (1:actif, 0:inactif)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "survey_date_disabled": {
+                        "description": "Date de désactivation de l'enquête",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31"
+                    },
+                    "important": {
+                        "description": "Client important (1:important, 0:non important)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "notes": {
+                        "description": "Notes",
+                        "type": "string",
+                        "example": "Client fidèle depuis 5 ans"
+                    },
+                    "reminder": {
+                        "description": "Rappel",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-12-31 10:00:00",
+                        "nullable": true
+                    },
+                    "seller_reminder": {
+                        "description": "Rappel vendeur",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "id_seller": {
+                        "description": "ID du vendeur Techtablet",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "repurchase_menu": {
+                        "description": "Menu de rachat",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "dropshipping_menu": {
+                        "description": "Menu dropshipping",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "dropshipping_fee": {
+                        "description": "Frais de dropshipping",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5.5
+                    },
+                    "delivery_order": {
+                        "description": "Ordre de livraison",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "profil": {
+                        "description": "Profil",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "information_request_send": {
+                        "description": "Demande d'information envoyée",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "information_request_validated": {
+                        "description": "Demande d'information validée",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "information_request_validated_once": {
+                        "description": "Demande d'information validée une fois",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "ape": {
+                        "description": "Code APE",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "6201Z"
+                    },
+                    "rcs": {
+                        "description": "Numéro RCS",
+                        "type": "string",
+                        "maxLength": 40,
+                        "example": "Paris B 123 456 789"
+                    },
+                    "tourist_area": {
+                        "description": "Zone touristique (2:pas encore demandé, 0:non, 1:oui)",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "denomination": {
+                        "description": "Dénomination",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Formel"
+                    },
+                    "id_store_group": {
+                        "description": "ID du groupe de magasins",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "shipping_schedule": {
+                        "description": "Planning d'expédition",
+                        "type": "string",
+                        "example": "Lundi-Vendredi 9h-18h"
+                    },
+                    "has_customer_order_number": {
+                        "description": "Possède un numéro de commande client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_website_key": {
+                        "description": "Dernière clé de site web",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "webkey_12345"
+                    },
+                    "receive_stock_software_file": {
+                        "description": "Reçoit le fichier logiciel de stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "stock_software_file_format": {
+                        "description": "Format du fichier logiciel de stock (1:Wingsm, 2:3gwin, 3:generique, 4:Trépidai)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "supplier_id_for_techtablet": {
+                        "description": "ID fournisseur pour Techtablet",
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "SUP12345"
+                    },
+                    "internal_customer_id": {
+                        "description": "ID client interne",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "CUST001",
+                        "nullable": true
+                    },
+                    "id_lang": {
+                        "description": "ID de la langue",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_shippingplan": {
+                        "description": "ID du plan d'expédition",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_price_list_info": {
+                        "description": "ID de la liste de prix",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_location": {
+                        "description": "ID de la localisation",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "id_typologie": {
+                        "description": "ID de la typologie",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "id_canvassing_step": {
+                        "description": "ID de l'étape de démarchage",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "refund_by_ic": {
+                        "description": "Remboursement par IC",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "repurchase_type": {
+                        "description": "Type de rachat (0:standard, 1:100%)",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "inactive": {
+                        "description": "Inactif (1:inscription non activée, 0:actif)",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "receive_credit_on_reprise_stock_validation": {
+                        "description": "Reçoit crédit sur validation reprise stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "featured_product": {
+                        "description": "Produit en vedette",
+                        "type": "integer",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerRequest": {
+                "properties": {
+                    "id_user": {
+                        "description": "ID de l'utilisateur",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom du client",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "TechCorp SARL"
+                    },
+                    "siren": {
+                        "description": "Numéro SIREN",
+                        "type": "string",
+                        "maxLength": 32,
+                        "example": "123456789"
+                    },
+                    "siret": {
+                        "description": "Numéro SIRET",
+                        "type": "string",
+                        "maxLength": 32,
+                        "example": "12345678900010"
+                    },
+                    "newsletter": {
+                        "description": "Abonnement à la newsletter",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "already_called": {
+                        "description": "Déjà appelé",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "id_franchise": {
+                        "description": "ID de la franchise",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_stock_software": {
+                        "description": "ID du logiciel de stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "to_callback": {
+                        "description": "À rappeler",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "id_status": {
+                        "description": "ID du statut client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_refusal_reason": {
+                        "description": "ID de la raison de refus",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "survey_actif": {
+                        "description": "Enquête active (1:actif, 0:inactif)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "survey_date_disabled": {
+                        "description": "Date de désactivation de l'enquête",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31"
+                    },
+                    "important": {
+                        "description": "Client important (1:important, 0:non important)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "notes": {
+                        "description": "Notes",
+                        "type": "string",
+                        "example": "Client fidèle depuis 5 ans"
+                    },
+                    "reminder": {
+                        "description": "Rappel",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-12-31 10:00:00",
+                        "nullable": true
+                    },
+                    "seller_reminder": {
+                        "description": "Rappel vendeur",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "id_seller": {
+                        "description": "ID du vendeur Techtablet",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "repurchase_menu": {
+                        "description": "Menu de rachat",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "dropshipping_menu": {
+                        "description": "Menu dropshipping",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "dropshipping_fee": {
+                        "description": "Frais de dropshipping",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5.5
+                    },
+                    "delivery_order": {
+                        "description": "Ordre de livraison",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "profil": {
+                        "description": "Profil",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "information_request_send": {
+                        "description": "Demande d'information envoyée",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "information_request_validated": {
+                        "description": "Demande d'information validée",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "information_request_validated_once": {
+                        "description": "Demande d'information validée une fois",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "ape": {
+                        "description": "Code APE",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "6201Z"
+                    },
+                    "rcs": {
+                        "description": "Numéro RCS",
+                        "type": "string",
+                        "maxLength": 40,
+                        "example": "Paris B 123 456 789"
+                    },
+                    "tourist_area": {
+                        "description": "Zone touristique (2:pas encore demandé, 0:non, 1:oui)",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "denomination": {
+                        "description": "Dénomination",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Formel"
+                    },
+                    "id_store_group": {
+                        "description": "ID du groupe de magasins",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "shipping_schedule": {
+                        "description": "Planning d'expédition",
+                        "type": "string",
+                        "example": "Lundi-Vendredi 9h-18h"
+                    },
+                    "has_customer_order_number": {
+                        "description": "Possède un numéro de commande client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_website_key": {
+                        "description": "Dernière clé de site web",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "webkey_12345"
+                    },
+                    "receive_stock_software_file": {
+                        "description": "Reçoit le fichier logiciel de stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "stock_software_file_format": {
+                        "description": "Format du fichier logiciel de stock (1:Wingsm, 2:3gwin, 3:generique, 4:Trépidai)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "supplier_id_for_techtablet": {
+                        "description": "ID fournisseur pour Techtablet",
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "SUP12345"
+                    },
+                    "internal_customer_id": {
+                        "description": "ID client interne",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "CUST001",
+                        "nullable": true
+                    },
+                    "id_lang": {
+                        "description": "ID de la langue",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_shippingplan": {
+                        "description": "ID du plan d'expédition",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_price_list_info": {
+                        "description": "ID de la liste de prix",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_location": {
+                        "description": "ID de la localisation",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "id_typologie": {
+                        "description": "ID de la typologie",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "id_canvassing_step": {
+                        "description": "ID de l'étape de démarchage",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "refund_by_ic": {
+                        "description": "Remboursement par IC",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "repurchase_type": {
+                        "description": "Type de rachat (0:standard, 1:100%)",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "inactive": {
+                        "description": "Inactif (1:inscription non activée, 0:actif)",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "receive_credit_on_reprise_stock_validation": {
+                        "description": "Reçoit crédit sur validation reprise stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "featured_product": {
+                        "description": "Produit en vedette",
+                        "type": "integer",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            },
             "StoreCustomerTypologyRequest": {
                 "required": [
                     "name"
@@ -4335,6 +5129,315 @@
                         "description": "Statut actif",
                         "type": "boolean",
                         "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "Customer": {
+                "title": "Customer",
+                "description": "Modèle de client",
+                "properties": {
+                    "id_customer": {
+                        "description": "ID unique du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_user": {
+                        "description": "ID de l'utilisateur",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom du client",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "TechCorp SARL"
+                    },
+                    "siren": {
+                        "description": "Numéro SIREN",
+                        "type": "string",
+                        "maxLength": 32,
+                        "example": "123456789"
+                    },
+                    "siret": {
+                        "description": "Numéro SIRET",
+                        "type": "string",
+                        "maxLength": 32,
+                        "example": "12345678900010"
+                    },
+                    "newsletter": {
+                        "description": "Abonnement à la newsletter",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "already_called": {
+                        "description": "Déjà appelé",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "id_franchise": {
+                        "description": "ID de la franchise",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_stock_software": {
+                        "description": "ID du logiciel de stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "to_callback": {
+                        "description": "À rappeler",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "id_status": {
+                        "description": "ID du statut client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_refusal_reason": {
+                        "description": "ID de la raison de refus",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "survey_actif": {
+                        "description": "Enquête active (1:actif, 0:inactif)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "survey_date_disabled": {
+                        "description": "Date de désactivation de l'enquête",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31"
+                    },
+                    "important": {
+                        "description": "Client important (1:important, 0:non important)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "notes": {
+                        "description": "Notes",
+                        "type": "string",
+                        "example": "Client fidèle depuis 5 ans"
+                    },
+                    "reminder": {
+                        "description": "Rappel",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-12-31 10:00:00",
+                        "nullable": true
+                    },
+                    "seller_reminder": {
+                        "description": "Rappel vendeur",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "id_seller": {
+                        "description": "ID du vendeur Techtablet",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "repurchase_menu": {
+                        "description": "Menu de rachat",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "dropshipping_menu": {
+                        "description": "Menu dropshipping",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "dropshipping_fee": {
+                        "description": "Frais de dropshipping",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5.5
+                    },
+                    "delivery_order": {
+                        "description": "Ordre de livraison",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "profil": {
+                        "description": "Profil",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "information_request_send": {
+                        "description": "Demande d'information envoyée",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "information_request_validated": {
+                        "description": "Demande d'information validée",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "information_request_validated_once": {
+                        "description": "Demande d'information validée une fois",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "ape": {
+                        "description": "Code APE",
+                        "type": "string",
+                        "maxLength": 20,
+                        "example": "6201Z"
+                    },
+                    "rcs": {
+                        "description": "Numéro RCS",
+                        "type": "string",
+                        "maxLength": 40,
+                        "example": "Paris B 123 456 789"
+                    },
+                    "tourist_area": {
+                        "description": "Zone touristique (2:pas encore demandé, 0:non, 1:oui)",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "denomination": {
+                        "description": "Dénomination",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "Formel"
+                    },
+                    "id_store_group": {
+                        "description": "ID du groupe de magasins",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "shipping_schedule": {
+                        "description": "Planning d'expédition",
+                        "type": "string",
+                        "example": "Lundi-Vendredi 9h-18h"
+                    },
+                    "has_customer_order_number": {
+                        "description": "Possède un numéro de commande client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_website_key": {
+                        "description": "Dernière clé de site web",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "webkey_12345"
+                    },
+                    "receive_stock_software_file": {
+                        "description": "Reçoit le fichier logiciel de stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "stock_software_file_format": {
+                        "description": "Format du fichier logiciel de stock (1:Wingsm, 2:3gwin, 3:generique, 4:Trépidai)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "supplier_id_for_techtablet": {
+                        "description": "ID fournisseur pour Techtablet",
+                        "type": "string",
+                        "maxLength": 250,
+                        "example": "SUP12345"
+                    },
+                    "internal_customer_id": {
+                        "description": "ID client interne",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "CUST001",
+                        "nullable": true
+                    },
+                    "id_lang": {
+                        "description": "ID de la langue",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_shippingplan": {
+                        "description": "ID du plan d'expédition",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_price_list_info": {
+                        "description": "ID de la liste de prix",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_location": {
+                        "description": "ID de la localisation",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "id_typologie": {
+                        "description": "ID de la typologie",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "id_canvassing_step": {
+                        "description": "ID de l'étape de démarchage",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "refund_by_ic": {
+                        "description": "Remboursement par IC",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "repurchase_type": {
+                        "description": "Type de rachat (0:standard, 1:100%)",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "inactive": {
+                        "description": "Inactif (1:inscription non activée, 0:actif)",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "receive_credit_on_reprise_stock_validation": {
+                        "description": "Reçoit crédit sur validation reprise stock",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "featured_product": {
+                        "description": "Produit en vedette",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "franchise": {
+                        "$ref": "#/components/schemas/Franchise"
+                    },
+                    "seller": {
+                        "$ref": "#/components/schemas/TechtabletSeller"
+                    },
+                    "lang": {
+                        "$ref": "#/components/schemas/CustomerLang"
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/CustomerLocation"
+                    },
+                    "typologie": {
+                        "$ref": "#/components/schemas/CustomerTypology"
+                    },
+                    "canvassing_step": {
+                        "$ref": "#/components/schemas/CustomerCanvassingStep"
+                    },
+                    "store_group": {
+                        "$ref": "#/components/schemas/StoreGroup"
+                    },
+                    "refusal_reason": {
+                        "$ref": "#/components/schemas/CustomerRefusalReason"
                     }
                 },
                 "type": "object"
@@ -4973,6 +6076,10 @@
         {
             "name": "CustomerContactTitles",
             "description": "Opérations CRUD pour les civilités clients"
+        },
+        {
+            "name": "Customers",
+            "description": "Opérations CRUD pour les clients"
         },
         {
             "name": "CustomerCountries",
