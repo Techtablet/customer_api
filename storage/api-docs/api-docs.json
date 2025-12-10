@@ -473,6 +473,286 @@
                 }
             }
         },
+        "/customer-comptas": {
+            "get": {
+                "tags": [
+                    "CustomerComptas"
+                ],
+                "summary": "Liste toutes les comptabilités clients",
+                "operationId": "1c7ec77041e35277df2e9782657e05f4",
+                "responses": {
+                    "200": {
+                        "description": "Liste des comptabilités clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerCompta"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des comptabilités clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerComptas"
+                ],
+                "summary": "Crée une nouvelle comptabilité client",
+                "operationId": "d166f1b0145de8369bf082711bdbdae2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerComptaRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Comptabilité client créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCompta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Comptabilité client créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-comptas/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerComptas"
+                ],
+                "summary": "Affiche les détails d'une comptabilité client spécifique",
+                "operationId": "4add883e09187dac2272b06580baa4ba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la comptabilité client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comptabilité client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCompta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Comptabilité client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Comptabilité client non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerComptas"
+                ],
+                "summary": "Met à jour une comptabilité client existante",
+                "operationId": "86c2ac800b00539a4147c5b2434af6bc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la comptabilité client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerComptaRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comptabilité client mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCompta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Comptabilité client mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Comptabilité client non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerComptas"
+                ],
+                "summary": "Supprime une comptabilité client",
+                "operationId": "4d59cd4ceee577179fb2d9a32ac57aa6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la comptabilité client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comptabilité client supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Comptabilité client supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Comptabilité client non trouvée"
+                    }
+                }
+            }
+        },
+        "/customer-comptas/customer/{customerId}": {
+            "get": {
+                "tags": [
+                    "CustomerComptas"
+                ],
+                "summary": "Récupère la comptabilité d'un client spécifique",
+                "operationId": "97ee773316b452a909b40e284ae447b8",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comptabilité client récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerCompta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Comptabilité client récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Comptabilité client non trouvée pour ce client"
+                    }
+                }
+            }
+        },
         "/customer-contact-roles": {
             "get": {
                 "tags": [
@@ -2097,6 +2377,608 @@
                 }
             }
         },
+        "/customer-schedules": {
+            "get": {
+                "tags": [
+                    "CustomerSchedules"
+                ],
+                "summary": "Liste tous les horaires clients",
+                "operationId": "eb3b434e9ae6d27ca86f3a4d3b093f02",
+                "responses": {
+                    "200": {
+                        "description": "Liste des horaires clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerSchedule"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des horaires clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerSchedules"
+                ],
+                "summary": "Crée un nouvel horaire client",
+                "operationId": "eb1d84663570dd183f38da5f52264778",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerScheduleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Horaire client créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerSchedule"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horaire client créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-schedules/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerSchedules"
+                ],
+                "summary": "Affiche les détails d'un horaire client spécifique",
+                "operationId": "242bbf1b812ef611acb859ebd0fd206c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'horaire client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Horaire client récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerSchedule"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horaire client récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Horaire client non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerSchedules"
+                ],
+                "summary": "Met à jour un horaire client existant",
+                "operationId": "5b02fedd79a7615114d5e477b5dea4d7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'horaire client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerScheduleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Horaire client mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerSchedule"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horaire client mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Horaire client non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerSchedules"
+                ],
+                "summary": "Supprime un horaire client",
+                "operationId": "1128262a770405aba439439fec5dd71d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'horaire client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Horaire client supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horaire client supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Horaire client non trouvé"
+                    }
+                }
+            }
+        },
+        "/customer-schedules/customer/{customerId}": {
+            "get": {
+                "tags": [
+                    "CustomerSchedules"
+                ],
+                "summary": "Récupère les horaires d'un client spécifique",
+                "operationId": "8509682d5914a53909321f56575838ab",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Horaires client récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerSchedule"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horaires client récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun horaire trouvé pour ce client"
+                    }
+                }
+            }
+        },
+        "/customer-schedules/day/{day}": {
+            "get": {
+                "tags": [
+                    "CustomerSchedules"
+                ],
+                "summary": "Récupère les horaires pour un jour spécifique",
+                "operationId": "22d1a2c4d180f658c2e271b8218bbca9",
+                "parameters": [
+                    {
+                        "name": "day",
+                        "in": "path",
+                        "description": "Jour (1=lundi, 7=dimanche)",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 7,
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Horaires du jour récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerSchedule"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Horaires du jour récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customer-schedules/currently-open": {
+            "get": {
+                "tags": [
+                    "CustomerSchedules"
+                ],
+                "summary": "Récupère les clients actuellement ouverts",
+                "operationId": "12b351bb3f85f4b605540751c00be654",
+                "responses": {
+                    "200": {
+                        "description": "Clients ouverts récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerSchedule"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Clients ouverts récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customer-stats": {
+            "get": {
+                "tags": [
+                    "CustomerStats"
+                ],
+                "summary": "Liste toutes les statistiques clients",
+                "operationId": "feb55566a4aab9779d19df93ba3d6c51",
+                "responses": {
+                    "200": {
+                        "description": "Liste des statistiques clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerStat"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des statistiques clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerStats"
+                ],
+                "summary": "Crée de nouvelles statistiques client",
+                "operationId": "1b95359d0ab482d48d8352dcd24792d9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerStatRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Statistiques client créées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerStat"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statistiques client créées avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-stats/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerStats"
+                ],
+                "summary": "Affiche les détails des statistiques d'un client spécifique",
+                "operationId": "11a5e42e2975414ddc652d6087e4e22e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID des statistiques client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statistiques client récupérées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerStat"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statistiques client récupérées avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statistiques client non trouvées"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerStats"
+                ],
+                "summary": "Met à jour les statistiques d'un client existant",
+                "operationId": "c2ed7e87b6be905ea7d0ab508671603b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID des statistiques client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerStatRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Statistiques client mises à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerStat"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statistiques client mises à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statistiques client non trouvées"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerStats"
+                ],
+                "summary": "Supprime les statistiques d'un client",
+                "operationId": "8585e3dfffd8a5e01ec0da073ab9adf0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID des statistiques client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statistiques client supprimées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statistiques client supprimées avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statistiques client non trouvées"
+                    }
+                }
+            }
+        },
         "/customer-statuses": {
             "get": {
                 "tags": [
@@ -2868,6 +3750,286 @@
                 }
             }
         },
+        "/invoice-addresses": {
+            "get": {
+                "tags": [
+                    "InvoiceAddresses"
+                ],
+                "summary": "Liste toutes les adresses de facturation",
+                "operationId": "7725c4fffaa94954b8300cd6ad552c3d",
+                "responses": {
+                    "200": {
+                        "description": "Liste des adresses de facturation récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/InvoiceAddress"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des adresses de facturation récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "InvoiceAddresses"
+                ],
+                "summary": "Crée une nouvelle adresse de facturation",
+                "operationId": "30f0caef928fb6edeb299191f2256a3e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreInvoiceAddressRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Adresse de facturation créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/InvoiceAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de facturation créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/invoice-addresses/{id}": {
+            "get": {
+                "tags": [
+                    "InvoiceAddresses"
+                ],
+                "summary": "Affiche les détails d'une adresse de facturation spécifique",
+                "operationId": "2b51e62e2831d75b45c76d7b11f74e30",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse de facturation",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adresse de facturation récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/InvoiceAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de facturation récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse de facturation non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "InvoiceAddresses"
+                ],
+                "summary": "Met à jour une adresse de facturation existante",
+                "operationId": "b94d7c3900bbe5d471e2df7a7a87721c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse de facturation à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateInvoiceAddressRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Adresse de facturation mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/InvoiceAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de facturation mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse de facturation non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "InvoiceAddresses"
+                ],
+                "summary": "Supprime une adresse de facturation",
+                "operationId": "b9db2283229cdda28cf6a83928ea1f11",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse de facturation à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adresse de facturation supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de facturation supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse de facturation non trouvée"
+                    }
+                }
+            }
+        },
+        "/invoice-addresses/customer/{customerId}": {
+            "get": {
+                "tags": [
+                    "InvoiceAddresses"
+                ],
+                "summary": "Récupère l'adresse de facturation d'un client spécifique",
+                "operationId": "b6409b24c5d6bfdcd8ce9aed3d3872e8",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adresse de facturation récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/InvoiceAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de facturation récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse de facturation non trouvée pour ce client"
+                    }
+                }
+            }
+        },
         "/profiles": {
             "get": {
                 "tags": [
@@ -3096,6 +4258,326 @@
                     },
                     "404": {
                         "description": "Profil non trouvé"
+                    }
+                }
+            }
+        },
+        "/shipping-addresses": {
+            "get": {
+                "tags": [
+                    "ShippingAddresses"
+                ],
+                "summary": "Liste toutes les adresses de livraison",
+                "operationId": "023392fe627d7686336469adfee2599d",
+                "responses": {
+                    "200": {
+                        "description": "Liste des adresses de livraison récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ShippingAddress"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des adresses de livraison récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "ShippingAddresses"
+                ],
+                "summary": "Crée une nouvelle adresse de livraison",
+                "operationId": "5324946514b6113ec4f0ce2c765278bc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreShippingAddressRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Adresse de livraison créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ShippingAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de livraison créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/shipping-addresses/{id}": {
+            "get": {
+                "tags": [
+                    "ShippingAddresses"
+                ],
+                "summary": "Affiche les détails d'une adresse de livraison spécifique",
+                "operationId": "f8d418c0516cdf6ab65a987f0ab87efe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse de livraison",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adresse de livraison récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ShippingAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de livraison récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse de livraison non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ShippingAddresses"
+                ],
+                "summary": "Met à jour une adresse de livraison existante",
+                "operationId": "3a76f49d9bc8b2fbf2c79cc78eb6606b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse de livraison à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateShippingAddressRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Adresse de livraison mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ShippingAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de livraison mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse de livraison non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ShippingAddresses"
+                ],
+                "summary": "Supprime une adresse de livraison",
+                "operationId": "8e895669efd29021f92a59abdb64bc18",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'adresse de livraison à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adresse de livraison supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de livraison supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Adresse de livraison non trouvée"
+                    }
+                }
+            }
+        },
+        "/shipping-addresses/customer/{customerId}": {
+            "get": {
+                "tags": [
+                    "ShippingAddresses"
+                ],
+                "summary": "Récupère les adresses de livraison d'un client spécifique",
+                "operationId": "f90cd2a70caca2975befa61db4961251",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Adresses de livraison récupérées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ShippingAddress"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresses de livraison récupérées avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucune adresse de livraison trouvée pour ce client"
+                    }
+                }
+            }
+        },
+        "/shipping-addresses/default": {
+            "get": {
+                "tags": [
+                    "ShippingAddresses"
+                ],
+                "summary": "Récupère l'adresse de livraison par défaut",
+                "operationId": "4023ed7e04e124621dcb3253196271ed",
+                "responses": {
+                    "200": {
+                        "description": "Adresse de livraison par défaut récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ShippingAddress"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Adresse de livraison par défaut récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucune adresse de livraison par défaut trouvée"
                     }
                 }
             }
@@ -4032,6 +5514,491 @@
                 },
                 "type": "object"
             },
+            "StoreCustomerComptaRequest": {
+                "required": [
+                    "id_customer",
+                    "payment_mode",
+                    "future_payment_delay_type",
+                    "sepa_payment_type"
+                ],
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "devise": {
+                        "description": "Devise",
+                        "type": "string",
+                        "maxLength": 5,
+                        "example": "EUR"
+                    },
+                    "tva_intra_number": {
+                        "description": "Numéro de TVA intracommunautaire",
+                        "type": "string",
+                        "maxLength": 75,
+                        "example": "FR12345678901"
+                    },
+                    "payment_mode": {
+                        "description": "Mode de paiement",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "rib_etablissement": {
+                        "description": "RIB établissement",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12345"
+                    },
+                    "rib_guichet": {
+                        "description": "RIB guichet",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "67890"
+                    },
+                    "rib_compte": {
+                        "description": "RIB compte",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12345678901"
+                    },
+                    "rib_cle": {
+                        "description": "RIB clé",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12"
+                    },
+                    "discount": {
+                        "description": "Remise",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "balance": {
+                        "description": "Solde",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1500.5
+                    },
+                    "shipping_invoice": {
+                        "description": "Facturation de livraison",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "en_cours": {
+                        "description": "Montant en cours",
+                        "type": "number",
+                        "format": "float",
+                        "example": 500.25
+                    },
+                    "future_payment_mode": {
+                        "description": "Futur mode de paiement",
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": true
+                    },
+                    "future_payment_delay_type": {
+                        "description": "Type de délai de paiement futur",
+                        "type": "string",
+                        "maxLength": 11,
+                        "example": "jours"
+                    },
+                    "future_payment_delay": {
+                        "description": "Délai de paiement futur",
+                        "type": "integer",
+                        "example": 30,
+                        "nullable": true
+                    },
+                    "rolling_period_days": {
+                        "description": "Nombre de jours d'une période glissante",
+                        "type": "integer",
+                        "example": 30,
+                        "nullable": true
+                    },
+                    "rolling_period_amount": {
+                        "description": "Montant pour une période glissante",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000,
+                        "nullable": true
+                    },
+                    "rolling_period_cron_date": {
+                        "description": "Date Cron pour une période glissante",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "bic": {
+                        "description": "BIC",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "ABCDEFGH",
+                        "nullable": true
+                    },
+                    "iban": {
+                        "description": "IBAN",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "FR7630001007941234567890185",
+                        "nullable": true
+                    },
+                    "grouped_invoice": {
+                        "description": "Facture groupée",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "grouped_invoice_begin": {
+                        "description": "Début de facturation groupée",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "grouped_invoice_end": {
+                        "description": "Fin de facturation groupée",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31",
+                        "nullable": true
+                    },
+                    "cb_register_info": {
+                        "description": "Enregistrement des infos CB",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "cb_register_always_ask": {
+                        "description": "Toujours demander l'enregistrement CB",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "cb_token": {
+                        "description": "Token CB",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "cb_date_val": {
+                        "description": "Date de validité CB",
+                        "type": "string",
+                        "maxLength": 4,
+                        "example": "0125",
+                        "nullable": true
+                    },
+                    "cb_ref_abonne": {
+                        "description": "Référence abonné CB",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "sepa_mandat_reference": {
+                        "description": "Référence mandat SEPA",
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "sepa_payment_type": {
+                        "description": "Type de paiement SEPA",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "REPETITIVE"
+                    },
+                    "sepa_debtor_name": {
+                        "description": "Nom du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address": {
+                        "description": "Adresse du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address_pc": {
+                        "description": "Code postal du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 64,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address_city": {
+                        "description": "Ville du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 75,
+                        "nullable": true
+                    },
+                    "sepa_signature_location": {
+                        "description": "Lieu de signature SEPA",
+                        "type": "string",
+                        "maxLength": 75,
+                        "nullable": true
+                    },
+                    "sepa_signature_date": {
+                        "description": "Date de signature SEPA",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "sepa_request_validated": {
+                        "description": "Demande SEPA validée",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "sepa_request_validated_once": {
+                        "description": "Demande SEPA validée une fois",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "is_blprice": {
+                        "description": "BL Prix",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "classic_invoice": {
+                        "description": "Facture classique",
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerComptaRequest": {
+                "properties": {
+                    "devise": {
+                        "description": "Devise",
+                        "type": "string",
+                        "maxLength": 5,
+                        "example": "EUR"
+                    },
+                    "tva_intra_number": {
+                        "description": "Numéro de TVA intracommunautaire",
+                        "type": "string",
+                        "maxLength": 75,
+                        "example": "FR12345678901"
+                    },
+                    "payment_mode": {
+                        "description": "Mode de paiement",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "rib_etablissement": {
+                        "description": "RIB établissement",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12345"
+                    },
+                    "rib_guichet": {
+                        "description": "RIB guichet",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "67890"
+                    },
+                    "rib_compte": {
+                        "description": "RIB compte",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12345678901"
+                    },
+                    "rib_cle": {
+                        "description": "RIB clé",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12"
+                    },
+                    "discount": {
+                        "description": "Remise",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "balance": {
+                        "description": "Solde",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1500.5
+                    },
+                    "shipping_invoice": {
+                        "description": "Facturation de livraison",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "en_cours": {
+                        "description": "Montant en cours",
+                        "type": "number",
+                        "format": "float",
+                        "example": 500.25
+                    },
+                    "future_payment_mode": {
+                        "description": "Futur mode de paiement",
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": true
+                    },
+                    "future_payment_delay_type": {
+                        "description": "Type de délai de paiement futur",
+                        "type": "string",
+                        "maxLength": 11,
+                        "example": "jours"
+                    },
+                    "future_payment_delay": {
+                        "description": "Délai de paiement futur",
+                        "type": "integer",
+                        "example": 30,
+                        "nullable": true
+                    },
+                    "rolling_period_days": {
+                        "description": "Nombre de jours d'une période glissante",
+                        "type": "integer",
+                        "example": 30,
+                        "nullable": true
+                    },
+                    "rolling_period_amount": {
+                        "description": "Montant pour une période glissante",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000,
+                        "nullable": true
+                    },
+                    "rolling_period_cron_date": {
+                        "description": "Date Cron pour une période glissante",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "bic": {
+                        "description": "BIC",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "ABCDEFGH",
+                        "nullable": true
+                    },
+                    "iban": {
+                        "description": "IBAN",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "FR7630001007941234567890185",
+                        "nullable": true
+                    },
+                    "grouped_invoice": {
+                        "description": "Facture groupée",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "grouped_invoice_begin": {
+                        "description": "Début de facturation groupée",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "grouped_invoice_end": {
+                        "description": "Fin de facturation groupée",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31",
+                        "nullable": true
+                    },
+                    "cb_register_info": {
+                        "description": "Enregistrement des infos CB",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "cb_register_always_ask": {
+                        "description": "Toujours demander l'enregistrement CB",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "cb_token": {
+                        "description": "Token CB",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "cb_date_val": {
+                        "description": "Date de validité CB",
+                        "type": "string",
+                        "maxLength": 4,
+                        "example": "0125",
+                        "nullable": true
+                    },
+                    "cb_ref_abonne": {
+                        "description": "Référence abonné CB",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "sepa_mandat_reference": {
+                        "description": "Référence mandat SEPA",
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "sepa_payment_type": {
+                        "description": "Type de paiement SEPA",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "REPETITIVE"
+                    },
+                    "sepa_debtor_name": {
+                        "description": "Nom du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address": {
+                        "description": "Adresse du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address_pc": {
+                        "description": "Code postal du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 64,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address_city": {
+                        "description": "Ville du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 75,
+                        "nullable": true
+                    },
+                    "sepa_signature_location": {
+                        "description": "Lieu de signature SEPA",
+                        "type": "string",
+                        "maxLength": 75,
+                        "nullable": true
+                    },
+                    "sepa_signature_date": {
+                        "description": "Date de signature SEPA",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "sepa_request_validated": {
+                        "description": "Demande SEPA validée",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "sepa_request_validated_once": {
+                        "description": "Demande SEPA validée une fois",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "is_blprice": {
+                        "description": "BL Prix",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "classic_invoice": {
+                        "description": "Facture classique",
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
             "StoreCustomerContactRoleRequest": {
                 "required": [
                     "name"
@@ -4840,6 +6807,479 @@
                 },
                 "type": "object"
             },
+            "StoreCustomerScheduleRequest": {
+                "required": [
+                    "id_customer",
+                    "day",
+                    "opening_time",
+                    "closure_time"
+                ],
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "day": {
+                        "description": "Jours d'ouverture",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "1"
+                        },
+                        "example": [
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5"
+                        ]
+                    },
+                    "opening_time": {
+                        "description": "Heure d'ouverture",
+                        "type": "string",
+                        "format": "time",
+                        "example": "08:00"
+                    },
+                    "closure_time": {
+                        "description": "Heure de fermeture",
+                        "type": "string",
+                        "format": "time",
+                        "example": "18:00"
+                    },
+                    "has_break": {
+                        "description": "Indique si il y a une pause",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "break_time_begin": {
+                        "description": "Heure de début de pause",
+                        "type": "string",
+                        "format": "time",
+                        "example": "12:00",
+                        "nullable": true
+                    },
+                    "break_time_end": {
+                        "description": "Heure de fin de pause",
+                        "type": "string",
+                        "format": "time",
+                        "example": "14:00",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerScheduleRequest": {
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "day": {
+                        "description": "Jours d'ouverture",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "1"
+                        },
+                        "example": [
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5"
+                        ]
+                    },
+                    "opening_time": {
+                        "description": "Heure d'ouverture",
+                        "type": "string",
+                        "format": "time",
+                        "example": "08:00"
+                    },
+                    "closure_time": {
+                        "description": "Heure de fermeture",
+                        "type": "string",
+                        "format": "time",
+                        "example": "18:00"
+                    },
+                    "has_break": {
+                        "description": "Indique si il y a une pause",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "break_time_begin": {
+                        "description": "Heure de début de pause",
+                        "type": "string",
+                        "format": "time",
+                        "example": "12:00",
+                        "nullable": true
+                    },
+                    "break_time_end": {
+                        "description": "Heure de fin de pause",
+                        "type": "string",
+                        "format": "time",
+                        "example": "14:00",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerStatRequest": {
+                "required": [
+                    "id_customer"
+                ],
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "arevage_ordervalue": {
+                        "description": "Valeur moyenne des commandes",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1500.75
+                    },
+                    "last_order": {
+                        "description": "Dernière commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-15",
+                        "nullable": true
+                    },
+                    "first_order": {
+                        "description": "Première commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-15",
+                        "nullable": true
+                    },
+                    "profitability": {
+                        "description": "Rentabilité totale",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000.25
+                    },
+                    "profitabilityOneYear": {
+                        "description": "Rentabilité sur un an",
+                        "type": "number",
+                        "format": "float",
+                        "example": 3000.5
+                    },
+                    "profitabilityThreeMonth": {
+                        "description": "Rentabilité sur trois mois",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000.75
+                    },
+                    "turnover": {
+                        "description": "Chiffre d'affaires total",
+                        "type": "number",
+                        "format": "float",
+                        "example": 25000
+                    },
+                    "turnoverOneYear": {
+                        "description": "Chiffre d'affaires sur un an",
+                        "type": "number",
+                        "format": "float",
+                        "example": 15000
+                    },
+                    "turnoverThreeMonth": {
+                        "description": "Chiffre d'affaires sur trois mois",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000
+                    },
+                    "point1": {
+                        "description": "Point 1",
+                        "type": "number",
+                        "format": "float",
+                        "example": 85.5
+                    },
+                    "point2": {
+                        "description": "Point 2",
+                        "type": "number",
+                        "format": "float",
+                        "example": 90
+                    },
+                    "point3": {
+                        "description": "Point 3",
+                        "type": "number",
+                        "format": "float",
+                        "example": 75.25
+                    },
+                    "point4": {
+                        "description": "Point 4",
+                        "type": "number",
+                        "format": "float",
+                        "example": 80
+                    },
+                    "point5": {
+                        "description": "Point 5",
+                        "type": "number",
+                        "format": "float",
+                        "example": 95.5
+                    },
+                    "point6": {
+                        "description": "Point 6",
+                        "type": "number",
+                        "format": "float",
+                        "example": 88.75
+                    },
+                    "point7": {
+                        "description": "Point 7",
+                        "type": "number",
+                        "format": "float",
+                        "example": 92
+                    },
+                    "point8": {
+                        "description": "Point 8",
+                        "type": "number",
+                        "format": "float",
+                        "example": 70.5
+                    },
+                    "point9": {
+                        "description": "Point 9",
+                        "type": "number",
+                        "format": "float",
+                        "example": 85
+                    },
+                    "point10": {
+                        "description": "Point 10",
+                        "type": "number",
+                        "format": "float",
+                        "example": 78.25
+                    },
+                    "point11": {
+                        "description": "Point 11",
+                        "type": "number",
+                        "format": "float",
+                        "example": 82.5
+                    },
+                    "point12": {
+                        "description": "Point 12",
+                        "type": "number",
+                        "format": "float",
+                        "example": 91
+                    },
+                    "point13": {
+                        "description": "Point 13",
+                        "type": "number",
+                        "format": "float",
+                        "example": 87.75
+                    },
+                    "profitability_lifepercent": {
+                        "description": "Pourcentage de rentabilité totale",
+                        "type": "number",
+                        "format": "float",
+                        "example": 20.5
+                    },
+                    "profitability_yearrpercent": {
+                        "description": "Pourcentage de rentabilité annuelle",
+                        "type": "number",
+                        "format": "float",
+                        "example": 18.75
+                    },
+                    "profitability_threepercent": {
+                        "description": "Pourcentage de rentabilité trimestrielle",
+                        "type": "number",
+                        "format": "float",
+                        "example": 15.25
+                    },
+                    "promise_of_order_added": {
+                        "description": "Date d'ajout de la promesse de commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-01",
+                        "nullable": true
+                    },
+                    "promise_of_order": {
+                        "description": "Date de promesse de commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerStatRequest": {
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "arevage_ordervalue": {
+                        "description": "Valeur moyenne des commandes",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1500.75
+                    },
+                    "last_order": {
+                        "description": "Dernière commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-15",
+                        "nullable": true
+                    },
+                    "first_order": {
+                        "description": "Première commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-15",
+                        "nullable": true
+                    },
+                    "profitability": {
+                        "description": "Rentabilité totale",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000.25
+                    },
+                    "profitabilityOneYear": {
+                        "description": "Rentabilité sur un an",
+                        "type": "number",
+                        "format": "float",
+                        "example": 3000.5
+                    },
+                    "profitabilityThreeMonth": {
+                        "description": "Rentabilité sur trois mois",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000.75
+                    },
+                    "turnover": {
+                        "description": "Chiffre d'affaires total",
+                        "type": "number",
+                        "format": "float",
+                        "example": 25000
+                    },
+                    "turnoverOneYear": {
+                        "description": "Chiffre d'affaires sur un an",
+                        "type": "number",
+                        "format": "float",
+                        "example": 15000
+                    },
+                    "turnoverThreeMonth": {
+                        "description": "Chiffre d'affaires sur trois mois",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000
+                    },
+                    "point1": {
+                        "description": "Point 1",
+                        "type": "number",
+                        "format": "float",
+                        "example": 85.5
+                    },
+                    "point2": {
+                        "description": "Point 2",
+                        "type": "number",
+                        "format": "float",
+                        "example": 90
+                    },
+                    "point3": {
+                        "description": "Point 3",
+                        "type": "number",
+                        "format": "float",
+                        "example": 75.25
+                    },
+                    "point4": {
+                        "description": "Point 4",
+                        "type": "number",
+                        "format": "float",
+                        "example": 80
+                    },
+                    "point5": {
+                        "description": "Point 5",
+                        "type": "number",
+                        "format": "float",
+                        "example": 95.5
+                    },
+                    "point6": {
+                        "description": "Point 6",
+                        "type": "number",
+                        "format": "float",
+                        "example": 88.75
+                    },
+                    "point7": {
+                        "description": "Point 7",
+                        "type": "number",
+                        "format": "float",
+                        "example": 92
+                    },
+                    "point8": {
+                        "description": "Point 8",
+                        "type": "number",
+                        "format": "float",
+                        "example": 70.5
+                    },
+                    "point9": {
+                        "description": "Point 9",
+                        "type": "number",
+                        "format": "float",
+                        "example": 85
+                    },
+                    "point10": {
+                        "description": "Point 10",
+                        "type": "number",
+                        "format": "float",
+                        "example": 78.25
+                    },
+                    "point11": {
+                        "description": "Point 11",
+                        "type": "number",
+                        "format": "float",
+                        "example": 82.5
+                    },
+                    "point12": {
+                        "description": "Point 12",
+                        "type": "number",
+                        "format": "float",
+                        "example": 91
+                    },
+                    "point13": {
+                        "description": "Point 13",
+                        "type": "number",
+                        "format": "float",
+                        "example": 87.75
+                    },
+                    "profitability_lifepercent": {
+                        "description": "Pourcentage de rentabilité totale",
+                        "type": "number",
+                        "format": "float",
+                        "example": 20.5
+                    },
+                    "profitability_yearrpercent": {
+                        "description": "Pourcentage de rentabilité annuelle",
+                        "type": "number",
+                        "format": "float",
+                        "example": 18.75
+                    },
+                    "profitability_threepercent": {
+                        "description": "Pourcentage de rentabilité trimestrielle",
+                        "type": "number",
+                        "format": "float",
+                        "example": 15.25
+                    },
+                    "promise_of_order_added": {
+                        "description": "Date d'ajout de la promesse de commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-01",
+                        "nullable": true
+                    },
+                    "promise_of_order": {
+                        "description": "Date de promesse de commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "StoreCustomerTypologyRequest": {
                 "required": [
                     "name"
@@ -4890,6 +7330,40 @@
                 },
                 "type": "object"
             },
+            "StoreInvoiceAddressRequest": {
+                "required": [
+                    "id_customer_address",
+                    "id_customer"
+                ],
+                "properties": {
+                    "id_customer_address": {
+                        "description": "ID de l'adresse client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateInvoiceAddressRequest": {
+                "properties": {
+                    "id_customer_address": {
+                        "description": "ID de l'adresse client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "StoreProfileRequest": {
                 "required": [
                     "name"
@@ -4911,6 +7385,52 @@
                         "type": "string",
                         "maxLength": 50,
                         "example": "Administrateur"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreShippingAddressRequest": {
+                "required": [
+                    "id_customer_address",
+                    "id_customer"
+                ],
+                "properties": {
+                    "id_customer_address": {
+                        "description": "ID de l'adresse client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_default": {
+                        "description": "Indique si c'est l'adresse de livraison par défaut",
+                        "type": "boolean",
+                        "example": true,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateShippingAddressRequest": {
+                "properties": {
+                    "id_customer_address": {
+                        "description": "ID de l'adresse client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_default": {
+                        "description": "Indique si c'est l'adresse de livraison par défaut",
+                        "type": "boolean",
+                        "example": true,
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -5588,6 +8108,265 @@
                 },
                 "type": "object"
             },
+            "CustomerCompta": {
+                "title": "CustomerCompta",
+                "description": "Modèle de comptabilité client",
+                "properties": {
+                    "id_customer_compta": {
+                        "description": "ID unique de la comptabilité client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client associé",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "devise": {
+                        "description": "Devise",
+                        "type": "string",
+                        "maxLength": 5,
+                        "example": "EUR"
+                    },
+                    "tva_intra_number": {
+                        "description": "Numéro de TVA intracommunautaire",
+                        "type": "string",
+                        "maxLength": 75,
+                        "example": "FR12345678901"
+                    },
+                    "payment_mode": {
+                        "description": "Mode de paiement",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "rib_etablissement": {
+                        "description": "RIB établissement",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12345"
+                    },
+                    "rib_guichet": {
+                        "description": "RIB guichet",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "67890"
+                    },
+                    "rib_compte": {
+                        "description": "RIB compte",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12345678901"
+                    },
+                    "rib_cle": {
+                        "description": "RIB clé",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "12"
+                    },
+                    "discount": {
+                        "description": "Remise",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "balance": {
+                        "description": "Solde",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1500.5
+                    },
+                    "shipping_invoice": {
+                        "description": "Facturation de livraison",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "en_cours": {
+                        "description": "Montant en cours",
+                        "type": "number",
+                        "format": "float",
+                        "example": 500.25
+                    },
+                    "future_payment_mode": {
+                        "description": "Futur mode de paiement",
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": true
+                    },
+                    "future_payment_delay_type": {
+                        "description": "Type de délai de paiement futur",
+                        "type": "string",
+                        "maxLength": 11,
+                        "example": "jours"
+                    },
+                    "future_payment_delay": {
+                        "description": "Délai de paiement futur",
+                        "type": "integer",
+                        "example": 30,
+                        "nullable": true
+                    },
+                    "rolling_period_days": {
+                        "description": "Nombre de jours d'une période glissante",
+                        "type": "integer",
+                        "example": 30,
+                        "nullable": true
+                    },
+                    "rolling_period_amount": {
+                        "description": "Montant pour une période glissante",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000,
+                        "nullable": true
+                    },
+                    "rolling_period_cron_date": {
+                        "description": "Date Cron pour une période glissante",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "bic": {
+                        "description": "BIC",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "ABCDEFGH",
+                        "nullable": true
+                    },
+                    "iban": {
+                        "description": "IBAN",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "FR7630001007941234567890185",
+                        "nullable": true
+                    },
+                    "grouped_invoice": {
+                        "description": "Facture groupée",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "grouped_invoice_begin": {
+                        "description": "Début de facturation groupée",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "grouped_invoice_end": {
+                        "description": "Fin de facturation groupée",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31",
+                        "nullable": true
+                    },
+                    "cb_register_info": {
+                        "description": "Enregistrement des infos CB",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "cb_register_always_ask": {
+                        "description": "Toujours demander l'enregistrement CB",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "cb_token": {
+                        "description": "Token CB",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "cb_date_val": {
+                        "description": "Date de validité CB",
+                        "type": "string",
+                        "maxLength": 4,
+                        "example": "0125",
+                        "nullable": true
+                    },
+                    "cb_ref_abonne": {
+                        "description": "Référence abonné CB",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "sepa_mandat_reference": {
+                        "description": "Référence mandat SEPA",
+                        "type": "string",
+                        "maxLength": 20,
+                        "nullable": true
+                    },
+                    "sepa_payment_type": {
+                        "description": "Type de paiement SEPA",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "REPETITIVE"
+                    },
+                    "sepa_debtor_name": {
+                        "description": "Nom du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 150,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address": {
+                        "description": "Adresse du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address_pc": {
+                        "description": "Code postal du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 64,
+                        "nullable": true
+                    },
+                    "sepa_debtor_address_city": {
+                        "description": "Ville du débiteur SEPA",
+                        "type": "string",
+                        "maxLength": 75,
+                        "nullable": true
+                    },
+                    "sepa_signature_location": {
+                        "description": "Lieu de signature SEPA",
+                        "type": "string",
+                        "maxLength": 75,
+                        "nullable": true
+                    },
+                    "sepa_signature_date": {
+                        "description": "Date de signature SEPA",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01",
+                        "nullable": true
+                    },
+                    "sepa_request_validated": {
+                        "description": "Demande SEPA validée",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "sepa_request_validated_once": {
+                        "description": "Demande SEPA validée une fois",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "is_blprice": {
+                        "description": "BL Prix",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "classic_invoice": {
+                        "description": "Facture classique",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "CustomerContactRole": {
                 "title": "CustomerContactRole",
                 "description": "Modèle de rôle de contact client",
@@ -5802,6 +8581,265 @@
                 },
                 "type": "object"
             },
+            "CustomerSchedule": {
+                "title": "CustomerSchedule",
+                "description": "Modèle d'horaires client",
+                "properties": {
+                    "id_schedule": {
+                        "description": "ID unique de l'horaire",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "day": {
+                        "description": "Jours d'ouverture (JSON array)",
+                        "type": "string",
+                        "example": "['1', '2', '3', '4', '5']"
+                    },
+                    "opening_time": {
+                        "description": "Heure d'ouverture",
+                        "type": "string",
+                        "format": "time",
+                        "example": "08:00:00"
+                    },
+                    "closure_time": {
+                        "description": "Heure de fermeture",
+                        "type": "string",
+                        "format": "time",
+                        "example": "18:00:00"
+                    },
+                    "has_break": {
+                        "description": "Indique si il y a une pause",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "break_time_begin": {
+                        "description": "Heure de début de pause",
+                        "type": "string",
+                        "format": "time",
+                        "example": "12:00:00",
+                        "nullable": true
+                    },
+                    "break_time_end": {
+                        "description": "Heure de fin de pause",
+                        "type": "string",
+                        "format": "time",
+                        "example": "14:00:00",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerStat": {
+                "title": "CustomerStat",
+                "description": "Modèle de statistiques client",
+                "properties": {
+                    "id_customer_stat": {
+                        "description": "ID unique des statistiques client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "arevage_ordervalue": {
+                        "description": "Valeur moyenne des commandes",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1500.75
+                    },
+                    "last_order": {
+                        "description": "Dernière commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-15",
+                        "nullable": true
+                    },
+                    "first_order": {
+                        "description": "Première commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-15",
+                        "nullable": true
+                    },
+                    "profitability": {
+                        "description": "Rentabilité totale",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000.25
+                    },
+                    "profitabilityOneYear": {
+                        "description": "Rentabilité sur un an",
+                        "type": "number",
+                        "format": "float",
+                        "example": 3000.5
+                    },
+                    "profitabilityThreeMonth": {
+                        "description": "Rentabilité sur trois mois",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000.75
+                    },
+                    "turnover": {
+                        "description": "Chiffre d'affaires total",
+                        "type": "number",
+                        "format": "float",
+                        "example": 25000
+                    },
+                    "turnoverOneYear": {
+                        "description": "Chiffre d'affaires sur un an",
+                        "type": "number",
+                        "format": "float",
+                        "example": 15000
+                    },
+                    "turnoverThreeMonth": {
+                        "description": "Chiffre d'affaires sur trois mois",
+                        "type": "number",
+                        "format": "float",
+                        "example": 5000
+                    },
+                    "point1": {
+                        "description": "Point 1",
+                        "type": "number",
+                        "format": "float",
+                        "example": 85.5
+                    },
+                    "point2": {
+                        "description": "Point 2",
+                        "type": "number",
+                        "format": "float",
+                        "example": 90
+                    },
+                    "point3": {
+                        "description": "Point 3",
+                        "type": "number",
+                        "format": "float",
+                        "example": 75.25
+                    },
+                    "point4": {
+                        "description": "Point 4",
+                        "type": "number",
+                        "format": "float",
+                        "example": 80
+                    },
+                    "point5": {
+                        "description": "Point 5",
+                        "type": "number",
+                        "format": "float",
+                        "example": 95.5
+                    },
+                    "point6": {
+                        "description": "Point 6",
+                        "type": "number",
+                        "format": "float",
+                        "example": 88.75
+                    },
+                    "point7": {
+                        "description": "Point 7",
+                        "type": "number",
+                        "format": "float",
+                        "example": 92
+                    },
+                    "point8": {
+                        "description": "Point 8",
+                        "type": "number",
+                        "format": "float",
+                        "example": 70.5
+                    },
+                    "point9": {
+                        "description": "Point 9",
+                        "type": "number",
+                        "format": "float",
+                        "example": 85
+                    },
+                    "point10": {
+                        "description": "Point 10",
+                        "type": "number",
+                        "format": "float",
+                        "example": 78.25
+                    },
+                    "point11": {
+                        "description": "Point 11",
+                        "type": "number",
+                        "format": "float",
+                        "example": 82.5
+                    },
+                    "point12": {
+                        "description": "Point 12",
+                        "type": "number",
+                        "format": "float",
+                        "example": 91
+                    },
+                    "point13": {
+                        "description": "Point 13",
+                        "type": "number",
+                        "format": "float",
+                        "example": 87.75
+                    },
+                    "profitability_lifepercent": {
+                        "description": "Pourcentage de rentabilité totale",
+                        "type": "number",
+                        "format": "float",
+                        "example": 20.5
+                    },
+                    "profitability_yearrpercent": {
+                        "description": "Pourcentage de rentabilité annuelle",
+                        "type": "number",
+                        "format": "float",
+                        "example": 18.75
+                    },
+                    "profitability_threepercent": {
+                        "description": "Pourcentage de rentabilité trimestrielle",
+                        "type": "number",
+                        "format": "float",
+                        "example": 15.25
+                    },
+                    "promise_of_order_added": {
+                        "description": "Date d'ajout de la promesse de commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-01",
+                        "nullable": true
+                    },
+                    "promise_of_order": {
+                        "description": "Date de promesse de commande",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-31",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "customer": {
+                        "$ref": "#/components/schemas/Customer"
+                    }
+                },
+                "type": "object"
+            },
             "CustomerStatus": {
                 "title": "CustomerStatus",
                 "description": "Représente un statut client",
@@ -5877,6 +8915,38 @@
                 },
                 "type": "object"
             },
+            "InvoiceAddress": {
+                "title": "InvoiceAddress",
+                "description": "Modèle d'adresse de facturation",
+                "properties": {
+                    "id_invoice_address": {
+                        "description": "ID unique de l'adresse de facturation",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer_address": {
+                        "description": "ID de l'adresse client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "Profile": {
                 "title": "Profile",
                 "description": "Modèle de profil",
@@ -5891,6 +8961,44 @@
                         "type": "string",
                         "maxLength": 50,
                         "example": "Administrateur"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ShippingAddress": {
+                "title": "ShippingAddress",
+                "description": "Modèle d'adresse de livraison",
+                "properties": {
+                    "id_shipping_address": {
+                        "description": "ID unique de l'adresse de livraison",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer_address": {
+                        "description": "ID de l'adresse client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_default": {
+                        "description": "Indique si c'est l'adresse de livraison par défaut",
+                        "type": "boolean",
+                        "example": true,
+                        "nullable": true
                     },
                     "created_at": {
                         "description": "Date de création",
@@ -6070,6 +9178,10 @@
             "description": "Opérations CRUD pour les étapes de démarchage clients"
         },
         {
+            "name": "CustomerComptas",
+            "description": "Opérations CRUD pour les comptabilités clients"
+        },
+        {
             "name": "CustomerContactRoles",
             "description": "Opérations CRUD pour les rôles de contacts clients"
         },
@@ -6098,6 +9210,14 @@
             "description": "Opérations CRUD pour les raisons de refus clients"
         },
         {
+            "name": "CustomerSchedules",
+            "description": "Opérations CRUD pour les horaires clients"
+        },
+        {
+            "name": "CustomerStats",
+            "description": "Opérations CRUD pour les statistiques clients"
+        },
+        {
             "name": "CustomerStatus",
             "description": "API pour gérer les statuts clients"
         },
@@ -6110,8 +9230,16 @@
             "description": "Opérations CRUD pour les franchises"
         },
         {
+            "name": "InvoiceAddresses",
+            "description": "Opérations CRUD pour les adresses de facturation"
+        },
+        {
             "name": "Profiles",
             "description": "Opérations CRUD pour les profils"
+        },
+        {
+            "name": "ShippingAddresses",
+            "description": "Opérations CRUD pour les adresses de livraison"
         },
         {
             "name": "StockSoftware",

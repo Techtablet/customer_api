@@ -12,12 +12,12 @@ return new class extends Migration
             $table->id('id_schedule');
             $table->unsignedBigInteger('id_customer');
             $table->foreign('id_customer')->references('id_customer')->on('customers')->onDelete('restrict');
-            $table->text('day');
+            $table->text('day')->comment('exemple de valeur ["1", "2", "3", "4", "5", "6", "7"]');
             $table->time('opening_time');
             $table->time('closure_time');
-            $table->boolean('has_break');
-            $table->time('break_time_begin');
-            $table->time('break_time_end');
+            $table->boolean('has_break')->default(false);
+            $table->time('break_time_begin')->nullable();
+            $table->time('break_time_end')->nullable();
             $table->timestamps();
         });
     }

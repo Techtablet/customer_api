@@ -73,3 +73,15 @@ Route::prefix('customer-comptas')->group(function () {
 Route::prefix('customer-stats')->group(function () {
     require __DIR__.'/api/customer-stats.php';
 });
+
+Route::prefix('invoice-addresses')->group(function () {
+    require __DIR__.'/api/invoice-addresses.php';
+});
+
+Route::prefix('shipping-addresses')->group(function () {
+    require __DIR__.'/api/shipping-addresses.php';
+});
+
+Route::prefix('customer-schedules')->group(function () {
+    require __DIR__.'/api/customer-schedules.php';
+});

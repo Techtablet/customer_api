@@ -18,6 +18,9 @@ Route::get('/', [CustomerComptaController::class, 'index'])->name('customer-comp
 // GET /api/customer-comptas/{id} - Affiche une comptabilité client spécifique
 Route::get('/{customer_compta}', [CustomerComptaController::class, 'show'])->name('customer-comptas.show');
 
+// GET /api/customer-comptas/customer/{customerId} - Récupère la comptabilité d'un client spécifique
+Route::get('/customer/{customerId}', [CustomerComptaController::class, 'showByCustomer'])->name('customer-comptas.by-customer');
+
 // POST /api/customer-comptas - Crée une nouvelle comptabilité client
 Route::post('/', [CustomerComptaController::class, 'store'])->name('customer-comptas.store');
 

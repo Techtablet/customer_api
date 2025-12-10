@@ -85,6 +85,46 @@ class CustomerComptaController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/customer-comptas/customer/{customerId}",
+     *     summary="Récupère la comptabilité d'un client spécifique",
+     *     tags={"CustomerComptas"},
+     *     @OA\Parameter(
+     *         name="customerId",
+     *         in="path",
+     *         required=true,
+     *         description="ID du client",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Comptabilité client récupérée avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", ref="#/components/schemas/CustomerCompta"),
+     *             @OA\Property(property="message", type="string", example="Comptabilité client récupérée avec succès.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Comptabilité client non trouvée pour ce client"
+     *     )
+     * )
+     */
+    public function showByCustomer($customerId): JsonResponse
+    {
+        $customerCompta = CustomerCompta::where('id_customer', $customerId)
+            ->with('customer')
+            ->firstOrFail();
+
+        return response()->json([
+            'success' => true,
+            'data' => $customerCompta,
+            'message' => 'Comptabilité client récupérée avec succès.',
+        ]);
+    }
+
+    /**
      * @OA\Post(
      *     path="/customer-comptas",
      *     summary="Crée une nouvelle comptabilité client",
@@ -111,6 +151,7 @@ class CustomerComptaController extends Controller
     public function store(StoreCustomerComptaRequest $request): JsonResponse
     {
         $customerCompta = CustomerCompta::create($request->validated());
+
         $customerCompta->load('customer');
 
         return response()->json([
@@ -158,6 +199,7 @@ class CustomerComptaController extends Controller
     public function update(UpdateCustomerComptaRequest $request, CustomerCompta $customerCompta): JsonResponse
     {
         $customerCompta->update($request->validated());
+
         $customerCompta->load('customer');
 
         return response()->json([

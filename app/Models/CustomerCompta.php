@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @OA\Schema(
@@ -21,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *     @OA\Property(
  *         property="id_customer",
  *         type="integer",
- *         description="ID du client",
+ *         description="ID du client associé",
  *         example=1
  *     ),
  *     @OA\Property(
@@ -48,35 +47,35 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         property="rib_etablissement",
  *         type="string",
  *         maxLength=16,
- *         description="RIB - Établissement",
+ *         description="RIB établissement",
  *         example="12345"
  *     ),
  *     @OA\Property(
  *         property="rib_guichet",
  *         type="string",
  *         maxLength=16,
- *         description="RIB - Guichet",
+ *         description="RIB guichet",
  *         example="67890"
  *     ),
  *     @OA\Property(
  *         property="rib_compte",
  *         type="string",
  *         maxLength=16,
- *         description="RIB - Compte",
+ *         description="RIB compte",
  *         example="12345678901"
  *     ),
  *     @OA\Property(
  *         property="rib_cle",
  *         type="string",
  *         maxLength=16,
- *         description="RIB - Clé",
+ *         description="RIB clé",
  *         example="12"
  *     ),
  *     @OA\Property(
  *         property="discount",
  *         type="integer",
  *         description="Remise",
- *         example=0
+ *         example=5
  *     ),
  *     @OA\Property(
  *         property="balance",
@@ -88,7 +87,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *     @OA\Property(
  *         property="shipping_invoice",
  *         type="boolean",
- *         description="Facture d'expédition",
+ *         description="Facturation de livraison",
  *         example=true
  *     ),
  *     @OA\Property(
@@ -101,7 +100,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *     @OA\Property(
  *         property="future_payment_mode",
  *         type="integer",
- *         description="Mode de paiement futur",
+ *         description="Futur mode de paiement",
+ *         nullable=true,
  *         example=2
  *     ),
  *     @OA\Property(
@@ -109,51 +109,52 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         type="string",
  *         maxLength=11,
  *         description="Type de délai de paiement futur",
- *         example="JOURS"
+ *         example="jours"
  *     ),
  *     @OA\Property(
  *         property="future_payment_delay",
  *         type="integer",
  *         description="Délai de paiement futur",
+ *         nullable=true,
  *         example=30
  *     ),
  *     @OA\Property(
  *         property="rolling_period_days",
  *         type="integer",
- *         nullable=true,
  *         description="Nombre de jours d'une période glissante",
+ *         nullable=true,
  *         example=30
  *     ),
  *     @OA\Property(
  *         property="rolling_period_amount",
  *         type="number",
  *         format="float",
- *         nullable=true,
  *         description="Montant pour une période glissante",
+ *         nullable=true,
  *         example=1000.00
  *     ),
  *     @OA\Property(
  *         property="rolling_period_cron_date",
  *         type="string",
  *         format="date",
- *         nullable=true,
  *         description="Date Cron pour une période glissante",
- *         example="2024-12-31"
+ *         nullable=true,
+ *         example="2024-01-01"
  *     ),
  *     @OA\Property(
  *         property="bic",
  *         type="string",
  *         maxLength=500,
- *         nullable=true,
  *         description="BIC",
- *         example="BNPAFRPPXXX"
+ *         nullable=true,
+ *         example="ABCDEFGH"
  *     ),
  *     @OA\Property(
  *         property="iban",
  *         type="string",
  *         maxLength=500,
- *         nullable=true,
  *         description="IBAN",
+ *         nullable=true,
  *         example="FR7630001007941234567890185"
  *     ),
  *     @OA\Property(
@@ -166,26 +167,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         property="grouped_invoice_begin",
  *         type="string",
  *         format="date",
- *         description="Date de début de facturation groupée",
+ *         description="Début de facturation groupée",
+ *         nullable=true,
  *         example="2024-01-01"
  *     ),
  *     @OA\Property(
  *         property="grouped_invoice_end",
  *         type="string",
  *         format="date",
- *         description="Date de fin de facturation groupée",
+ *         description="Fin de facturation groupée",
+ *         nullable=true,
  *         example="2024-12-31"
  *     ),
  *     @OA\Property(
  *         property="cb_register_info",
  *         type="boolean",
- *         description="Informations CB enregistrées",
+ *         description="Enregistrement des infos CB",
  *         example=false
  *     ),
  *     @OA\Property(
  *         property="cb_register_always_ask",
  *         type="boolean",
- *         description="Toujours demander CB",
+ *         description="Toujours demander l'enregistrement CB",
  *         example=true
  *     ),
  *     @OA\Property(
@@ -193,13 +196,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         type="string",
  *         maxLength=250,
  *         description="Token CB",
- *         example="tok_123456789"
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="cb_date_val",
  *         type="string",
  *         maxLength=4,
  *         description="Date de validité CB",
+ *         nullable=true,
  *         example="0125"
  *     ),
  *     @OA\Property(
@@ -207,63 +211,64 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         type="string",
  *         maxLength=250,
  *         description="Référence abonné CB",
- *         example="ref_12345"
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="sepa_mandat_reference",
  *         type="string",
  *         maxLength=20,
  *         description="Référence mandat SEPA",
- *         example="MANDAT123456789"
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="sepa_payment_type",
  *         type="string",
  *         maxLength=50,
- *         description="Type de paiement SEPA (REPETITIVE, UNIQUE)",
+ *         description="Type de paiement SEPA",
  *         example="REPETITIVE"
  *     ),
  *     @OA\Property(
  *         property="sepa_debtor_name",
  *         type="string",
  *         maxLength=150,
- *         description="Nom débiteur SEPA",
- *         example="Jean Dupont"
+ *         description="Nom du débiteur SEPA",
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="sepa_debtor_address",
  *         type="string",
  *         maxLength=250,
- *         description="Adresse débiteur SEPA",
- *         example="123 Rue de la République"
+ *         description="Adresse du débiteur SEPA",
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="sepa_debtor_address_pc",
  *         type="string",
  *         maxLength=64,
- *         description="Code postal débiteur SEPA",
- *         example="75001"
+ *         description="Code postal du débiteur SEPA",
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="sepa_debtor_address_city",
  *         type="string",
  *         maxLength=75,
- *         description="Ville débiteur SEPA",
- *         example="Paris"
+ *         description="Ville du débiteur SEPA",
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="sepa_signature_location",
  *         type="string",
  *         maxLength=75,
  *         description="Lieu de signature SEPA",
- *         example="Paris"
+ *         nullable=true
  *     ),
  *     @OA\Property(
  *         property="sepa_signature_date",
  *         type="string",
  *         format="date",
  *         description="Date de signature SEPA",
- *         example="2024-01-15"
+ *         nullable=true,
+ *         example="2024-01-01"
  *     ),
  *     @OA\Property(
  *         property="sepa_request_validated",
@@ -280,7 +285,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *     @OA\Property(
  *         property="is_blprice",
  *         type="boolean",
- *         description="Est BL Price",
+ *         description="BL Prix",
  *         example=false
  *     ),
  *     @OA\Property(
@@ -300,11 +305,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         type="string",
  *         format="date-time",
  *         description="Date de dernière modification"
- *     ),
- *     @OA\Property(
- *         property="customer",
- *         ref="#/components/schemas/Customer",
- *         description="Client associé"
  *     )
  * )
  */
@@ -385,55 +385,34 @@ class CustomerCompta extends Model
     ];
 
     /**
-     * Les casts de type pour les attributs.
+     * Les attributs qui doivent être castés.
      *
      * @var array<string, string>
      */
     protected $casts = [
-        'discount' => 'integer',
-        'balance' => 'decimal:2',
         'shipping_invoice' => 'boolean',
         'en_cours' => 'float',
-        'future_payment_mode' => 'integer',
-        'future_payment_delay' => 'integer',
-        'rolling_period_days' => 'integer',
+        'balance' => 'decimal:2',
         'rolling_period_amount' => 'decimal:2',
-        'rolling_period_cron_date' => 'date',
         'grouped_invoice' => 'boolean',
-        'grouped_invoice_begin' => 'date',
-        'grouped_invoice_end' => 'date',
         'cb_register_info' => 'boolean',
         'cb_register_always_ask' => 'boolean',
-        'sepa_signature_date' => 'date',
         'sepa_request_validated' => 'boolean',
         'sepa_request_validated_once' => 'boolean',
         'is_blprice' => 'boolean',
         'classic_invoice' => 'boolean',
+        'grouped_invoice_begin' => 'date',
+        'grouped_invoice_end' => 'date',
+        'rolling_period_cron_date' => 'date',
+        'sepa_signature_date' => 'date',
     ];
 
     /**
-     * Les valeurs par défaut des attributs.
+     * Relation avec le modèle Customer.
      *
-     * @var array<string, mixed>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    protected $attributes = [
-        'devise' => 'EUR',
-        'discount' => 0,
-        'shipping_invoice' => true,
-        'grouped_invoice' => false,
-        'cb_register_info' => false,
-        'cb_register_always_ask' => true,
-        'sepa_payment_type' => 'REPETITIVE',
-        'sepa_request_validated' => false,
-        'sepa_request_validated_once' => false,
-        'is_blprice' => false,
-        'classic_invoice' => true,
-    ];
-
-    /**
-     * Relation avec le client.
-     */
-    public function customer(): BelongsTo
+    public function customer()
     {
         return $this->belongsTo(Customer::class, 'id_customer', 'id_customer');
     }
