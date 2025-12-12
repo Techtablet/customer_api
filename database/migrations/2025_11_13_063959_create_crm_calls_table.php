@@ -27,11 +27,6 @@ return new class extends Migration
             $table->integer('shipping_done')->nullable()->default(0);
             $table->timestamps();
         });
-
-        // Ajout du commentaire sur la table (uniquement pour MySQL/PostgreSQL)
-        if (DB::getDriverName() !== 'sqlite') {
-            DB::statement("ALTER TABLE crm_calls COMMENT = 'Table for a new call object (CRM)'");
-        }
     }
 
     /**

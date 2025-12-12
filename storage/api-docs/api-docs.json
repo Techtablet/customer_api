@@ -9,6 +9,2094 @@
         "version": "2.0.0"
     },
     "paths": {
+        "/crm-calls": {
+            "get": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Liste tous les appels CRM",
+                "operationId": "891031b1b5fc6fe9989cf5114434de60",
+                "responses": {
+                    "200": {
+                        "description": "Liste des appels CRM récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCall"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des appels CRM récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Crée un nouvel appel CRM",
+                "operationId": "e5ee98c877a452c7a867317f18bf9990",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCrmCallRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appel CRM créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCall"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appel CRM créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/crm-calls/{id}": {
+            "get": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Affiche les détails d'un appel CRM spécifique",
+                "operationId": "6bd74699783de4cadc6dfe6019a9a84a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'appel CRM",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appel CRM récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCall"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appel CRM récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Appel CRM non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Met à jour un appel CRM existant",
+                "operationId": "ae8b1b2dc51a98b342e2535b17a440b1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'appel CRM à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCrmCallRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Appel CRM mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCall"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appel CRM mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Appel CRM non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Supprime un appel CRM",
+                "operationId": "5976d8375681af6ab35e052f7496e2e8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'appel CRM à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appel CRM supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appel CRM supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Appel CRM non trouvé"
+                    }
+                }
+            }
+        },
+        "/crm-calls/customer/{customerId}": {
+            "get": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Récupère les appels d'un client spécifique",
+                "operationId": "f5081afb4fa4a654c95deeb7f56cc1a1",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appels du client récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCall"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appels du client récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun appel trouvé pour ce client"
+                    }
+                }
+            }
+        },
+        "/crm-calls/seller/{sellerId}": {
+            "get": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Récupère les appels d'un commercial spécifique",
+                "operationId": "45d86e43a42da45d318bb240cf60bb60",
+                "parameters": [
+                    {
+                        "name": "sellerId",
+                        "in": "path",
+                        "description": "ID du commercial",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appels du commercial récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCall"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appels du commercial récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun appel trouvé pour ce commercial"
+                    }
+                }
+            }
+        },
+        "/crm-calls/status/{statusId}": {
+            "get": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Récupère les appels avec un statut spécifique",
+                "operationId": "09600bd280f5bde7f7725355d7a2e54f",
+                "parameters": [
+                    {
+                        "name": "statusId",
+                        "in": "path",
+                        "description": "ID du statut",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appels avec ce statut récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCall"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appels avec ce statut récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun appel trouvé avec ce statut"
+                    }
+                }
+            }
+        },
+        "/crm-calls/recent/{days}": {
+            "get": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Récupère les appels récents",
+                "operationId": "910cfbaf2c32e1d2eefefe06dc897d92",
+                "parameters": [
+                    {
+                        "name": "days",
+                        "in": "path",
+                        "description": "Nombre de jours",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 30
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appels récents récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCall"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appels récents récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/crm-calls/{id}/mark-shipping-done": {
+            "patch": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Marque l'expédition comme faite pour un appel",
+                "operationId": "c4bfb24f3c4cb826782ad05e119a602f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'appel CRM",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expédition marquée comme faite avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCall"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Expédition marquée comme faite avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Appel CRM non trouvé"
+                    }
+                }
+            }
+        },
+        "/crm-calls/{id}/mark-shipping-undone": {
+            "patch": {
+                "tags": [
+                    "CrmCalls"
+                ],
+                "summary": "Marque l'expédition comme non faite pour un appel",
+                "operationId": "3cfa376edf9aa8fed2df51ec96228b9d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'appel CRM",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expédition marquée comme non faite avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCall"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Expédition marquée comme non faite avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Appel CRM non trouvé"
+                    }
+                }
+            }
+        },
+        "/crm-calls-statuses": {
+            "get": {
+                "tags": [
+                    "CrmCallsStatuses"
+                ],
+                "summary": "Liste tous les statuts d'appels CRM",
+                "operationId": "f8650e6a61cded3ac4feee3a7b3490c6",
+                "responses": {
+                    "200": {
+                        "description": "Liste des statuts d'appels CRM récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCallsStatus"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des statuts d'appels CRM récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CrmCallsStatuses"
+                ],
+                "summary": "Crée un nouveau statut d'appel CRM",
+                "operationId": "c4c851969f79cc4c0bfe3ad416c5f796",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCrmCallsStatusRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Statut d'appel CRM créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCallsStatus"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut d'appel CRM créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/crm-calls-statuses/{id}": {
+            "get": {
+                "tags": [
+                    "CrmCallsStatuses"
+                ],
+                "summary": "Affiche les détails d'un statut d'appel CRM spécifique",
+                "operationId": "51cba8457ed0688c3be39012ae4b3b11",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du statut d'appel CRM",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statut d'appel CRM récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCallsStatus"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut d'appel CRM récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statut d'appel CRM non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CrmCallsStatuses"
+                ],
+                "summary": "Met à jour un statut d'appel CRM existant",
+                "operationId": "1cd1c1d963bd08836d66a3867369ebdf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du statut d'appel CRM à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCrmCallsStatusRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Statut d'appel CRM mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCallsStatus"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut d'appel CRM mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statut d'appel CRM non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CrmCallsStatuses"
+                ],
+                "summary": "Supprime un statut d'appel CRM",
+                "operationId": "b26f37e4ff89ce26347d36b15bacac45",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du statut d'appel CRM à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statut d'appel CRM supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statut d'appel CRM supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Statut d'appel CRM non trouvé"
+                    }
+                }
+            }
+        },
+        "/crm-calls-statuses/search/{name}": {
+            "get": {
+                "tags": [
+                    "CrmCallsStatuses"
+                ],
+                "summary": "Recherche des statuts d'appels CRM par nom",
+                "operationId": "2c12d4e24be5709a9d18c5f7bcf64375",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Nom ou partie du nom à rechercher",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statuts d'appels CRM trouvés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCallsStatus"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Statuts d'appels CRM trouvés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTags"
+                ],
+                "summary": "Liste toutes les liaisons clients-tags CRM",
+                "operationId": "648b252c2b73df40206dd399b1dd5fea",
+                "responses": {
+                    "200": {
+                        "description": "Liste des liaisons récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCustomersTag"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des liaisons clients-tags CRM récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CrmCustomersTags"
+                ],
+                "summary": "Crée une nouvelle liaison client-tag CRM",
+                "operationId": "8abb632b0d6b0e35baedb06ab1010b8d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCrmCustomersTagRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Liaison créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCustomersTag"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison client-tag CRM créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags/{id}": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTags"
+                ],
+                "summary": "Affiche les détails d'une liaison spécifique",
+                "operationId": "14437a9ed09cf224a5083a6403623ff2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la liaison client-tag CRM",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liaison récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCustomersTag"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison client-tag CRM récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Liaison non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CrmCustomersTags"
+                ],
+                "summary": "Met à jour une liaison existante",
+                "operationId": "9ff0ed4e85876899acd04f2faef78a0d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la liaison à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCrmCustomersTagRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Liaison mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCustomersTag"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison client-tag CRM mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Liaison non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CrmCustomersTags"
+                ],
+                "summary": "Supprime une liaison",
+                "operationId": "15f96baa9e1078f530a338581a2bfbc8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la liaison à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liaison supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison client-tag CRM supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Liaison non trouvée"
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags/customer/{customerId}": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTags"
+                ],
+                "summary": "Récupère les tags d'un client spécifique",
+                "operationId": "7aa9260dac1b9cb7356e26aa33a952a7",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tags du client récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCustomersTag"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tags du client récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun tag trouvé pour ce client"
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags/tag/{tagId}": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTags"
+                ],
+                "summary": "Récupère les clients ayant un tag spécifique",
+                "operationId": "ebad3290b4927e97f1954404c117b3db",
+                "parameters": [
+                    {
+                        "name": "tagId",
+                        "in": "path",
+                        "description": "ID du tag CRM",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Clients avec ce tag récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCustomersTag"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Clients avec ce tag récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun client trouvé avec ce tag"
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags/customer/{customerId}/tag/{tagId}": {
+            "delete": {
+                "tags": [
+                    "CrmCustomersTags"
+                ],
+                "summary": "Supprime une liaison spécifique par client et tag",
+                "operationId": "70cc74c82ccf8c658bae9423b727d714",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "tagId",
+                        "in": "path",
+                        "description": "ID du tag",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liaison supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison client-tag CRM supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Liaison non trouvée"
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags-history": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Liste tout l'historique des tags CRM",
+                "operationId": "2c705099674e33bcc9ac3790be4c02bf",
+                "responses": {
+                    "200": {
+                        "description": "Historique récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCustomersTagsHistory"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Historique des tags CRM récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Ajoute une nouvelle entrée à l'historique",
+                "operationId": "fb5a3b1111a833caa2c897e8adde4081",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCrmCustomersTagsHistoryRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Entrée d'historique créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCustomersTagsHistory"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Entrée d'historique créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags-history/{id}": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Affiche les détails d'une entrée d'historique spécifique",
+                "operationId": "e3b42f38f55335f5ef90c372e3169492",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'entrée d'historique",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Entrée d'historique récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCustomersTagsHistory"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Entrée d'historique récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Entrée d'historique non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Met à jour une entrée d'historique existante",
+                "operationId": "c5f9b17ef2b1341fabc847d822b588a2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'entrée d'historique à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCrmCustomersTagsHistoryRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Entrée d'historique mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmCustomersTagsHistory"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Entrée d'historique mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Entrée d'historique non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Supprime une entrée d'historique",
+                "operationId": "85b76e4dc9868ecc364bac926edbe077",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'entrée d'historique à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Entrée d'historique supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Entrée d'historique supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Entrée d'historique non trouvée"
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags-history/customer/{customerId}": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Récupère l'historique des tags d'un client spécifique",
+                "operationId": "9d9f4f6a0e86dd07090b8a6fd769bee9",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historique du client récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCustomersTagsHistory"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Historique des tags du client récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun historique trouvé pour ce client"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Supprime tout l'historique d'un client",
+                "operationId": "fcc79f4c7d227026a70291478bee58c0",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historique du client supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "deleted_count": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Historique du client supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags-history/tag/{tagId}": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Récupère l'historique des clients ayant un tag spécifique",
+                "operationId": "f256373dcbad434de75e8dc931dee3e4",
+                "parameters": [
+                    {
+                        "name": "tagId",
+                        "in": "path",
+                        "description": "ID du tag CRM",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historique du tag récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCustomersTagsHistory"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Historique du tag récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun historique trouvé pour ce tag"
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags-history/recent/{days}": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Récupère l'historique récent",
+                "operationId": "bc56180a64e269e2582a22ef0ab71480",
+                "parameters": [
+                    {
+                        "name": "days",
+                        "in": "path",
+                        "description": "Nombre de jours",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 30
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historique récent récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCustomersTagsHistory"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Historique récent récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/crm-customers-tags-history/period/{startDate}/{endDate}": {
+            "get": {
+                "tags": [
+                    "CrmCustomersTagsHistory"
+                ],
+                "summary": "Récupère l'historique dans une période donnée",
+                "operationId": "8eb96a330a88b5f1ee1a022c986c65bd",
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "path",
+                        "description": "Date de début (format: YYYY-MM-DD)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-01-01"
+                        }
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "path",
+                        "description": "Date de fin (format: YYYY-MM-DD)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-12-31"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historique de la période récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmCustomersTagsHistory"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Historique de la période récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/crm-tags": {
+            "get": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Liste tous les tags CRM",
+                "operationId": "1b3151626647b5eccc848833882d6819",
+                "responses": {
+                    "200": {
+                        "description": "Liste des tags CRM récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmTag"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des tags CRM récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Crée un nouveau tag CRM",
+                "operationId": "4e5d814ce0c4242582663780818527f9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCrmTagRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tag CRM créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmTag"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag CRM créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/crm-tags/active": {
+            "get": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Liste tous les tags CRM actifs",
+                "operationId": "2413b01867570d87c8b2a72dcd9d7c26",
+                "responses": {
+                    "200": {
+                        "description": "Liste des tags CRM actifs récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmTag"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des tags CRM actifs récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/crm-tags/inactive": {
+            "get": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Liste tous les tags CRM inactifs",
+                "operationId": "b2279ed55e5582d6a927d6fef8b7d8f3",
+                "responses": {
+                    "200": {
+                        "description": "Liste des tags CRM inactifs récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CrmTag"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des tags CRM inactifs récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/crm-tags/{id}": {
+            "get": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Affiche les détails d'un tag CRM spécifique",
+                "operationId": "eb5a3ab453ee95f29b6dcbf3f62c8a5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du tag CRM",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tag CRM récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmTag"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag CRM récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag CRM non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Met à jour un tag CRM existant",
+                "operationId": "e44352e88ceb34f2ccac6e49ee9a693a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du tag CRM à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCrmTagRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tag CRM mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmTag"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag CRM mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag CRM non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Supprime un tag CRM",
+                "operationId": "08327ce0282d93b3e9585a2d06598519",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du tag CRM à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tag CRM supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag CRM supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag CRM non trouvé"
+                    }
+                }
+            }
+        },
+        "/crm-tags/{id}/activate": {
+            "patch": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Active un tag CRM",
+                "operationId": "6373fe1929a4a824c66b11e8adfb24d5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du tag CRM à activer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tag CRM activé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmTag"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag CRM activé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag CRM non trouvé"
+                    }
+                }
+            }
+        },
+        "/crm-tags/{id}/deactivate": {
+            "patch": {
+                "tags": [
+                    "CrmTags"
+                ],
+                "summary": "Désactive un tag CRM",
+                "operationId": "f6c1ab5e0fa45e1ca7e92426c4d4db42",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du tag CRM à désactiver",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tag CRM désactivé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CrmTag"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tag CRM désactivé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tag CRM non trouvé"
+                    }
+                }
+            }
+        },
         "/customer-addresses": {
             "get": {
                 "tags": [
@@ -749,6 +2837,671 @@
                     },
                     "404": {
                         "description": "Comptabilité client non trouvée pour ce client"
+                    }
+                }
+            }
+        },
+        "/customer-contacts": {
+            "get": {
+                "tags": [
+                    "CustomerContacts"
+                ],
+                "summary": "Liste tous les contacts clients",
+                "operationId": "6cfd4a1c19d8d335114d8e34f27a2607",
+                "responses": {
+                    "200": {
+                        "description": "Liste des contacts clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerContact"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des contacts clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerContacts"
+                ],
+                "summary": "Crée un nouveau contact client",
+                "operationId": "fc1083ed05b286c4ac71be895b1d0aa7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerContactRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Contact client créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContact"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contact client créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-contacts/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerContacts"
+                ],
+                "summary": "Affiche les détails d'un contact client spécifique",
+                "operationId": "fe086f7eb67a7bc05b3b1455f6906f33",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du contact client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contact client récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContact"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contact client récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contact client non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerContacts"
+                ],
+                "summary": "Met à jour un contact client existant",
+                "operationId": "cccef3f93e2504470802bb9bc4f8869a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du contact client à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerContactRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contact client mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContact"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contact client mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contact client non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerContacts"
+                ],
+                "summary": "Supprime un contact client",
+                "operationId": "26db868f96d09c321c6f3d27d4dbd3d8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du contact client à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contact client supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contact client supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contact client non trouvé"
+                    }
+                }
+            }
+        },
+        "/customer-contacts/customer/{customerId}": {
+            "get": {
+                "tags": [
+                    "CustomerContacts"
+                ],
+                "summary": "Récupère les contacts d'un client spécifique",
+                "operationId": "8a0740803fa8a37abaa19d37fdf12ea6",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contacts client récupérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerContact"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contacts client récupérés avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun contact trouvé pour ce client"
+                    }
+                }
+            }
+        },
+        "/customer-contacts/customer/{customerId}/default": {
+            "get": {
+                "tags": [
+                    "CustomerContacts"
+                ],
+                "summary": "Récupère le contact par défaut d'un client",
+                "operationId": "0b253bdc965485c71c64e5fea3d235e5",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "description": "ID du client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contact par défaut récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContact"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contact par défaut récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucun contact par défaut trouvé pour ce client"
+                    }
+                }
+            }
+        },
+        "/customer-contact-profiles": {
+            "get": {
+                "tags": [
+                    "CustomerContactProfiles"
+                ],
+                "summary": "Liste toutes les liaisons profils-contacts",
+                "operationId": "72448b9c93851153bac1af1ac40a6998",
+                "responses": {
+                    "200": {
+                        "description": "Liste des liaisons récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerContactProfile"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des liaisons profils-contacts récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CustomerContactProfiles"
+                ],
+                "summary": "Crée une nouvelle liaison profil-contact",
+                "operationId": "85e479eb43bfd96aa3499689905b5a64",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerContactProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Liaison créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactProfile"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison profil-contact créée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/customer-contact-profiles/{id}": {
+            "get": {
+                "tags": [
+                    "CustomerContactProfiles"
+                ],
+                "summary": "Affiche les détails d'une liaison spécifique",
+                "operationId": "e8f5c3d9681c8f3fd495bb46df850719",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la liaison",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liaison récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactProfile"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison profils-contacts récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Liaison non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CustomerContactProfiles"
+                ],
+                "summary": "Met à jour une liaison existante",
+                "operationId": "9dc13eeef697a20f5840113bee2302d4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la liaison à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerContactProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Liaison mise à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CustomerContactProfile"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison profil-contact mise à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Liaison non trouvée"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CustomerContactProfiles"
+                ],
+                "summary": "Supprime une liaison",
+                "operationId": "d8405828a1e080069534a0e2dbb76a33",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la liaison à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liaison supprimée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaison profil-contact supprimée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Liaison non trouvée"
+                    }
+                }
+            }
+        },
+        "/customer-contact-profiles/profile/{profileId}": {
+            "get": {
+                "tags": [
+                    "CustomerContactProfiles"
+                ],
+                "summary": "Récupère les liaisons pour un profil spécifique",
+                "operationId": "f8db173d71c483e25dd9f2c87b5bb3d1",
+                "parameters": [
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "description": "ID du profil",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liaisons du profil récupérées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerContactProfile"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaisons du profil récupérées avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucune liaison trouvée pour ce profil"
+                    }
+                }
+            }
+        },
+        "/customer-contact-profiles/contact/{contactId}": {
+            "get": {
+                "tags": [
+                    "CustomerContactProfiles"
+                ],
+                "summary": "Récupère les liaisons pour un contact spécifique",
+                "operationId": "345d39735a89825d425dae583d0a6ad2",
+                "parameters": [
+                    {
+                        "name": "contactId",
+                        "in": "path",
+                        "description": "ID du contact client",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liaisons du contact récupérées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CustomerContactProfile"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liaisons du contact récupérées avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucune liaison trouvée pour ce contact"
                     }
                 }
             }
@@ -5283,6 +8036,213 @@
     },
     "components": {
         "schemas": {
+            "StoreCrmCallRequest": {
+                "required": [
+                    "id_customer",
+                    "id_techtablet_seller",
+                    "id_crm_calls_status",
+                    "comment",
+                    "date"
+                ],
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_techtablet_seller": {
+                        "description": "ID du commercial TechTablet",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_crm_calls_status": {
+                        "description": "ID du statut de l'appel",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "comment": {
+                        "description": "Commentaire de l'appel",
+                        "type": "string",
+                        "example": "Client intéressé par notre nouvelle offre"
+                    },
+                    "date": {
+                        "description": "Date et heure de l'appel",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 14:30:00"
+                    },
+                    "shipping_done": {
+                        "description": "Indique si l'expédition a été faite",
+                        "type": "integer",
+                        "example": 0,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCrmCallRequest": {
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_techtablet_seller": {
+                        "description": "ID du commercial TechTablet",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_crm_calls_status": {
+                        "description": "ID du statut de l'appel",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "comment": {
+                        "description": "Commentaire de l'appel",
+                        "type": "string",
+                        "example": "Client intéressé par notre nouvelle offre"
+                    },
+                    "date": {
+                        "description": "Date et heure de l'appel",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 14:30:00"
+                    },
+                    "shipping_done": {
+                        "description": "Indique si l'expédition a été faite",
+                        "type": "integer",
+                        "example": 0,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCrmCallsStatusRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nom du statut",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Réussi"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCrmCallsStatusRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Nom du statut",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Réussi"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCrmCustomersTagRequest": {
+                "required": [
+                    "id_crm_tag",
+                    "id_customer"
+                ],
+                "properties": {
+                    "id_crm_tag": {
+                        "description": "ID du tag CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCrmCustomersTagRequest": {
+                "properties": {
+                    "id_crm_tag": {
+                        "description": "ID du tag CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCrmCustomersTagsHistoryRequest": {
+                "required": [
+                    "id_crm_tag",
+                    "id_customer"
+                ],
+                "properties": {
+                    "id_crm_tag": {
+                        "description": "ID du tag CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCrmCustomersTagsHistoryRequest": {
+                "properties": {
+                    "id_crm_tag": {
+                        "description": "ID du tag CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCrmTagRequest": {
+                "required": [
+                    "description"
+                ],
+                "properties": {
+                    "description": {
+                        "description": "Description du tag",
+                        "type": "string",
+                        "example": "Client important"
+                    },
+                    "inactive": {
+                        "description": "Indique si le tag est inactif",
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCrmTagRequest": {
+                "properties": {
+                    "description": {
+                        "description": "Description du tag",
+                        "type": "string",
+                        "example": "Client important"
+                    },
+                    "inactive": {
+                        "description": "Indique si le tag est inactif",
+                        "type": "boolean",
+                        "example": false
+                    }
+                },
+                "type": "object"
+            },
             "StoreCustomerAddressRequest": {
                 "required": [
                     "first_name",
@@ -5995,6 +8955,161 @@
                         "description": "Facture classique",
                         "type": "boolean",
                         "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerContactProfileRequest": {
+                "required": [
+                    "id_profile",
+                    "id_contact"
+                ],
+                "properties": {
+                    "id_profile": {
+                        "description": "ID du profil",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_contact": {
+                        "description": "ID du contact client",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerContactProfileRequest": {
+                "properties": {
+                    "id_profile": {
+                        "description": "ID du profil",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_contact": {
+                        "description": "ID du contact client",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerContactRequest": {
+                "required": [
+                    "id_customer",
+                    "first_name",
+                    "last_name",
+                    "phone_number",
+                    "email_address",
+                    "id_contact_title",
+                    "id_contact_role"
+                ],
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Dupont"
+                    },
+                    "phone_number": {
+                        "description": "Numéro de téléphone principal",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "0123456789"
+                    },
+                    "email_address": {
+                        "description": "Adresse email",
+                        "type": "string",
+                        "maxLength": 80,
+                        "example": "jean.dupont@example.com"
+                    },
+                    "id_contact_title": {
+                        "description": "ID de la civilité",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "phone_number_2": {
+                        "description": "Numéro de téléphone secondaire",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "0987654321",
+                        "nullable": true
+                    },
+                    "is_default": {
+                        "description": "Indique si c'est le contact par défaut",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "id_contact_role": {
+                        "description": "ID du rôle du contact",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerContactRequest": {
+                "properties": {
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Dupont"
+                    },
+                    "phone_number": {
+                        "description": "Numéro de téléphone principal",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "0123456789"
+                    },
+                    "email_address": {
+                        "description": "Adresse email",
+                        "type": "string",
+                        "maxLength": 80,
+                        "example": "jean.dupont@example.com"
+                    },
+                    "id_contact_title": {
+                        "description": "ID de la civilité",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "phone_number_2": {
+                        "description": "Numéro de téléphone secondaire",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "0987654321",
+                        "nullable": true
+                    },
+                    "is_default": {
+                        "description": "Indique si c'est le contact par défaut",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "id_contact_role": {
+                        "description": "ID du rôle du contact",
+                        "type": "integer",
+                        "example": 1
                     }
                 },
                 "type": "object"
@@ -7653,6 +10768,184 @@
                 },
                 "type": "object"
             },
+            "CrmCall": {
+                "title": "CrmCall",
+                "description": "Modèle d'appel CRM",
+                "properties": {
+                    "id_crm_call": {
+                        "description": "ID unique de l'appel CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_techtablet_seller": {
+                        "description": "ID du commercial TechTablet",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_crm_calls_status": {
+                        "description": "ID du statut de l'appel",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "comment": {
+                        "description": "Commentaire de l'appel",
+                        "type": "string",
+                        "example": "Client intéressé par notre nouvelle offre"
+                    },
+                    "date": {
+                        "description": "Date et heure de l'appel",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 14:30:00"
+                    },
+                    "shipping_done": {
+                        "description": "Indique si l'expédition a été faite",
+                        "type": "integer",
+                        "example": 0,
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CrmCallsStatus": {
+                "title": "CrmCallsStatus",
+                "description": "Modèle de statut d'appel CRM",
+                "properties": {
+                    "id_crm_calls_status": {
+                        "description": "ID unique du statut d'appel CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nom du statut",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Réussi"
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CrmCustomersTag": {
+                "title": "CrmCustomersTag",
+                "description": "Modèle de liaison entre clients et tags CRM",
+                "properties": {
+                    "id_crm_customers_tag": {
+                        "description": "ID unique de la liaison client-tag CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_crm_tag": {
+                        "description": "ID du tag CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CrmCustomersTagsHistory": {
+                "title": "CrmCustomersTagsHistory",
+                "description": "Modèle d'historique des tags CRM des clients",
+                "properties": {
+                    "id_crm_tags_history": {
+                        "description": "ID unique de l'entrée d'historique",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_crm_tag": {
+                        "description": "ID du tag CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Date et heure de l'ajout du tag",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CrmTag": {
+                "title": "CrmTag",
+                "description": "Modèle de tag CRM",
+                "properties": {
+                    "id_crm_tag": {
+                        "description": "ID unique du tag CRM",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "description": {
+                        "description": "Description du tag",
+                        "type": "string",
+                        "example": "Client important"
+                    },
+                    "inactive": {
+                        "description": "Indique si le tag est inactif",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "Customer": {
                 "title": "Customer",
                 "description": "Modèle de client",
@@ -8353,6 +11646,111 @@
                         "description": "Facture classique",
                         "type": "boolean",
                         "example": true
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerContact": {
+                "title": "CustomerContact",
+                "description": "Modèle de contact client",
+                "properties": {
+                    "id_customer_contact": {
+                        "description": "ID unique du contact client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_customer": {
+                        "description": "ID du client",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "description": "Prénom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Jean"
+                    },
+                    "last_name": {
+                        "description": "Nom",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Dupont"
+                    },
+                    "phone_number": {
+                        "description": "Numéro de téléphone principal",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "0123456789"
+                    },
+                    "email_address": {
+                        "description": "Adresse email",
+                        "type": "string",
+                        "maxLength": 80,
+                        "example": "jean.dupont@example.com"
+                    },
+                    "id_contact_title": {
+                        "description": "ID de la civilité",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "phone_number_2": {
+                        "description": "Numéro de téléphone secondaire",
+                        "type": "string",
+                        "maxLength": 16,
+                        "example": "0987654321",
+                        "nullable": true
+                    },
+                    "is_default": {
+                        "description": "Indique si c'est le contact par défaut",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "id_contact_role": {
+                        "description": "ID du rôle du contact",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerContactProfile": {
+                "title": "CustomerContactProfile",
+                "description": "Modèle de liaison entre profils et contacts clients",
+                "properties": {
+                    "id_contact_profile": {
+                        "description": "ID unique de la liaison",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_profile": {
+                        "description": "ID du profil",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_contact": {
+                        "description": "ID du contact client",
+                        "type": "integer",
+                        "example": 1
                     },
                     "created_at": {
                         "description": "Date de création",
@@ -9170,6 +12568,26 @@
     },
     "tags": [
         {
+            "name": "CrmCalls",
+            "description": "Opérations CRUD pour les appels CRM"
+        },
+        {
+            "name": "CrmCallsStatuses",
+            "description": "Opérations CRUD pour les statuts d'appels CRM"
+        },
+        {
+            "name": "CrmCustomersTags",
+            "description": "Opérations CRUD pour les liaisons entre clients et tags CRM"
+        },
+        {
+            "name": "CrmCustomersTagsHistory",
+            "description": "Opérations CRUD pour l'historique des tags CRM des clients"
+        },
+        {
+            "name": "CrmTags",
+            "description": "Opérations CRUD pour les tags CRM"
+        },
+        {
             "name": "CustomerAddresses",
             "description": "Opérations CRUD pour les adresses clients"
         },
@@ -9180,6 +12598,14 @@
         {
             "name": "CustomerComptas",
             "description": "Opérations CRUD pour les comptabilités clients"
+        },
+        {
+            "name": "CustomerContacts",
+            "description": "Opérations CRUD pour les contacts clients"
+        },
+        {
+            "name": "CustomerContactProfiles",
+            "description": "Opérations CRUD pour les liaisons entre profils et contacts clients"
         },
         {
             "name": "CustomerContactRoles",

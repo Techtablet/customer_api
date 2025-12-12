@@ -85,3 +85,31 @@ Route::prefix('shipping-addresses')->group(function () {
 Route::prefix('customer-schedules')->group(function () {
     require __DIR__.'/api/customer-schedules.php';
 });
+
+Route::prefix('customer-contacts')->group(function () {
+    require __DIR__.'/api/customer-contacts.php';
+});
+
+Route::prefix('customer-contact-profiles')->group(function () {
+    require __DIR__.'/api/customer-contact-profiles.php';
+});
+
+Route::prefix('crm-tags')->group(function () {
+    require __DIR__.'/api/crm-tags.php';
+});
+
+Route::prefix('crm-calls-statuses')->group(function () {
+    require __DIR__.'/api/crm-calls-statuses.php';
+});
+
+Route::prefix('crm-customers-tags')->group(function () {
+    require __DIR__.'/api/crm-customers-tags.php';
+});
+
+Route::prefix('crm-customers-tags-history')->group(function () {
+    require __DIR__.'/api/crm-customers-tags-history.php';
+});
+
+Route::prefix('crm-calls')->group(function () {
+    require __DIR__.'/api/crm-calls.php';
+});
