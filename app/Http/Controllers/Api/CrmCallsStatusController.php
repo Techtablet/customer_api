@@ -7,6 +7,7 @@ use App\Http\Requests\CrmCallsStatusRequest\StoreCrmCallsStatusRequest;
 use App\Http\Requests\CrmCallsStatusRequest\UpdateCrmCallsStatusRequest;
 use App\Models\CrmCallsStatus;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
@@ -20,28 +21,56 @@ class CrmCallsStatusController extends Controller
     /**
      * @OA\Get(
      *     path="/crm-calls-statuses",
-     *     summary="Liste tous les statuts d'appels CRM",
+     *     summary="Liste tous les statuts d'appels CRM avec pagination",
      *     tags={"CrmCallsStatuses"},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Numéro de la page",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=1, minimum=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         description="Nombre d'éléments par page (max: 100)",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=100, minimum=1, maximum=100)
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Liste des statuts d'appels CRM récupérée avec succès",
+     *         description="Liste paginée des statuts d'appels CRM récupérée avec succès",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
      *             @OA\Property(property="data", type="array",
      *                 @OA\Items(ref="#/components/schemas/CrmCallsStatus")
+     *             ),
+     *             @OA\Property(
+     *                 property="pagination",
+     *                 ref="#/components/schemas/PaginationMeta"
      *             ),
      *             @OA\Property(property="message", type="string", example="Liste des statuts d'appels CRM récupérée avec succès.")
      *         )
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $crmCallsStatuses = CrmCallsStatus::all();
+        $perPage = min($request->input('per_page', 100), 100);
+        
+        $crmCallsStatuses = CrmCallsStatus::paginate($perPage);
 
         return response()->json([
             'success' => true,
-            'data' => $crmCallsStatuses,
+            'data' => $crmCallsStatuses->items(),
+            'pagination' => [
+                'current_page' => $crmCallsStatuses->currentPage(),
+                'per_page' => $crmCallsStatuses->perPage(),
+                'total' => $crmCallsStatuses->total(),
+                'last_page' => $crmCallsStatuses->lastPage(),
+                'from' => $crmCallsStatuses->firstItem(),
+                'to' => $crmCallsStatuses->lastItem(),
+            ],
             'message' => 'Liste des statuts d\'appels CRM récupérée avec succès.',
         ]);
     }

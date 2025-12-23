@@ -7,6 +7,7 @@ use App\Http\Requests\CustomerRequest\StoreCustomerRequest;
 use App\Http\Requests\CustomerRequest\UpdateCustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
@@ -20,23 +21,43 @@ class CustomerController extends Controller
     /**
      * @OA\Get(
      *     path="/customers",
-     *     summary="Liste tous les clients",
+     *     summary="Liste tous les clients avec pagination",
      *     tags={"Customers"},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Numéro de la page",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=1, minimum=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         description="Nombre d'éléments par page (max: 100)",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=100, minimum=1, maximum=100)
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Liste des clients récupérée avec succès",
+     *         description="Liste paginée des clients récupérée avec succès",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
      *             @OA\Property(property="data", type="array",
      *                 @OA\Items(ref="#/components/schemas/Customer")
+     *             ),
+     *             @OA\Property(
+     *                 property="pagination",
+     *                 ref="#/components/schemas/PaginationMeta"
      *             ),
      *             @OA\Property(property="message", type="string", example="Liste des clients récupérée avec succès.")
      *         )
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
+        $perPage = min($request->input('per_page', 100), 100);
+        
         $customers = Customer::with([
             'franchise',
             'seller',
@@ -46,11 +67,19 @@ class CustomerController extends Controller
             'canvassing_step',
             'store_group',
             'refusal_reason'
-        ])->get();
+        ])->paginate($perPage);
 
         return response()->json([
             'success' => true,
-            'data' => $customers,
+            'data' => $customers->items(),
+            'pagination' => [
+                'current_page' => $customers->currentPage(),
+                'per_page' => $customers->perPage(),
+                'total' => $customers->total(),
+                'last_page' => $customers->lastPage(),
+                'from' => $customers->firstItem(),
+                'to' => $customers->lastItem(),
+            ],
             'message' => 'Liste des clients récupérée avec succès.',
         ]);
     }

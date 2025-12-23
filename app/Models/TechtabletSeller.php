@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  *         example="Martin"
  *     ),
  *     @OA\Property(
- *         property="primary_phone",
+ *         property="phone1",
  *         type="string",
  *         maxLength=20,
  *         nullable=true,
@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\Model;
  *         example="+33123456789"
  *     ),
  *     @OA\Property(
- *         property="secondary_phone",
+ *         property="phone2",
  *         type="string",
  *         maxLength=20,
  *         nullable=true,
@@ -57,7 +57,7 @@ use Illuminate\Database\Eloquent\Model;
  *         example="pierre.martin@techtablet.com"
  *     ),
  *     @OA\Property(
- *         property="job_title",
+ *         property="post",
  *         type="string",
  *         maxLength=100,
  *         nullable=true,
@@ -65,14 +65,14 @@ use Illuminate\Database\Eloquent\Model;
  *         example="Commercial Senior"
  *     ),
  *     @OA\Property(
- *         property="employee_code",
+ *         property="key",
  *         type="string",
  *         maxLength=30,
  *         description="Code employé unique",
  *         example="EMP001"
  *     ),
  *     @OA\Property(
- *         property="digital_signature",
+ *         property="signature",
  *         type="string",
  *         nullable=true,
  *         description="Signature numérique",
@@ -124,12 +124,12 @@ class TechtabletSeller extends Model
     protected $fillable = [
         'first_name',
         'last_name',
-        'primary_phone',
-        'secondary_phone',
+        'phone1',
+        'phone2',
         'email',
-        'job_title',
-        'employee_code',
-        'digital_signature',
+        'post',
+        'key',
+        'signature',
         'is_active',
     ];
 

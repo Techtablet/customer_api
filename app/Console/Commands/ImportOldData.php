@@ -23,7 +23,6 @@ class ImportOldData extends Command
 
     private function importProducts(ImportOldDataController $importOldDataController, $page = 1)
     {
-        $response = $importOldDataController->importFromOldDbToNewDB($page);
-        dump($response->getData());
+        $importOldDataController->importFromOldDbToNewDB($page);
     }
 }

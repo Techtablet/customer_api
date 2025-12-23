@@ -24,7 +24,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *         example="Martin"
  *     ),
  *     @OA\Property(
- *         property="primary_phone",
+ *         property="phone1",
  *         type="string",
  *         maxLength=20,
  *         nullable=true,
@@ -32,7 +32,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *         example="+33123456789"
  *     ),
  *     @OA\Property(
- *         property="secondary_phone",
+ *         property="phone2",
  *         type="string",
  *         maxLength=20,
  *         nullable=true,
@@ -48,7 +48,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *         example="pierre.martin@techtablet.com"
  *     ),
  *     @OA\Property(
- *         property="job_title",
+ *         property="post",
  *         type="string",
  *         maxLength=100,
  *         nullable=true,
@@ -56,14 +56,14 @@ use Illuminate\Foundation\Http\FormRequest;
  *         example="Commercial Senior"
  *     ),
  *     @OA\Property(
- *         property="employee_code",
+ *         property="key",
  *         type="string",
  *         maxLength=30,
  *         description="Code employé unique",
  *         example="EMP001"
  *     ),
  *     @OA\Property(
- *         property="digital_signature",
+ *         property="signature",
  *         type="string",
  *         nullable=true,
  *         description="Signature numérique",
@@ -97,12 +97,14 @@ class StoreTechtabletSellerRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:50',
             'last_name' => 'nullable|string|max:50',
-            'primary_phone' => 'nullable|string|max:20',
-            'secondary_phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:150|unique:techtablet_sellers,email',
-            'job_title' => 'nullable|string|max:100',
-            'employee_code' => 'required|string|max:30|unique:techtablet_sellers,employee_code',
-            'digital_signature' => 'nullable|string',
+            'phone1' => 'nullable|string|max:20',
+            'phone2' => 'nullable|string|max:20',
+            //'email' => 'nullable|email|max:150|unique:techtablet_sellers,email',
+            'email' => 'nullable|email|max:150',
+            'post' => 'nullable|string|max:100',
+            'key' => 'required|string|max:30|unique:techtablet_sellers,key',
+            'key' => 'required|string|max:30|unique:techtablet_sellers,key',
+            'signature' => 'nullable|string',
             'is_active' => 'boolean',
         ];
     }
@@ -120,20 +122,20 @@ class StoreTechtabletSellerRequest extends FormRequest
             'first_name.max' => 'Le prénom ne peut pas dépasser :max caractères.',
             'last_name.string' => 'Le nom doit être une chaîne de caractères.',
             'last_name.max' => 'Le nom ne peut pas dépasser :max caractères.',
-            'primary_phone.string' => 'Le téléphone principal doit être une chaîne de caractères.',
-            'primary_phone.max' => 'Le téléphone principal ne peut pas dépasser :max caractères.',
-            'secondary_phone.string' => 'Le téléphone secondaire doit être une chaîne de caractères.',
-            'secondary_phone.max' => 'Le téléphone secondaire ne peut pas dépasser :max caractères.',
+            'phone1.string' => 'Le téléphone principal doit être une chaîne de caractères.',
+            'phone1.max' => 'Le téléphone principal ne peut pas dépasser :max caractères.',
+            'phone2.string' => 'Le téléphone secondaire doit être une chaîne de caractères.',
+            'phone2.max' => 'Le téléphone secondaire ne peut pas dépasser :max caractères.',
             'email.email' => 'L\'email doit être une adresse email valide.',
             'email.max' => 'L\'email ne peut pas dépasser :max caractères.',
-            'email.unique' => 'Un vendeur avec cet email existe déjà.',
-            'job_title.string' => 'Le poste doit être une chaîne de caractères.',
-            'job_title.max' => 'Le poste ne peut pas dépasser :max caractères.',
-            'employee_code.required' => 'Le code employé est obligatoire.',
-            'employee_code.string' => 'Le code employé doit être une chaîne de caractères.',
-            'employee_code.max' => 'Le code employé ne peut pas dépasser :max caractères.',
-            'employee_code.unique' => 'Un vendeur avec ce code employé existe déjà.',
-            'digital_signature.string' => 'La signature numérique doit être une chaîne de caractères.',
+            //'email.unique' => 'Un vendeur avec cet email existe déjà.',
+            'post.string' => 'Le poste doit être une chaîne de caractères.',
+            'post.max' => 'Le poste ne peut pas dépasser :max caractères.',
+            'key.required' => 'Le code employé est obligatoire.',
+            'key.string' => 'Le code employé doit être une chaîne de caractères.',
+            'key.max' => 'Le code employé ne peut pas dépasser :max caractères.',
+            //'key.unique' => 'Un vendeur avec ce code employé existe déjà.',
+            'signature.string' => 'La signature numérique doit être une chaîne de caractères.',
             'is_active.boolean' => 'Le statut actif doit être vrai ou faux.',
         ];
     }

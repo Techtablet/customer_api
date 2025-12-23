@@ -16,14 +16,14 @@ return new class extends Migration
             $table->string('last_name', 50)->nullable();
             
             // Coordonnées
-            $table->string('primary_phone', 20)->nullable()->comment('Téléphone principal');
-            $table->string('secondary_phone', 20)->nullable()->comment('Téléphone secondaire');
+            $table->string('phone1', 20)->nullable()->comment('Téléphone principal');
+            $table->string('phone2', 20)->nullable()->comment('Téléphone secondaire');
             $table->string('email', 150)->nullable()->comment('Email professionnel');
             
             // Informations professionnelles
-            $table->string('job_title', 100)->nullable()->comment('Poste/emploi occupé');
-            $table->string('employee_code', 30)->unique()->comment('Code employé unique');
-            $table->text('digital_signature')->nullable()->comment('Signature numérique');
+            $table->string('post', 100)->nullable()->comment('Poste/emploi occupé');
+            $table->string('key', 30)->unique()->comment('Code employé unique');
+            $table->text('signature')->nullable()->comment('Signature numérique');
             
             // Statut
             $table->boolean('is_active')->default(true);
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->timestamps();
             
             // Index pour performances
-            $table->index('employee_code');
+            $table->index('key');
             $table->index('email');
             $table->index('is_active');
             $table->index(['first_name', 'last_name']);

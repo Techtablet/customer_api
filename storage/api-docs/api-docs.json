@@ -14,11 +14,36 @@
                 "tags": [
                     "CrmCalls"
                 ],
-                "summary": "Liste tous les appels CRM",
+                "summary": "Liste tous les appels CRM avec pagination",
                 "operationId": "891031b1b5fc6fe9989cf5114434de60",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numéro de la page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Nombre d'éléments par page (max: 100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Liste des appels CRM récupérée avec succès",
+                        "description": "Liste paginée des appels CRM récupérée avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -32,6 +57,9 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/CrmCall"
                                             }
+                                        },
+                                        "pagination": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
                                         },
                                         "message": {
                                             "type": "string",
@@ -544,11 +572,36 @@
                 "tags": [
                     "CrmCallsStatuses"
                 ],
-                "summary": "Liste tous les statuts d'appels CRM",
+                "summary": "Liste tous les statuts d'appels CRM avec pagination",
                 "operationId": "f8650e6a61cded3ac4feee3a7b3490c6",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numéro de la page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Nombre d'éléments par page (max: 100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Liste des statuts d'appels CRM récupérée avec succès",
+                        "description": "Liste paginée des statuts d'appels CRM récupérée avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -562,6 +615,9 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/CrmCallsStatus"
                                             }
+                                        },
+                                        "pagination": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
                                         },
                                         "message": {
                                             "type": "string",
@@ -1700,11 +1756,36 @@
                 "tags": [
                     "CrmTags"
                 ],
-                "summary": "Liste tous les tags CRM",
+                "summary": "Liste tous les tags CRM avec pagination",
                 "operationId": "1b3151626647b5eccc848833882d6819",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numéro de la page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Nombre d'éléments par page (max: 100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Liste des tags CRM récupérée avec succès",
+                        "description": "Liste paginée des tags CRM récupérée avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1718,6 +1799,9 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/CrmTag"
                                             }
+                                        },
+                                        "pagination": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
                                         },
                                         "message": {
                                             "type": "string",
@@ -3975,11 +4059,36 @@
                 "tags": [
                     "Customers"
                 ],
-                "summary": "Liste tous les clients",
+                "summary": "Liste tous les clients avec pagination",
                 "operationId": "cda07c455deb3862267a3326b0c9d8fd",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numéro de la page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Nombre d'éléments par page (max: 100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Liste des clients récupérée avec succès",
+                        "description": "Liste paginée des clients récupérée avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3993,6 +4102,9 @@
                                             "items": {
                                                 "$ref": "#/components/schemas/Customer"
                                             }
+                                        },
+                                        "pagination": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
                                         },
                                         "message": {
                                             "type": "string",
@@ -10657,14 +10769,14 @@
                         "example": "Martin",
                         "nullable": true
                     },
-                    "primary_phone": {
+                    "phone1": {
                         "description": "Téléphone principal",
                         "type": "string",
                         "maxLength": 20,
                         "example": "+33123456789",
                         "nullable": true
                     },
-                    "secondary_phone": {
+                    "phone2": {
                         "description": "Téléphone secondaire",
                         "type": "string",
                         "maxLength": 20,
@@ -10678,20 +10790,20 @@
                         "example": "pierre.martin@techtablet.com",
                         "nullable": true
                     },
-                    "job_title": {
+                    "post": {
                         "description": "Poste/emploi occupé",
                         "type": "string",
                         "maxLength": 100,
                         "example": "Commercial Senior",
                         "nullable": true
                     },
-                    "employee_code": {
+                    "key": {
                         "description": "Code employé unique",
                         "type": "string",
                         "maxLength": 30,
                         "example": "EMP001"
                     },
-                    "digital_signature": {
+                    "signature": {
                         "description": "Signature numérique",
                         "type": "string",
                         "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
@@ -10720,14 +10832,14 @@
                         "example": "Martin",
                         "nullable": true
                     },
-                    "primary_phone": {
+                    "phone1": {
                         "description": "Téléphone principal",
                         "type": "string",
                         "maxLength": 20,
                         "example": "+33123456789",
                         "nullable": true
                     },
-                    "secondary_phone": {
+                    "phone2": {
                         "description": "Téléphone secondaire",
                         "type": "string",
                         "maxLength": 20,
@@ -10741,20 +10853,20 @@
                         "example": "pierre.martin@techtablet.com",
                         "nullable": true
                     },
-                    "job_title": {
+                    "post": {
                         "description": "Poste/emploi occupé",
                         "type": "string",
                         "maxLength": 100,
                         "example": "Commercial Senior",
                         "nullable": true
                     },
-                    "employee_code": {
+                    "key": {
                         "description": "Code employé unique",
                         "type": "string",
                         "maxLength": 30,
                         "example": "EMP001"
                     },
-                    "digital_signature": {
+                    "signature": {
                         "description": "Signature numérique",
                         "type": "string",
                         "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
@@ -10764,6 +10876,43 @@
                         "description": "Statut actif",
                         "type": "boolean",
                         "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationMeta": {
+                "title": "Pagination Metadata",
+                "description": "Métadonnées de pagination",
+                "properties": {
+                    "current_page": {
+                        "description": "Page actuelle",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "per_page": {
+                        "description": "Nombre d'éléments par page",
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "total": {
+                        "description": "Nombre total d'éléments",
+                        "type": "integer",
+                        "example": 500
+                    },
+                    "last_page": {
+                        "description": "Dernière page disponible",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "from": {
+                        "description": "Index du premier élément de la page",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "to": {
+                        "description": "Index du dernier élément de la page",
+                        "type": "integer",
+                        "example": 100
                     }
                 },
                 "type": "object"
@@ -12506,14 +12655,14 @@
                         "example": "Martin",
                         "nullable": true
                     },
-                    "primary_phone": {
+                    "phone1": {
                         "description": "Téléphone principal",
                         "type": "string",
                         "maxLength": 20,
                         "example": "+33123456789",
                         "nullable": true
                     },
-                    "secondary_phone": {
+                    "phone2": {
                         "description": "Téléphone secondaire",
                         "type": "string",
                         "maxLength": 20,
@@ -12527,20 +12676,20 @@
                         "example": "pierre.martin@techtablet.com",
                         "nullable": true
                     },
-                    "job_title": {
+                    "post": {
                         "description": "Poste/emploi occupé",
                         "type": "string",
                         "maxLength": 100,
                         "example": "Commercial Senior",
                         "nullable": true
                     },
-                    "employee_code": {
+                    "key": {
                         "description": "Code employé unique",
                         "type": "string",
                         "maxLength": 30,
                         "example": "EMP001"
                     },
-                    "digital_signature": {
+                    "signature": {
                         "description": "Signature numérique",
                         "type": "string",
                         "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
