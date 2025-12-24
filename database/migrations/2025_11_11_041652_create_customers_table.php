@@ -32,7 +32,7 @@ return new class extends Migration
             $table->boolean('to_callback');
 
             //status
-            $table->unsignedBigInteger('id_status');
+            $table->integer('id_status');
             $table->foreign('id_status')->references('id_customer_status')->on('customer_statuses')->onDelete('restrict');
             //refusal_reason
             $table->unsignedBigInteger('id_refusal_reason');
