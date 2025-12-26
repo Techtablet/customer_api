@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('phone_code', 10)->nullable()->default(null)->comment('Indicatif téléphonique');
             
             // Flags métier
-            $table->tinyInteger('is_intracom_vat')->default(0)->comment('Pays intracommunautaire pour TVA');
+            $table->tinyInteger('is_intracom_vat')->default(0)->comment('Pays intracommunautaire pour TVA. Ancienne Table : apb_country_tva_intra');
             $table->tinyInteger('is_ue_export')->default(0)->comment('Pays UE pour export');
             
             // Index pour performances

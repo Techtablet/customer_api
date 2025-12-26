@@ -23,7 +23,7 @@ return new class extends Migration
             //default
             $table->boolean('is_default')->default(false); // TINYINT(1)
             //$table->integer('role'); // INT(2)
-            $table->unsignedBigInteger('id_contact_role');
+            $table->integer('id_contact_role');
             $table->foreign('id_contact_role')->references('id_contact_role')->on('customer_contact_roles')->onDelete('restrict');
             $table->timestamps();
         });

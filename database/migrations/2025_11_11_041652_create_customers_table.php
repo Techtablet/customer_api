@@ -64,7 +64,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_store_group')->nullable();
             $table->foreign('id_store_group')->references('id_store_group')->on('store_groups')->onDelete('restrict');
             
-            $table->text('shipping_schedule');
+            $table->text('shipping_schedule')->comment('exemple de valeur ["1", "2", "3", "4", "5", "6", "7"]');
             $table->boolean('has_customer_order_number')->default(0);
             $table->string('last_website_key', 500);
             $table->boolean('receive_stock_software_file')->default(0);
