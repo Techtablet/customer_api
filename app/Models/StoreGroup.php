@@ -97,6 +97,7 @@ class StoreGroup extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_store_group',
         'group_name',
         'group_key',
         'group_logo',

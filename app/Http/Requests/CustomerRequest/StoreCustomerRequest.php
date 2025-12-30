@@ -7,13 +7,12 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @OA\Schema(
  *     schema="StoreCustomerRequest",
- *     required={"id_user", "name", "siren", "siret", "newsletter", "already_called", "id_franchise", "id_stock_software", "to_callback", "id_status", "id_refusal_reason", "id_seller", "repurchase_menu", "dropshipping_menu", "information_request_send", "information_request_validated", "information_request_validated_once", "ape", "rcs", "shipping_schedule", "has_customer_order_number", "last_website_key", "receive_stock_software_file", "supplier_id_for_techtablet"},
+ *     required={"user_infos", "name", "siren", "siret", "newsletter", "already_called", "id_franchise", "id_stock_software", "to_callback", "id_status", "id_refusal_reason", "id_seller", "repurchase_menu", "dropshipping_menu", "information_request_send", "information_request_validated", "information_request_validated_once", "ape", "rcs", "shipping_schedule", "has_customer_order_number", "last_website_key", "receive_stock_software_file", "supplier_id_for_techtablet", "id_lang", "id_shipping_plan", "id_price_list_info"},
  *     @OA\Property(
- *         property="id_user",
- *         type="integer",
- *         description="ID de l'utilisateur",
- *         example=1
- *     ),
+ *         property="user_infos",
+ *         ref="#/components/schemas/StoreUserRequest",
+ *         description="Informations user pour le compte client"
+ *     ), 
  *     @OA\Property(
  *         property="name",
  *         type="string",
@@ -258,7 +257,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="id_shippingplan",
+ *         property="id_shipping_plan",
  *         type="integer",
  *         description="ID du plan d'expédition",
  *         example=1
@@ -319,8 +318,18 @@ use Illuminate\Foundation\Http\FormRequest;
  *         type="integer",
  *         description="Produit en vedette",
  *         example=0
- *     )
- * )
+ *     ),
+ *     @OA\Property(
+ *         property="compta_infos",
+ *         ref="#/components/schemas/StoreCustomerComptaRequest",
+ *         description="Informations comptables du client"
+ *     ),
+ *     @OA\Property(
+ *         property="stat_infos",
+ *         ref="#/components/schemas/StoreCustomerStatRequest",
+ *         description="Informations statistiques du client"
+ *     ),
+ *)
  */
 class StoreCustomerRequest extends FormRequest
 {
@@ -340,7 +349,10 @@ class StoreCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_user' => 'required|integer|exists:users,id_user',
+            // Règles pour la compta
+            'user_infos' => 'required|array',
+
+            // Règles pour le customer
             'name' => 'required|string|max:100',
             'siren' => 'required|string|max:32',
             'siret' => 'required|string|max:32',
@@ -378,9 +390,9 @@ class StoreCustomerRequest extends FormRequest
             'stock_software_file_format' => 'integer|in:1,2,3,4',
             'supplier_id_for_techtablet' => 'required|string|max:250',
             'internal_customer_id' => 'nullable|string|max:30',
-            'id_lang' => 'integer|exists:customer_langs,id_customer_lang',
-            'id_shippingplan' => 'integer|exists:shippingplans,id_shippingplan',
-            'id_price_list_info' => 'integer|exists:price_list_infos,id_price_list_info',
+            'id_lang' => 'required|integer|exists:customer_langs,id_customer_lang',
+            'id_shipping_plan' => 'required|integer',
+            'id_price_list_info' => 'required|integer',
             'id_location' => 'nullable|integer|exists:customer_locations,id_customer_location',
             'id_typologie' => 'nullable|integer|exists:customer_typologies,id_customer_typologie',
             'id_canvassing_step' => 'nullable|integer|exists:customer_canvassing_steps,id_customer_canvassing_step',
@@ -389,6 +401,15 @@ class StoreCustomerRequest extends FormRequest
             'inactive' => 'integer|in:0,1',
             'receive_credit_on_reprise_stock_validation' => 'integer|in:0,1',
             'featured_product' => 'integer|in:0,1',
+
+            // Règles pour la compta
+            'compta_infos' => 'nullable|array',
+
+            // Règles pour le stat
+            'stat_infos' => 'nullable|array',
+
+            // Règles pour l'adresse de facturation
+            'invoice_address_infos' => 'nullable|array',
         ];
     }
 
@@ -400,8 +421,12 @@ class StoreCustomerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id_user.required' => 'L\'utilisateur est obligatoire.',
-            'id_user.exists' => 'L\'utilisateur sélectionné n\'existe pas.',
+            'user_infos.required' => 'Les informations compte utilisateur client sont obligatoires.',
+            'user_infos.array' => 'Les informations utilisateur doivent être un tableau.',
+            'email.required' => 'L\'adresse email est obligatoire.',
+            'email.email' => 'L\'adresse email doit être valide.',
+            'email.max' => 'L\'adresse email ne peut pas dépasser :max caractères.',
+            'email.unique' => 'Cette adresse email est déjà utilisée.',
             'name.required' => 'Le nom du client est obligatoire.',
             'name.max' => 'Le nom du client ne peut pas dépasser :max caractères.',
             'siren.required' => 'Le SIREN est obligatoire.',
@@ -443,6 +468,9 @@ class StoreCustomerRequest extends FormRequest
             'id_location.exists' => 'La localisation sélectionnée n\'existe pas.',
             'id_typologie.exists' => 'La typologie sélectionnée n\'existe pas.',
             'id_canvassing_step.exists' => 'L\'étape de démarchage sélectionnée n\'existe pas.',
+            'id_shipping_plan.required' => 'L\'id_shipping_plan est obligatoire.',
+            'id_price_list_info.required' => 'L\'id_price_list_info est obligatoire.',
+            'id_lang.required' => 'L\'id_lang est obligatoire.',
         ];
     }
 }

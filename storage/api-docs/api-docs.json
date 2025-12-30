@@ -8144,6 +8144,558 @@
                     }
                 }
             }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Liste tous les utilisateurs",
+                "operationId": "7208c29037df2b8bb02499ba39ed8a78",
+                "responses": {
+                    "200": {
+                        "description": "Liste des utilisateurs récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des utilisateurs récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Crée un nouvel utilisateur",
+                "operationId": "262eb5ca1fdea354023c0a8870442c1e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utilisateur créé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Affiche les détails d'un utilisateur spécifique",
+                "operationId": "6946bbab7898f59a09e3c8e529a38907",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur récupéré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utilisateur récupéré avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Met à jour un utilisateur existant",
+                "operationId": "05028d02ea3e9a99abd6260cfe05b179",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utilisateur mis à jour avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Supprime un utilisateur",
+                "operationId": "b3d28da5dc9de7fc1bd425f93b54ff7b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utilisateur supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/admins": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Liste tous les administrateurs",
+                "operationId": "767c1b8aa12e9599f3ef6b5b47937b73",
+                "responses": {
+                    "200": {
+                        "description": "Liste des administrateurs récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des administrateurs récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/customers": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Liste tous les clients",
+                "operationId": "26f8805471c56f0d2e48ddd9d12c0129",
+                "responses": {
+                    "200": {
+                        "description": "Liste des clients récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Liste des clients récupérée avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/email/{email}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Recherche un utilisateur par email",
+                "operationId": "20b5fadd96deb5f8b5507d6b88644beb",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Email de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur trouvé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Utilisateur trouvé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}/verify-email": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Vérifie l'email d'un utilisateur",
+                "operationId": "c5ed7910bce1c6c547a7652ec6f1db3f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email vérifié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Email vérifié avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}/change-password": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Change le mot de passe d'un utilisateur",
+                "operationId": "34a7ebfb629dc2d336ded67458f80a48",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "description": "Nouveau mot de passe",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "NewSecret123!"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mot de passe changé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mot de passe changé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -9474,7 +10026,7 @@
             },
             "StoreCustomerRequest": {
                 "required": [
-                    "id_user",
+                    "user_infos",
                     "name",
                     "siren",
                     "siret",
@@ -9500,10 +10052,8 @@
                     "supplier_id_for_techtablet"
                 ],
                 "properties": {
-                    "id_user": {
-                        "description": "ID de l'utilisateur",
-                        "type": "integer",
-                        "example": 1
+                    "user_infos": {
+                        "$ref": "#/components/schemas/StoreUserRequest"
                     },
                     "name": {
                         "description": "Nom du client",
@@ -9710,7 +10260,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "id_shippingplan": {
+                    "id_shipping_plan": {
                         "description": "ID du plan d'expédition",
                         "type": "integer",
                         "example": 1
@@ -9762,17 +10312,18 @@
                         "description": "Produit en vedette",
                         "type": "integer",
                         "example": 0
+                    },
+                    "compta_infos": {
+                        "$ref": "#/components/schemas/StoreCustomerComptaRequest"
+                    },
+                    "stat_infos": {
+                        "$ref": "#/components/schemas/StoreCustomerStatRequest"
                     }
                 },
                 "type": "object"
             },
             "UpdateCustomerRequest": {
                 "properties": {
-                    "id_user": {
-                        "description": "ID de l'utilisateur",
-                        "type": "integer",
-                        "example": 1
-                    },
                     "name": {
                         "description": "Nom du client",
                         "type": "string",
@@ -9978,7 +10529,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "id_shippingplan": {
+                    "id_shipping_plan": {
                         "description": "ID du plan d'expédition",
                         "type": "integer",
                         "example": 1
@@ -10560,7 +11111,8 @@
             "StoreInvoiceAddressRequest": {
                 "required": [
                     "id_customer_address",
-                    "id_customer"
+                    "id_customer",
+                    "email"
                 ],
                 "properties": {
                     "id_customer_address": {
@@ -10572,6 +11124,11 @@
                         "description": "ID du client",
                         "type": "integer",
                         "example": 1
+                    },
+                    "email": {
+                        "description": "Email de l'adresse de facturation",
+                        "type": "string",
+                        "example": "contact@techcorp.com"
                     }
                 },
                 "type": "object"
@@ -10587,6 +11144,11 @@
                         "description": "ID du client",
                         "type": "integer",
                         "example": 1
+                    },
+                    "email": {
+                        "description": "Email de l'adresse de facturation",
+                        "type": "string",
+                        "example": "contact@techcorp.com"
                     }
                 },
                 "type": "object"
@@ -10665,9 +11227,7 @@
             "StoreStoreGroupRequest": {
                 "required": [
                     "group_name",
-                    "group_key",
-                    "first_name",
-                    "last_name"
+                    "group_key"
                 ],
                 "properties": {
                     "group_name": {
@@ -10876,6 +11436,73 @@
                         "description": "Statut actif",
                         "type": "boolean",
                         "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUserRequest": {
+                "required": [
+                    "type",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Type de l'utilisateur",
+                        "type": "string",
+                        "enum": [
+                            "admin",
+                            "customer"
+                        ],
+                        "example": "customer"
+                    },
+                    "email": {
+                        "description": "Adresse email",
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "user_key": {
+                        "description": "Clé utilisateur",
+                        "type": "string",
+                        "example": "KTG23T45"
+                    },
+                    "password": {
+                        "description": "Mot de passe",
+                        "type": "string",
+                        "format": "password",
+                        "example": "Secret123!"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateUserRequest": {
+                "properties": {
+                    "type": {
+                        "description": "Type de l'utilisateur",
+                        "type": "string",
+                        "enum": [
+                            "admin",
+                            "customer"
+                        ],
+                        "example": "admin"
+                    },
+                    "email": {
+                        "description": "Adresse email",
+                        "type": "string",
+                        "format": "email",
+                        "example": "admin@example.com"
+                    },
+                    "user_key": {
+                        "description": "Clé utilisateur",
+                        "type": "string",
+                        "example": "KTG23T45"
+                    },
+                    "password": {
+                        "description": "Mot de passe",
+                        "type": "string",
+                        "format": "password",
+                        "example": "NewSecret123!"
                     }
                 },
                 "type": "object"
@@ -11104,11 +11731,6 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "id_user": {
-                        "description": "ID de l'utilisateur",
-                        "type": "integer",
-                        "example": 1
-                    },
                     "name": {
                         "description": "Nom du client",
                         "type": "string",
@@ -11314,7 +11936,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "id_shippingplan": {
+                    "id_shipping_plan": {
                         "description": "ID du plan d'expédition",
                         "type": "integer",
                         "example": 1
@@ -12481,6 +13103,11 @@
                         "type": "integer",
                         "example": 1
                     },
+                    "email": {
+                        "description": "Email de l'adresse de facturation",
+                        "type": "string",
+                        "example": "contact@techcorp.com"
+                    },
                     "created_at": {
                         "description": "Date de création",
                         "type": "string",
@@ -12712,6 +13339,50 @@
                     }
                 },
                 "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "Modèle d'utilisateur",
+                "properties": {
+                    "id_user": {
+                        "description": "ID unique de l'utilisateur",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "description": "Type de l'utilisateur",
+                        "type": "string",
+                        "enum": [
+                            "admin",
+                            "customer"
+                        ],
+                        "example": "admin"
+                    },
+                    "email": {
+                        "description": "Adresse email",
+                        "type": "string",
+                        "format": "email",
+                        "example": "admin@example.com"
+                    },
+                    "email_verified_at": {
+                        "description": "Date de vérification de l'email",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15 10:30:00",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Date de création",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Date de dernière modification",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -12827,6 +13498,10 @@
         {
             "name": "TechtabletSellers",
             "description": "Opérations CRUD pour les vendeurs Techtablet"
+        },
+        {
+            "name": "Users",
+            "description": "Opérations CRUD pour les utilisateurs"
         }
     ]
 }

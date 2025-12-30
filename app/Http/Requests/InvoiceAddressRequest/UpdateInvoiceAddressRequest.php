@@ -19,6 +19,12 @@ use Illuminate\Validation\Rule;
  *         type="integer",
  *         description="ID du client",
  *         example=1
+ *     ),
+ *    @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         description="Email de l'adresse de facturation",
+ *         example="contact@techcorp.com"
  *     )
  * )
  */
@@ -53,6 +59,12 @@ class UpdateInvoiceAddressRequest extends FormRequest
                 Rule::unique('invoice_addresses', 'id_customer')->ignore($invoiceAddressId, 'id_invoice_address'),
                 'exists:customers,id_customer',
             ],
+            'email' => [
+                'sometimes',
+                'string',
+                'email',
+                'max:255',
+            ],
         ];
     }
 
@@ -67,6 +79,8 @@ class UpdateInvoiceAddressRequest extends FormRequest
             'id_customer_address.exists' => 'L\'adresse client spécifiée n\'existe pas.',
             'id_customer.unique' => 'Ce client a déjà une adresse de facturation.',
             'id_customer.exists' => 'Le client spécifié n\'existe pas.',
+            'email.email' => 'L\'email doit être une adresse email valide.',
+            'email.max' => 'L\'email ne peut pas dépasser :max caractères.',
         ];
     }
 }

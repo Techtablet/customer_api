@@ -6,9 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest\StoreCustomerRequest;
 use App\Http\Requests\CustomerRequest\UpdateCustomerRequest;
 use App\Models\Customer;
+
+use App\Http\Requests\UserRequest\StoreUserRequest;
+use App\Http\Requests\UserRequest\UpdateUserRequest;
+use App\Models\User;
+
+use \App\Http\Requests\CustomerComptaRequest\StoreCustomerComptaRequest;
+use \App\Http\Requests\CustomerComptaRequest\UpdateCustomerComptaRequest;
+use \App\Models\CustomerCompta;
+
+use \App\Http\Requests\CustomerStatRequest\StoreCustomerStatRequest;
+use \App\Http\Requests\CustomerStatRequest\UpdateCustomerStatRequest;
+use \App\Models\CustomerStat;
+
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 
 /**
  * @OA\Tag(
@@ -157,23 +174,107 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request): JsonResponse
     {
-        $customer = Customer::create($request->validated());
-        $customer->load([
-            'franchise',
-            'seller',
-            'lang',
-            'location',
-            'typologie',
-            'canvassing_step',
-            'store_group',
-            'refusal_reason'
-        ]);
+        DB::beginTransaction();
+        
+        try {
+            // Valider les données du customer
+            $customerData = $request->validated();
+            $userData = $customerData['user_infos'] ?? [];
+            $comptaData = $customerData['compta_infos'] ?? [];
+            $statData = $customerData['stat_infos'] ?? [];
+            
+            // Supprimer compta des données du customer
+            unset($customerData['user_infos']);
+            unset($customerData['compta_infos']);
+            unset($customerData['stat_infos']);
 
-        return response()->json([
-            'success' => true,
-            'data' => $customer,
-            'message' => 'Client créé avec succès.',
-        ], Response::HTTP_CREATED);
+            // Créer les données du user avant de créer le customer
+            $storeUserRequest = new StoreUserRequest();
+
+            $userValidator = Validator::make($userData, $storeUserRequest->rules(), $storeUserRequest->messages());
+            
+            if ($userValidator->fails()) {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'errors' => $userValidator->errors(),
+                    'message' => 'Validation des données de comptabilité échouée.',
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            
+            // Créer la comptabilité
+            $validatedUserData = $userValidator->validated();
+            $user = User::create($validatedUserData);
+
+            // Créer le customer
+            $customerData['id_user'] = $user->id_user;
+            $customer = Customer::create($customerData);
+            $comptaData['id_customer'] = $customer->id_customer;
+            $statData['id_customer'] = $customer->id_customer;
+            
+            // Si des données compta sont présentes, valider avec StoreCustomerComptaRequest
+            if ($comptaData) {
+                
+                $storeCustomerComptaRequest = new StoreCustomerComptaRequest();
+
+                $comptaValidator = Validator::make($comptaData, $storeCustomerComptaRequest->rules(), $storeCustomerComptaRequest->messages());
+                
+                if ($comptaValidator->fails()) {
+                    DB::rollBack();
+                    return response()->json([
+                        'success' => false,
+                        'errors' => $comptaValidator->errors(),
+                        'message' => 'Validation des données de comptabilité échouée.',
+                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                
+                // Créer la comptabilité
+                $validatedComptaData = $comptaValidator->validated();
+                CustomerCompta::create($validatedComptaData);
+            }
+
+            // Si des données stat sont présentes, valider avec StoreCustomerStatRequest
+            if ($statData) {
+                
+                $storeCustomerStatRequest = new StoreCustomerStatRequest();
+
+                $statValidator = Validator::make($statData, $storeCustomerStatRequest->rules(), $storeCustomerStatRequest->messages());
+                
+                if ($statValidator->fails()) {
+                    DB::rollBack();
+                    return response()->json([
+                        'success' => false,
+                        'errors' => $statValidator->errors(),
+                        'message' => 'Validation des données de statistique échouée.',
+                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+
+                // Créer la statistique
+                $validatedStatData = $statValidator->validated();
+                CustomerStat::create($validatedStatData);
+            }
+            
+            // Charger les relations
+            $customer->load(['franchise', 'seller', 'lang', 'location', 'typologie', 'canvassing_step', 'store_group', 'refusal_reason']);
+            
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+                'data' => $customer,
+                'message' => 'Client créé avec succès' . ($comptaData ? ' avec ses informations de comptabilité.' : '.'),
+            ], Response::HTTP_CREATED);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Erreur lors de la création du client: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la création du client.',
+                'error' => env('APP_DEBUG') ? $e->getMessage() : null,
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

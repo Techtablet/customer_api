@@ -29,6 +29,12 @@ use Illuminate\Database\Eloquent\Model;
  *         description="ID du client",
  *         example=1
  *     ),
+  *     @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         description="Email de l'adresse de facturation",
+ *         example="contact@techcorp.com"
+ *     ),
  *     @OA\Property(
  *         property="created_at",
  *         type="string",
@@ -69,6 +75,7 @@ class InvoiceAddress extends Model
     protected $fillable = [
         'id_customer_address',
         'id_customer',
+        'email',
     ];
 
     /**

@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 /**
  * @OA\Schema(
  *     schema="StoreInvoiceAddressRequest",
- *     required={"id_customer_address", "id_customer"},
+ *     required={"id_customer_address", "id_customer", "email"},
  *     @OA\Property(
  *         property="id_customer_address",
  *         type="integer",
@@ -20,6 +20,12 @@ use Illuminate\Validation\Rule;
  *         type="integer",
  *         description="ID du client",
  *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         description="Email de l'adresse de facturation",
+ *         example="contact@techcorp.com"
  *     )
  * )
  */
@@ -52,6 +58,12 @@ class StoreInvoiceAddressRequest extends FormRequest
                 'unique:invoice_addresses,id_customer',
                 'exists:customers,id_customer',
             ],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+            ],
         ];
     }
 
@@ -68,6 +80,9 @@ class StoreInvoiceAddressRequest extends FormRequest
             'id_customer.required' => 'L\'ID du client est obligatoire.',
             'id_customer.unique' => 'Ce client a déjà une adresse de facturation.',
             'id_customer.exists' => 'Le client spécifié n\'existe pas.',
+            'email.required' => 'L\'email de l\'adresse de facturation est obligatoire.',
+            'email.email' => 'L\'email doit être une adresse email valide.',
+            'email.max' => 'L\'email ne peut pas dépasser :max caractères.',
         ];
     }
 }

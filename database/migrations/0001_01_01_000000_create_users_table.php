@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('type', ['admin', 'customer'])->default('customer')->comment('Type de l\'utilisateur');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('user_key')->unique();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

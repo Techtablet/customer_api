@@ -19,12 +19,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="id_user",
- *         type="integer",
- *         description="ID de l'utilisateur",
- *         example=1
- *     ),
- *     @OA\Property(
  *         property="name",
  *         type="string",
  *         maxLength=100,
@@ -268,7 +262,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="id_shippingplan",
+ *         property="id_shipping_plan",
  *         type="integer",
  *         description="ID du plan d'expédition",
  *         example=1
@@ -447,7 +441,7 @@ class Customer extends Model
         'supplier_id_for_techtablet',
         'internal_customer_id',
         'id_lang',
-        'id_shippingplan',
+        'id_shipping_plan',
         'id_price_list_info',
         'id_location',
         'id_typologie',

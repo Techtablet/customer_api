@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('users')->group(function () {
+    require __DIR__.'/api/users.php';
+});
+
 Route::prefix('customer-statuses')->group(function () {
     require __DIR__.'/api/customer_status.php';
 });

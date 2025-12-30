@@ -76,7 +76,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_lang')->default(1);
             $table->foreign('id_lang')->references('id_customer_lang')->on('customer_langs')->onDelete('restrict');
             
-            $table->unsignedBigInteger('id_shippingplan');
+            $table->unsignedBigInteger('id_shipping_plan');
             $table->unsignedBigInteger('id_price_list_info');
 
             //id_location

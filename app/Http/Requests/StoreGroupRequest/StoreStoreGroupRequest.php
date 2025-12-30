@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @OA\Schema(
  *     schema="StoreStoreGroupRequest",
- *     required={"group_name", "group_key", "first_name", "last_name"},
+ *     required={"group_name", "group_key"},
  *     @OA\Property(
  *         property="group_name",
  *         type="string",
@@ -73,8 +73,8 @@ class StoreStoreGroupRequest extends FormRequest
             'group_name' => 'required|string|max:200',
             'group_key' => 'required|string|max:100|unique:store_groups,group_key',
             'group_logo' => 'nullable|string|max:200',
-            'first_name' => 'required|string|max:200',
-            'last_name' => 'required|string|max:200',
+            'first_name' => 'nullable|string|max:200',
+            'last_name' => 'nullable|string|max:200',
             'is_sepa' => 'required|integer|in:0,1',
         ];
     }

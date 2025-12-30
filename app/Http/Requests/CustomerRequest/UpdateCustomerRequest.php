@@ -8,12 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * @OA\Schema(
  *     schema="UpdateCustomerRequest",
  *     @OA\Property(
- *         property="id_user",
- *         type="integer",
- *         description="ID de l'utilisateur",
- *         example=1
- *     ),
- *     @OA\Property(
  *         property="name",
  *         type="string",
  *         maxLength=100,
@@ -257,7 +251,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="id_shippingplan",
+ *         property="id_shipping_plan",
  *         type="integer",
  *         description="ID du plan d'expédition",
  *         example=1
@@ -339,7 +333,6 @@ class UpdateCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_user' => 'sometimes|integer|exists:users,id_user',
             'name' => 'sometimes|string|max:100',
             'siren' => 'sometimes|string|max:32',
             'siret' => 'sometimes|string|max:32',
@@ -378,8 +371,8 @@ class UpdateCustomerRequest extends FormRequest
             'supplier_id_for_techtablet' => 'sometimes|string|max:250',
             'internal_customer_id' => 'nullable|string|max:30',
             'id_lang' => 'sometimes|integer|exists:customer_langs,id_customer_lang',
-            'id_shippingplan' => 'sometimes|integer|exists:shippingplans,id_shippingplan',
-            'id_price_list_info' => 'sometimes|integer|exists:price_list_infos,id_price_list_info',
+            'id_shipping_plan' => 'sometimes|integer',
+            'id_price_list_info' => 'sometimes|integer',
             'id_location' => 'nullable|integer|exists:customer_locations,id_customer_location',
             'id_typologie' => 'nullable|integer|exists:customer_typologies,id_customer_typologie',
             'id_canvassing_step' => 'nullable|integer|exists:customer_canvassing_steps,id_customer_canvassing_step',
@@ -399,7 +392,6 @@ class UpdateCustomerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id_user.exists' => 'L\'utilisateur sélectionné n\'existe pas.',
             'name.max' => 'Le nom du client ne peut pas dépasser :max caractères.',
             'siren.max' => 'Le SIREN ne peut pas dépasser :max caractères.',
             'siret.max' => 'Le SIRET ne peut pas dépasser :max caractères.',
