@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *     ),
  *     @OA\Property(
  *         property="newsletter",
- *         type="boolean",
+ *         type="integer",
  *         description="Abonnement à la newsletter",
  *         example=true
  *     ),
@@ -281,7 +281,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="id_typologie",
+ *         property="id_typology",
  *         type="integer",
  *         nullable=true,
  *         description="ID de la typologie",
@@ -357,7 +357,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         description="Localisation associée"
  *     ),
  *     @OA\Property(
- *         property="typologie",
+ *         property="typology",
  *         ref="#/components/schemas/CustomerTypology",
  *         description="Typologie associée"
  *     ),
@@ -402,6 +402,7 @@ class Customer extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_customer',
         'id_user',
         'name',
         'siren',
@@ -444,7 +445,7 @@ class Customer extends Model
         'id_shipping_plan',
         'id_price_list_info',
         'id_location',
-        'id_typologie',
+        'id_typology',
         'id_canvassing_step',
         'refund_by_ic',
         'repurchase_type',
@@ -469,7 +470,7 @@ class Customer extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'newsletter' => 'boolean',
+        'newsletter' => 'integer',
         'already_called' => 'boolean',
         'to_callback' => 'boolean',
         'survey_actif' => 'integer',
@@ -553,9 +554,9 @@ class Customer extends Model
     /**
      * Relation avec la typologie.
      */
-    public function typologie(): BelongsTo
+    public function typology(): BelongsTo
     {
-        return $this->belongsTo(CustomerTypology::class, 'id_typologie', 'id_customer_typologie');
+        return $this->belongsTo(CustomerTypology::class, 'id_typology', 'id_customer_typology');
     }
 
     /**

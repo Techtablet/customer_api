@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  *     title="CustomerTypology",
  *     description="Modèle de typologie client",
  *     @OA\Property(
- *         property="id_customer_typologie",
+ *         property="id_customer_typology",
  *         type="integer",
  *         description="ID unique de la typologie client",
  *         example=1
@@ -54,7 +54,7 @@ class CustomerTypology extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'id_customer_typologie';
+    protected $primaryKey = 'id_customer_typology';
 
     /**
      * Les attributs qui sont assignables en masse.

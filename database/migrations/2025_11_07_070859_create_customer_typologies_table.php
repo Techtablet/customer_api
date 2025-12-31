@@ -13,20 +13,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_typologies', function (Blueprint $table) {
-            $table->id('id_customer_typologie');            // INT(11) NOT NULL PRIMARY KEY
+            $table->id('id_customer_typology');            // INT(11) NOT NULL PRIMARY KEY
             $table->string('name', 50)->default('');     // VARCHAR(50) NOT NULL DEFAULT ''
             $table->timestamps();
         });
 
         // Insertion des données initiales
         DB::table('customer_typologies')->insert([
-            ['id_customer_typologie' => 1, 'name' => 'Magasin'],
-            ['id_customer_typologie' => 2, 'name' => 'Mairie'],
-            ['id_customer_typologie' => 3, 'name' => 'Reconditionneur'],
-            ['id_customer_typologie' => 4, 'name' => 'Hypermarché'],
-            ['id_customer_typologie' => 5, 'name' => 'Supermarché'],
-            ['id_customer_typologie' => 6, 'name' => 'Intégrateur'],
-            ['id_customer_typologie' => 7, 'name' => 'Autres'],
+            ['id_customer_typology' => 1, 'name' => 'Magasin'],
+            ['id_customer_typology' => 2, 'name' => 'Mairie'],
+            ['id_customer_typology' => 3, 'name' => 'Reconditionneur'],
+            ['id_customer_typology' => 4, 'name' => 'Hypermarché'],
+            ['id_customer_typology' => 5, 'name' => 'Supermarché'],
+            ['id_customer_typology' => 6, 'name' => 'Intégrateur'],
+            ['id_customer_typology' => 7, 'name' => 'Autres'],
         ]);
     }
 

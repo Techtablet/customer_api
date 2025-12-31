@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 /**
  * @OA\Schema(
  *     schema="StoreShippingAddressRequest",
- *     required={"id_customer_address", "id_customer"},
+ *     required={"id_customer_address", "id_customer", "address_name"},
  *     @OA\Property(
  *         property="id_customer_address",
  *         type="integer",
@@ -27,6 +27,20 @@ use Illuminate\Validation\Rule;
  *         description="Indique si c'est l'adresse de livraison par défaut",
  *         example=true,
  *         nullable=true
+ *     ),
+ *     @OA\Property(
+ *         property="address_name",
+ *         type="string",
+ *         maxLength=64,
+ *         nullable=true,
+ *         description="Nom personnalisé de l'adresse",
+ *         example="Domicile"
+ *     ),
+ *     @OA\Property(
+ *         property="has_difficult_access",
+ *         type="boolean",
+ *         description="Accès difficile",
+ *         example=false
  *     )
  * )
  */
@@ -65,6 +79,8 @@ class StoreShippingAddressRequest extends FormRequest
                     return $query->where('is_default', true);
                 }),
             ],
+            'address_name' => 'required|string|max:100',
+            'has_difficult_access' => 'boolean',
         ];
     }
 
@@ -81,6 +97,10 @@ class StoreShippingAddressRequest extends FormRequest
             'id_customer.required' => 'L\'ID du client est obligatoire.',
             'id_customer.exists' => 'Le client spécifié n\'existe pas.',
             'is_default.unique' => 'Une adresse de livraison par défaut existe déjà.',
+            'address_name.required' => 'Le nom d\'adresse est obligatoire.',
+            'address_name.string' => 'Le nom d\'adresse doit être une chaîne de caractères.',
+            'address_name.max' => 'Le nom d\'adresse ne peut pas dépasser :max caractères.',
+            'has_difficult_access.boolean' => 'Le champ accès difficile doit être vrai ou faux.',
         ];
     }
 

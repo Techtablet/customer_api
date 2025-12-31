@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @OA\Schema(
  *     schema="StoreCustomerRequest",
- *     required={"user_infos", "name", "siren", "siret", "newsletter", "already_called", "id_franchise", "id_stock_software", "to_callback", "id_status", "id_refusal_reason", "id_seller", "repurchase_menu", "dropshipping_menu", "information_request_send", "information_request_validated", "information_request_validated_once", "ape", "rcs", "shipping_schedule", "has_customer_order_number", "last_website_key", "receive_stock_software_file", "supplier_id_for_techtablet", "id_lang", "id_shipping_plan", "id_price_list_info"},
+ *     required={"user_infos", "invoice_address_infos", "name", "siren", "siret", "newsletter", "already_called", "to_callback", "id_status", "repurchase_menu", "dropshipping_menu", "information_request_send", "information_request_validated", "information_request_validated_once", "shipping_schedule", "has_customer_order_number", "receive_stock_software_file", "id_lang", "id_shipping_plan", "id_price_list_info"},
  *     @OA\Property(
  *         property="user_infos",
  *         ref="#/components/schemas/StoreUserRequest",
@@ -36,7 +36,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *     ),
  *     @OA\Property(
  *         property="newsletter",
- *         type="boolean",
+ *         type="integer",
  *         description="Abonnement à la newsletter",
  *         example=true
  *     ),
@@ -276,7 +276,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="id_typologie",
+ *         property="id_typology",
  *         type="integer",
  *         nullable=true,
  *         description="ID de la typologie",
@@ -329,6 +329,13 @@ use Illuminate\Foundation\Http\FormRequest;
  *         ref="#/components/schemas/StoreCustomerStatRequest",
  *         description="Informations statistiques du client"
  *     ),
+ *     @OA\Property(
+ *         property="invoice_address_infos",
+ *         allOf={
+ *             @OA\Schema(ref="#/components/schemas/StoreInvoiceAddressRequest"),
+ *         },
+ *         description="Informations de l'adresse de facturation du client"
+ *     )
  *)
  */
 class StoreCustomerRequest extends FormRequest
@@ -356,20 +363,20 @@ class StoreCustomerRequest extends FormRequest
             'name' => 'required|string|max:100',
             'siren' => 'required|string|max:32',
             'siret' => 'required|string|max:32',
-            'newsletter' => 'required|boolean',
+            'newsletter' => 'required|integer|in:0,1,2',
             'already_called' => 'required|boolean',
-            'id_franchise' => 'required|integer|exists:franchises,id_franchise',
-            'id_stock_software' => 'required|integer|exists:stock_softwares,id_stock_software',
+            'id_franchise' => 'nullable|integer|exists:franchises,id_franchise',
+            'id_stock_software' => 'nullable|integer|exists:stock_softwares,id_stock_software',
             'to_callback' => 'required|boolean',
             'id_status' => 'required|integer|exists:customer_statuses,id_customer_status',
-            'id_refusal_reason' => 'required|integer|exists:customer_refusal_reasons,id_customer_refusal_reason',
+            'id_refusal_reason' => 'nullable|integer|exists:customer_refusal_reasons,id_customer_refusal_reason',
             'survey_actif' => 'integer|in:0,1',
-            'survey_date_disabled' => 'date',
+            'survey_date_disabled' => 'nullable|date',
             'important' => 'integer|in:0,1',
             'notes' => 'nullable|string',
             'reminder' => 'nullable|date',
             'seller_reminder' => 'integer',
-            'id_seller' => 'required|integer|exists:techtablet_sellers,id_techtablet_seller',
+            'id_seller' => 'nullable|integer|exists:techtablet_sellers,id_techtablet_seller',
             'repurchase_menu' => 'required|integer',
             'dropshipping_menu' => 'required|integer',
             'dropshipping_fee' => 'nullable|numeric|min:0',
@@ -378,23 +385,23 @@ class StoreCustomerRequest extends FormRequest
             'information_request_send' => 'required|integer',
             'information_request_validated' => 'required|integer',
             'information_request_validated_once' => 'required|integer',
-            'ape' => 'required|string|max:20',
-            'rcs' => 'required|string|max:40',
+            'ape' => 'nullable|string|max:20',
+            'rcs' => 'nullable|string|max:40',
             'tourist_area' => 'integer|in:0,1,2',
             'denomination' => 'string|max:50',
             'id_store_group' => 'nullable|integer|exists:store_groups,id_store_group',
             'shipping_schedule' => 'required|string',
             'has_customer_order_number' => 'required|integer',
-            'last_website_key' => 'required|string|max:500',
+            'last_website_key' => 'nullable|string|max:500',
             'receive_stock_software_file' => 'required|integer',
             'stock_software_file_format' => 'integer|in:1,2,3,4',
-            'supplier_id_for_techtablet' => 'required|string|max:250',
+            'supplier_id_for_techtablet' => 'nullable|string|max:250',
             'internal_customer_id' => 'nullable|string|max:30',
             'id_lang' => 'required|integer|exists:customer_langs,id_customer_lang',
             'id_shipping_plan' => 'required|integer',
             'id_price_list_info' => 'required|integer',
             'id_location' => 'nullable|integer|exists:customer_locations,id_customer_location',
-            'id_typologie' => 'nullable|integer|exists:customer_typologies,id_customer_typologie',
+            'id_typology' => 'nullable|integer|exists:customer_typologies,id_customer_typology',
             'id_canvassing_step' => 'nullable|integer|exists:customer_canvassing_steps,id_customer_canvassing_step',
             'refund_by_ic' => 'integer|in:0,1',
             'repurchase_type' => 'integer|in:0,1',
@@ -409,7 +416,7 @@ class StoreCustomerRequest extends FormRequest
             'stat_infos' => 'nullable|array',
 
             // Règles pour l'adresse de facturation
-            'invoice_address_infos' => 'nullable|array',
+            'invoice_address_infos' => 'required|array',
         ];
     }
 
@@ -423,6 +430,8 @@ class StoreCustomerRequest extends FormRequest
         return [
             'user_infos.required' => 'Les informations compte utilisateur client sont obligatoires.',
             'user_infos.array' => 'Les informations utilisateur doivent être un tableau.',
+            'invoice_address_infos.required' => 'Les informations adresse facturation client sont obligatoires.',
+            'invoice_address_infos.array' => 'Les informations adresse facturation client doivent être un tableau.',
             'email.required' => 'L\'adresse email est obligatoire.',
             'email.email' => 'L\'adresse email doit être valide.',
             'email.max' => 'L\'adresse email ne peut pas dépasser :max caractères.',
@@ -434,17 +443,15 @@ class StoreCustomerRequest extends FormRequest
             'siret.required' => 'Le SIRET est obligatoire.',
             'siret.max' => 'Le SIRET ne peut pas dépasser :max caractères.',
             'newsletter.required' => 'Le champ newsletter est obligatoire.',
+            'newsletter.in' => 'Le champ newsletter doit être 0, 1 ou 2.',
             'already_called.required' => 'Le champ déjà appelé est obligatoire.',
             'id_franchise.required' => 'La franchise est obligatoire.',
             'id_franchise.exists' => 'La franchise sélectionnée n\'existe pas.',
-            'id_stock_software.required' => 'Le logiciel de stock est obligatoire.',
             'id_stock_software.exists' => 'Le logiciel de stock sélectionné n\'existe pas.',
             'to_callback.required' => 'Le champ à rappeler est obligatoire.',
             'id_status.required' => 'Le statut est obligatoire.',
             'id_status.exists' => 'Le statut sélectionné n\'existe pas.',
-            'id_refusal_reason.required' => 'La raison de refus est obligatoire.',
             'id_refusal_reason.exists' => 'La raison de refus sélectionnée n\'existe pas.',
-            'id_seller.required' => 'Le vendeur est obligatoire.',
             'id_seller.exists' => 'Le vendeur sélectionné n\'existe pas.',
             'repurchase_menu.required' => 'Le menu de rachat est obligatoire.',
             'dropshipping_menu.required' => 'Le menu dropshipping est obligatoire.',
@@ -466,7 +473,7 @@ class StoreCustomerRequest extends FormRequest
             'supplier_id_for_techtablet.max' => 'L\'ID fournisseur pour Techtablet ne peut pas dépasser :max caractères.',
             'id_lang.exists' => 'La langue sélectionnée n\'existe pas.',
             'id_location.exists' => 'La localisation sélectionnée n\'existe pas.',
-            'id_typologie.exists' => 'La typologie sélectionnée n\'existe pas.',
+            'id_typology.exists' => 'La typologie sélectionnée n\'existe pas.',
             'id_canvassing_step.exists' => 'L\'étape de démarchage sélectionnée n\'existe pas.',
             'id_shipping_plan.required' => 'L\'id_shipping_plan est obligatoire.',
             'id_price_list_info.required' => 'L\'id_price_list_info est obligatoire.',

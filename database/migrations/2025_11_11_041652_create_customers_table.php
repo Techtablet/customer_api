@@ -18,15 +18,15 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('siren', 32);
             $table->string('siret', 32);
-            $table->boolean('newsletter')->default(0);
+            $table->unsignedTinyInteger('newsletter')->default(0);
             //alreadycalled
             $table->boolean('already_called')->default(0)->comment('Anciennement alreadycalled');;
 
             //franchise
-            $table->unsignedBigInteger('id_franchise');
+            $table->unsignedBigInteger('id_franchise')->nullable();
             $table->foreign('id_franchise')->references('id_franchise')->on('franchises')->onDelete('restrict');
             //stock_software
-            $table->unsignedBigInteger('id_stock_software');
+            $table->unsignedBigInteger('id_stock_software')->nullable();
             $table->foreign('id_stock_software')->references('id_stock_software')->on('stock_softwares')->onDelete('restrict');
 
             $table->boolean('to_callback');
@@ -35,17 +35,17 @@ return new class extends Migration
             $table->integer('id_status');
             $table->foreign('id_status')->references('id_customer_status')->on('customer_statuses')->onDelete('restrict');
             //refusal_reason
-            $table->unsignedBigInteger('id_refusal_reason');
+            $table->unsignedBigInteger('id_refusal_reason')->nullable();
             $table->foreign('id_refusal_reason')->references('id_customer_refusal_reason')->on('customer_refusal_reasons')->onDelete('restrict');
 
             $table->boolean('survey_actif')->default(1)->comment('1 : actif, 0 : inactif');
-            $table->date('survey_date_disabled');
+            $table->date('survey_date_disabled')->nullable();
             $table->boolean('important')->default(0)->comment('1 : important customer, 0: not important');
             $table->text('notes');
             $table->dateTime('reminder')->nullable();
             $table->integer('seller_reminder')->default(0);
            
-            $table->unsignedBigInteger('id_seller');
+            $table->unsignedBigInteger('id_seller')->nullable();
             $table->foreign('id_seller')->references('id_techtablet_seller')->on('techtablet_sellers')->onDelete('restrict');
             
             $table->boolean('repurchase_menu')->default(0);
@@ -56,8 +56,8 @@ return new class extends Migration
             $table->boolean('information_request_send')->default(0);
             $table->boolean('information_request_validated')->default(0);
             $table->boolean('information_request_validated_once')->default(0);
-            $table->string('ape', 20);
-            $table->string('rcs', 40);
+            $table->string('ape', 20)->nullable();
+            $table->string('rcs', 40)->nullable();
             $table->tinyInteger('tourist_area')->default(2)->comment('2: PAS ENCORE DEMANDE, 0: NON, 1: OUI');
             $table->string('denomination', 50)->default('Formel');
             
@@ -66,10 +66,10 @@ return new class extends Migration
             
             $table->text('shipping_schedule')->comment('exemple de valeur ["1", "2", "3", "4", "5", "6", "7"]');
             $table->boolean('has_customer_order_number')->default(0);
-            $table->string('last_website_key', 500);
+            $table->string('last_website_key', 500)->nullable();
             $table->boolean('receive_stock_software_file')->default(0);
             $table->tinyInteger('stock_software_file_format')->default(1)->comment('1:Wingsm, 2:3gwin, 3:generique, 4: Trépidai');
-            $table->string('supplier_id_for_techtablet', 250);
+            $table->string('supplier_id_for_techtablet', 250)->nullable();
             $table->string('internal_customer_id', 30)->nullable();
 
             //id_lang
@@ -84,8 +84,8 @@ return new class extends Migration
             $table->foreign('id_location')->references('id_customer_location')->on('customer_locations')->onDelete('restrict');
 
             //typologie
-            $table->unsignedBigInteger('id_typologie')->nullable()->comment('Anciennement typologie');
-            $table->foreign('id_typologie')->references('id_customer_typologie')->on('customer_typologies')->onDelete('restrict');
+            $table->unsignedBigInteger('id_typology')->nullable()->comment('Anciennement typologie');
+            $table->foreign('id_typology')->references('id_customer_typology')->on('customer_typologies')->onDelete('restrict');
             
             //id_canvassing
             $table->unsignedBigInteger('id_canvassing_step')->nullable()->comment('Anciennement id_canvassing');

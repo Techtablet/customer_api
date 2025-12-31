@@ -20,6 +20,31 @@ use App\Http\Requests\StoreGroupRequest\StoreStoreGroupRequest;
 use App\Http\Requests\StoreGroupRequest\UpdateStoreGroupRequest;
 use App\Models\StoreGroup;
 
+use App\Http\Requests\CustomerRequest\StoreCustomerRequest;
+use App\Http\Requests\CustomerRequest\UpdateCustomerRequest;
+use App\Models\Customer;
+
+use App\Http\Requests\UserRequest\StoreUserRequest;
+use App\Http\Requests\UserRequest\UpdateUserRequest;
+use App\Models\User;
+
+use \App\Http\Requests\CustomerComptaRequest\StoreCustomerComptaRequest;
+use \App\Http\Requests\CustomerComptaRequest\UpdateCustomerComptaRequest;
+use \App\Models\CustomerCompta;
+
+use \App\Http\Requests\CustomerStatRequest\StoreCustomerStatRequest;
+use \App\Http\Requests\CustomerStatRequest\UpdateCustomerStatRequest;
+use \App\Models\CustomerStat;
+
+use App\Http\Requests\CustomerAddressRequest\StoreCustomerAddressRequest;
+use App\Http\Requests\CustomerAddressRequest\UpdateCustomerAddressRequest;
+use App\Models\CustomerAddress;
+use App\Models\CustomerCountry;
+
+use App\Http\Requests\InvoiceAddressRequest\StoreInvoiceAddressRequest;
+use App\Http\Requests\InvoiceAddressRequest\UpdateInvoiceAddressRequest;
+use App\Models\InvoiceAddress;
+
 class ImportOldDataController extends Controller
 {
     /**
@@ -49,7 +74,7 @@ class ImportOldDataController extends Controller
             dump("Fin import Store Groups");
 
             dump("Début import Customers");
-            //$d = $this->importCustomerData($baseurl, $page = 1);
+            $d = $this->importCustomerData($baseurl, $page = 1);
             dump("Fin import Customers");
             
             DB::commit();
@@ -69,7 +94,6 @@ class ImportOldDataController extends Controller
         $object = null;
         $uri = "/services/customers/export_to_new_server/techtablet_sellers?page=$page";
         $url = $baseUrl . $uri;
-        $techtabletSellerController = new TechtabletSellerController();
         $response = Http::get($url);
         
         if ($response->successful()) {
@@ -175,7 +199,6 @@ class ImportOldDataController extends Controller
         $object = null;
         $uri = "/services/customers/export_to_new_server/store_groups?page=$page";
         $url = $baseUrl . $uri;
-        $storeGroupController = new StoreGroupController();
         $response = Http::get($url);
         
         if ($response->successful()) {
@@ -275,12 +298,11 @@ class ImportOldDataController extends Controller
 
     public function importCustomerData(string $baseUrl, int $page = 1, int $dataImported = 0, array $dataError = [])
     {
-        $for = 'store_groups';
+        $for = 'customers';
         $dataError = $dataError;
         $object = null;
-        $uri = "/services/customers/export_to_new_server/store_groups?page=$page";
+        $uri = "/services/customers/export_to_new_server/customers?page=$page";
         $url = $baseUrl . $uri;
-        $storeGroupController = new StoreGroupController();
         $response = Http::get($url);
         
         if ($response->successful()) {
@@ -293,31 +315,196 @@ class ImportOldDataController extends Controller
            
             if($data) {
                 foreach($data as $k => $item) {
-                    $idItem = $item['id_group'] ?? 'unknown';
+                    $idItem = $item['id_customer'] ?? 'unknown';
                     $erreurExceptionMessage = "Erreur lors de l'import à la page $page pour $for ID {$idItem}: ";
                     try {
                         // Mapper les données de l'ancien serveur vers le nouveau format
                         $mappedData = [
-                            'id_store_group' => $item['id_group'],
-                            'group_name' => $item['group_name'],
-                            'group_key' => $item['group_key'],
-                            'group_logo' => $item['group_logo'],
-                            'first_name' => $item['name'],
-                            'last_name' => $item['lastname'],
-                            'is_sepa' => $item['is_sepa'],
-                            'created_at' => $item['created_at'],
-                            'updated_at' => $item['updated_at'],
+                            'user_infos' => [
+                                'id_user' => $item['id_customer'],
+                                'type' => 'customer',
+                                'email' => $item['email'],
+                                'user_key' => $item['key'],
+                                'password' => $item['key'],
+                            ],
+
+                            'id_customer' => $item['id_customer'],
+                            'name' => $item['name'],
+                            'siren' => $item['siren'],
+                            'siret' => $item['siret'],
+                            'newsletter' => $item['newsletter'],
+                            'already_called' => $item['alreadycalled'],
+
+                            'id_franchise' => $item['franchise'] == 0 ? null : $item['franchise'],
+                            'id_stock_software' => $item['stock_software'] == "0" ? null : $item['stock_software'],
+                            'to_callback' => $item['to_callback'],
+                            'id_status' => $item['status'],
+                            'id_refusal_reason' => $item['refusal_reason'] == "0" ? null : $item['refusal_reason'],
+
+                            'survey_actif' => $item['survey_actif'],
+                            'survey_date_disabled' => $item['survey_date_disabled'] == "0000-00-00" ? null : $item['survey_date_disabled'],
+                            'important' => $item['important'],
+                            'notes' => $item['notes'],
+                            'reminder' => $item['reminder'] == "0000-00-00 00:00:00" || $item['reminder'] == "0000-00-00" ? null : $item['reminder'],
+                            'seller_reminder' => $item['seller_reminder'],
+
+                            'id_seller' => intval($item['id_seller']) == 0 ? null : intval($item['id_seller']),
+                            'repurchase_menu' => $item['repurchase_menu'],
+                            'dropshipping_menu' => $item['dropshipping_menu'],
+                            'dropshipping_fee' => $item['dropshipping_fee'],
+                            'delivery_order' => $item['delivery_order'],
+                            'profil' => $item['profil'],
+
+                            'information_request_send' => $item['information_request_send'],
+                            'information_request_validated' => $item['information_request_validated'],
+                            'information_request_validated_once' => $item['information_request_validated_once'],
+                            'ape' => $item['ape'],
+                            'rcs' => $item['rcs'],
+                            'tourist_area' => $item['tourist_area'],
+                            
+                            'denomination' => $item['denomination'],
+                            'id_store_group' => intval($item['id_group']) == 0 ? null : intval($item['id_group']),
+                            'shipping_schedule' => $item['shipping_schedule'],
+                            'has_customer_order_number' => $item['has_customer_order_number'],
+                            'last_website_key' => $item['last_website_key'],
+                            'receive_stock_software_file' => $item['receive_stock_software_file'],
+
+                            'stock_software_file_format' => $item['stock_software_file_format'],
+                            'supplier_id_for_techtablet' => $item['supplier_id_for_techtablet'],
+                            'internal_customer_id' => $item['internal_customer_id'],
+                            'id_lang' => $item['id_lang'],
+                            'id_shipping_plan' => $item['id_shippingplan'],
+                            'id_price_list_info' => $item['id_price_list_info'],
+
+                            'id_location' => intval($item['id_location']) == 0 ? null : intval($item['id_location']),
+                            'id_typology' => intval($item['id_typology']) == 0 ? null : intval($item['id_typology']),
+                            'id_canvassing_step' => intval($item['id_canvassing']) == 0 ? null : intval($item['id_canvassing']),
+                            'refund_by_ic' => $item['refund_by_ic'],
+                            'repurchase_type' => $item['repurchase_type'],
+                            'inactive' => $item['inactive'],
+                            'receive_credit_on_reprise_stock_validation' => $item['receive_credit_on_reprise_stock_validation'],
+                            'featured_product' => $item['featured_product'],
+
+                            'compta_infos' => [
+                                'id_customer_compta' => $item['id_customer'],
+                                'id_customer' => $item['id_customer'],
+                                'devise' => $item['devise'],
+                                'tva_intra_number' => $item['tva_intra_number'],
+                                'payment_mode' => $item['payment_mode'],
+                                'rib_etablissement' => $item['rib_etablissement'],
+
+                                'rib_guichet' => $item['rib_guichet'],
+                                'rib_compte' => $item['rib_compte'],
+                                'rib_cle' => $item['rib_cle'],
+                                'discount' => $item['discount'],
+                                'balance' => $item['balance'],
+                                'shipping_invoice' => $item['shipping_invoice'],
+
+                                'en_cours' => $item['en_cours'],
+                                'future_payment_mode' => $item['future_payment_mode'],
+                                'future_payment_delay_type' => $item['future_payment_delay_type'],
+                                'future_payment_delay' => $item['future_payment_delay'],
+                                'rolling_period_days' => $item['rolling_period_days'],
+                                'rolling_period_amount' => $item['rolling_period_amount'],
+
+                                'rolling_period_cron_date' => $item['rolling_period_cron_date'],
+                                'bic' => $item['bic'],
+                                'iban' => $item['iban'],
+                                'grouped_invoice' => $item['grouped_invoice'],
+                                'grouped_invoice_begin' => $item['grouped_invoice_begin'], //"0000-00-00"
+                                'grouped_invoice_end' => $item['grouped_invoice_end'], // "0000-00-00"
+
+                                'cb_register_info' => $item['cb_register_info'],
+                                'cb_register_always_ask' => $item['cb_register_always_ask'],
+                                'cb_token' => $item['cb_token'],
+                                'cb_date_val' => $item['cb_date_val'],
+                                'cb_ref_abonne' => $item['cb_ref_abonne'],
+                                'sepa_mandat_reference' => $item['sepa_mandat_reference'],
+
+                                'sepa_payment_type' => $item['sepa_payment_type'],
+                                'sepa_debtor_name' => $item['sepa_debtor_name'],
+                                'sepa_debtor_address' => $item['sepa_debtor_address'],
+                                'sepa_debtor_address_pc' => $item['sepa_debtor_address_pc'],
+                                'sepa_debtor_address_city' => $item['sepa_debtor_address_city'],
+                                'sepa_signature_location' => $item['sepa_signature_location'],
+
+                                'sepa_signature_date' => $item['sepa_signature_date'], // "0000-00-00"
+                                'sepa_request_validated' => $item['sepa_request_validated'],
+                                'sepa_request_validated_once' => $item['sepa_request_validated_once'],
+                                'is_blprice' => $item['is_blprice'],
+                                'classic_invoice' => $item['classic_invoice'],
+                            ],
+
+                            'stat_infos' => [
+                                'id_customer_stat' => $item['id_customer'],
+                                'id_customer' => $item['id_customer'],
+                                'arevage_ordervalue' => $item['arevage_ordervalue'],
+                                'last_order' => $item['last_order'],
+                                'first_order' => $item['first_order'],
+                                'profitability' => $item['profitability'],
+
+                                'profitabilityOneYear' => $item['profitabilityOneYear'],
+                                'profitabilityThreeMonth' => $item['profitabilityThreeMonth'],
+                                'turnover' => $item['turnover'],
+                                'turnoverOneYear' => $item['turnoverOneYear'],
+                                'turnoverThreeMonth' => $item['turnoverThreeMonth'],
+
+                                'point1' => $item['point1'],
+                                'point2' => $item['point2'],
+                                'point3' => $item['point3'],
+                                'point4' => $item['point4'],
+                                'point5' => $item['point5'],
+                                'point6' => $item['point6'],
+                                'point7' => $item['point7'],
+                                'point8' => $item['point8'],
+                                'point9' => $item['point9'],
+                                'point10' => $item['point10'],
+                                'point11' => $item['point11'],
+                                'point12' => $item['point12'],
+                                'point13' => $item['point13'],
+
+                                'profitability_lifepercent' => $item['profitability_lifepercent'],
+                                'profitability_yearrpercent' => $item['profitability_yearrpercent'],
+                                'profitability_threepercent' => $item['profitability_threepercent'],
+                                'promise_of_order_added' => $item['promise_of_order_added'], // "0000-00-00 00:00:00"
+                                'promise_of_order' => $item['promise_of_order'], // "0000-00-00 00:00:00"
+                            ],
+
+                            'invoice_address_infos' => [
+                                'id_invoice_address' => $item['id_customer'],
+                                //'id_customer_address',
+                                'id_customer' => $item['id_customer'],
+                                'email' => $item['adressef_email'],
+
+                                'address_infos' => [
+                                    'id_customer_address' => $item['id_customer'],
+                                    'first_name' => $item['firstnamef'],
+                                    'last_name' => $item['lastnamef'],
+                                    'address' => $item['adressef'],
+                                    'complement_address' => '',
+                                    'postal_code' => $item['adressef_pc'],
+                                    'city' => $item['adressef_ville'],
+                                    'id_country' => CustomerCountry::where('name', $item['adressef_pays'])->orWhere('name_en', $item['adressef_pays'])->orWhere('name_de', $item['adressef_pays'])->value('id_customer_country'),
+                                    'phone' => $item['adressef_phone'] == '' ? null : $item['adressef_phone'],
+                                    'fax' => $item['adressef_fax'],
+                                    'longitude' => $item['adressef_lng'],
+                                    'latitude' => $item['adressef_lat'],
+                                    'place_id' => $item['adressef_place_id'],
+                                ]
+                            ],
                         ];
 
+                        //dd($mappedData);
+
                         // Vérifier si le vendeur existe déjà dans la base de données
-                        $existingSeller = StoreGroup::where('id_store_group', $item['id_group'])->first();
+                        $existingSeller = Customer::where('id_customer', $item['id_customer'])->first();
 
                         // Créer une requête avec les données mappées
                         $request = new Request($mappedData);
                         
                         if ($existingSeller) {
                             // Valider les données
-                            $validator = Validator::make($mappedData, (new UpdateStoreGroupRequest())->rules());
+                            $validator = Validator::make($mappedData, (new UpdateCustomerRequest())->rules());
                             
                             if ($validator->fails()) {
                                 throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
@@ -329,14 +516,119 @@ class ImportOldDataController extends Controller
                             dump("🔄 Item mis à jour: ID {$idItem}");
                         } else {
                             // Valider les données
-                            $validator = Validator::make($mappedData, (new StoreStoreGroupRequest())->rules());
+                            $storeCustomerRequest = new StoreCustomerRequest();
+                            //$validator = Validator::make($mappedData, (new StoreCustomerRequest())->rules());
+                            $validator = Validator::make($mappedData, $storeCustomerRequest->rules(), $storeCustomerRequest->messages());
                             
+                
                             if ($validator->fails()) {
                                 throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
                             }
                             
-                            // Créer avec les données validées
-                            StoreGroup::create($validator->validated());
+                            // Valider les données du customer
+                            $customerData = $validator->validated();
+                            $userData = $customerData['user_infos'] ?? [];
+                            $comptaData = $customerData['compta_infos'] ?? [];
+                            $statData = $customerData['stat_infos'] ?? [];
+                            $invoiceAddressData = $customerData['invoice_address_infos'];
+                            
+                            // Supprimer compta des données du customer
+                            unset($customerData['user_infos']);
+                            unset($customerData['compta_infos']);
+                            unset($customerData['stat_infos']);
+                            unset($customerData['invoice_address_infos']);
+
+                            
+                            // Créer les données du user avant de créer le customer
+                            $storeUserRequest = new StoreUserRequest();
+
+                            $userValidator = Validator::make($userData, $storeUserRequest->rules(), $storeUserRequest->messages());
+                            
+                            if ($userValidator->fails()) {
+                                throw new \Exception($erreurExceptionMessage . $userValidator->errors()->first());
+                            }
+                            
+                            // Créer user
+                            $validatedUserData = $userValidator->validate();
+                            $user = User::create(array_merge($validatedUserData, ['id_user' => $item['id_customer']]));
+                            
+                            // Créer le customer
+                            $customerData['id_user'] = $user->id_user;
+                            $customer = Customer::create($customerData);
+                            $comptaData['id_customer'] = $customer->id_customer;
+                            $statData['id_customer'] = $customer->id_customer;
+                            $invoiceAddressData['id_customer'] = $customer->id_customer;
+                            
+                            // Si des données invoice_address_infos sont présentes, valider avec StoreCustomerInvoiceAddressRequest
+                            if ($invoiceAddressData) {
+                                $addressData = $invoiceAddressData['address_infos'] ?? null;
+
+                                if ($addressData) {
+                                    $storeCustomerAddressRequest = new StoreCustomerAddressRequest();
+
+                                    $addressValidator = Validator::make($addressData, $storeCustomerAddressRequest->rules(), $storeCustomerAddressRequest->messages());
+                                    
+                                    if ($addressValidator->fails()) {
+                                        throw new \Exception($erreurExceptionMessage . $addressValidator->errors()->first());
+                                    }
+                                    
+                                    // Créer l'adresse client
+                                    $validatedAddressData = $addressValidator->validate();
+                                    $customerAddress = CustomerAddress::create($validatedAddressData);
+                                    $invoiceAddressData['id_customer_address'] = $customerAddress->id_customer_address;
+                                    
+                                    // Associer l'adresse créée aux données de l'adresse de facturation
+                                    $invoiceAddressData['id_customer_address'] = $customerAddress->id_customer_address;
+
+                                    $storeInvoiceAddressRequest = new StoreInvoiceAddressRequest();
+
+                                    $invoiceAddressValidator = Validator::make($invoiceAddressData, $storeInvoiceAddressRequest->rules(), $storeInvoiceAddressRequest->messages());
+                                    
+                                    if ($invoiceAddressValidator->fails()) {
+                                        throw new \Exception($erreurExceptionMessage . $invoiceAddressValidator->errors()->first());
+                                    }
+                                    
+                                    // Créer l'adresse de facturation
+                                    
+                                    unset($invoiceAddressData['address_infos']);
+                                    $validatedInvoiceAddressData = $invoiceAddressValidator->validate();
+                                    InvoiceAddress::create(array_merge($validatedInvoiceAddressData, ['id_customer_address' => $customerAddress->id_customer_address, 'id_invoice_address' => $item['id_customer']]) );
+                                }
+                                
+                            }
+
+                            // Si des données compta sont présentes, valider avec StoreCustomerComptaRequest
+                            if ($comptaData) {
+                                
+                                $storeCustomerComptaRequest = new StoreCustomerComptaRequest();
+
+                                $comptaValidator = Validator::make($comptaData, $storeCustomerComptaRequest->rules(), $storeCustomerComptaRequest->messages());
+                                
+                                if ($comptaValidator->fails()) {
+                                    throw new \Exception($erreurExceptionMessage . $comptaValidator->errors()->first());
+                                }
+                                
+                                // Créer la comptabilité
+                                $validatedComptaData = $comptaValidator->valid();
+                                CustomerCompta::create($validatedComptaData);
+                                dd('stop');
+                            }
+                            
+                            // Si des données stat sont présentes, valider avec StoreCustomerStatRequest
+                            if ($statData) {
+                                
+                                $storeCustomerStatRequest = new StoreCustomerStatRequest();
+
+                                $statValidator = Validator::make($statData, $storeCustomerStatRequest->rules(), $storeCustomerStatRequest->messages());
+                                
+                                if ($statValidator->fails()) {
+                                    throw new \Exception($erreurExceptionMessage . $statValidator->errors()->first());
+                                }
+
+                                // Créer la statistique
+                                $validatedStatData = $statValidator->all();
+                                CustomerStat::create($validatedStatData);
+                            }
                             
                             dump("✅ Item créé: ID {$idItem}");
                         }

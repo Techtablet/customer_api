@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_country');
             
             // Coordonnées
-            $table->string('phone', 20);
+            $table->string('phone', 20)->nullable();
             $table->string('fax', 20)->nullable();
             
             // Géolocalisation
@@ -47,7 +47,6 @@ return new class extends Migration
             $table->index('id_country');
             $table->index('postal_code');
             $table->index(['city', 'postal_code']);
-            $table->index('has_difficult_access');
         });
     }
 

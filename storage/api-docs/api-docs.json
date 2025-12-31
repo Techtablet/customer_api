@@ -8914,8 +8914,7 @@
                     "address",
                     "postal_code",
                     "city",
-                    "id_country",
-                    "phone"
+                    "id_country"
                 ],
                 "properties": {
                     "first_name": {
@@ -8993,18 +8992,6 @@
                         "maxLength": 150,
                         "example": "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
                         "nullable": true
-                    },
-                    "address_name": {
-                        "description": "Nom personnalisé de l'adresse",
-                        "type": "string",
-                        "maxLength": 64,
-                        "example": "Domicile",
-                        "nullable": true
-                    },
-                    "has_difficult_access": {
-                        "description": "Accès difficile",
-                        "type": "boolean",
-                        "example": false
                     }
                 },
                 "type": "object"
@@ -9086,18 +9073,6 @@
                         "maxLength": 150,
                         "example": "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
                         "nullable": true
-                    },
-                    "address_name": {
-                        "description": "Nom personnalisé de l'adresse",
-                        "type": "string",
-                        "maxLength": 64,
-                        "example": "Domicile",
-                        "nullable": true
-                    },
-                    "has_difficult_access": {
-                        "description": "Accès difficile",
-                        "type": "boolean",
-                        "example": false
                     }
                 },
                 "type": "object"
@@ -10027,29 +10002,25 @@
             "StoreCustomerRequest": {
                 "required": [
                     "user_infos",
+                    "invoice_address_infos",
                     "name",
                     "siren",
                     "siret",
                     "newsletter",
                     "already_called",
-                    "id_franchise",
-                    "id_stock_software",
                     "to_callback",
                     "id_status",
-                    "id_refusal_reason",
-                    "id_seller",
                     "repurchase_menu",
                     "dropshipping_menu",
                     "information_request_send",
                     "information_request_validated",
                     "information_request_validated_once",
-                    "ape",
-                    "rcs",
                     "shipping_schedule",
                     "has_customer_order_number",
-                    "last_website_key",
                     "receive_stock_software_file",
-                    "supplier_id_for_techtablet"
+                    "id_lang",
+                    "id_shipping_plan",
+                    "id_price_list_info"
                 ],
                 "properties": {
                     "user_infos": {
@@ -10075,7 +10046,7 @@
                     },
                     "newsletter": {
                         "description": "Abonnement à la newsletter",
-                        "type": "boolean",
+                        "type": "integer",
                         "example": true
                     },
                     "already_called": {
@@ -10276,7 +10247,7 @@
                         "example": 1,
                         "nullable": true
                     },
-                    "id_typologie": {
+                    "id_typology": {
                         "description": "ID de la typologie",
                         "type": "integer",
                         "example": 1,
@@ -10318,6 +10289,14 @@
                     },
                     "stat_infos": {
                         "$ref": "#/components/schemas/StoreCustomerStatRequest"
+                    },
+                    "invoice_address_infos": {
+                        "description": "Informations de l'adresse de facturation du client",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/StoreInvoiceAddressRequest"
+                            }
+                        ]
                     }
                 },
                 "type": "object"
@@ -10344,7 +10323,7 @@
                     },
                     "newsletter": {
                         "description": "Abonnement à la newsletter",
-                        "type": "boolean",
+                        "type": "integer",
                         "example": true
                     },
                     "already_called": {
@@ -10545,7 +10524,7 @@
                         "example": 1,
                         "nullable": true
                     },
-                    "id_typologie": {
+                    "id_typology": {
                         "description": "ID de la typologie",
                         "type": "integer",
                         "example": 1,
@@ -11110,16 +11089,11 @@
             },
             "StoreInvoiceAddressRequest": {
                 "required": [
-                    "id_customer_address",
+                    "address_infos",
                     "id_customer",
                     "email"
                 ],
                 "properties": {
-                    "id_customer_address": {
-                        "description": "ID de l'adresse client",
-                        "type": "integer",
-                        "example": 1
-                    },
                     "id_customer": {
                         "description": "ID du client",
                         "type": "integer",
@@ -11129,6 +11103,14 @@
                         "description": "Email de l'adresse de facturation",
                         "type": "string",
                         "example": "contact@techcorp.com"
+                    },
+                    "address_infos": {
+                        "description": "Informations de l'adresse de facturation du client",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/StoreCustomerAddressRequest"
+                            }
+                        ]
                     }
                 },
                 "type": "object"
@@ -11149,6 +11131,14 @@
                         "description": "Email de l'adresse de facturation",
                         "type": "string",
                         "example": "contact@techcorp.com"
+                    },
+                    "address_infos": {
+                        "description": "Informations de l'adresse de facturation du client",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/UpdateCustomerAddressRequest"
+                            }
+                        ]
                     }
                 },
                 "type": "object"
@@ -11181,7 +11171,8 @@
             "StoreShippingAddressRequest": {
                 "required": [
                     "id_customer_address",
-                    "id_customer"
+                    "id_customer",
+                    "address_name"
                 ],
                 "properties": {
                     "id_customer_address": {
@@ -11199,6 +11190,18 @@
                         "type": "boolean",
                         "example": true,
                         "nullable": true
+                    },
+                    "address_name": {
+                        "description": "Nom personnalisé de l'adresse",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Domicile",
+                        "nullable": true
+                    },
+                    "has_difficult_access": {
+                        "description": "Accès difficile",
+                        "type": "boolean",
+                        "example": false
                     }
                 },
                 "type": "object"
@@ -11220,6 +11223,18 @@
                         "type": "boolean",
                         "example": true,
                         "nullable": true
+                    },
+                    "address_name": {
+                        "description": "Nom personnalisé de l'adresse",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Domicile",
+                        "nullable": true
+                    },
+                    "has_difficult_access": {
+                        "description": "Accès difficile",
+                        "type": "boolean",
+                        "example": false
                     }
                 },
                 "type": "object"
@@ -11751,7 +11766,7 @@
                     },
                     "newsletter": {
                         "description": "Abonnement à la newsletter",
-                        "type": "boolean",
+                        "type": "integer",
                         "example": true
                     },
                     "already_called": {
@@ -11952,7 +11967,7 @@
                         "example": 1,
                         "nullable": true
                     },
-                    "id_typologie": {
+                    "id_typology": {
                         "description": "ID de la typologie",
                         "type": "integer",
                         "example": 1,
@@ -12011,7 +12026,7 @@
                     "location": {
                         "$ref": "#/components/schemas/CustomerLocation"
                     },
-                    "typologie": {
+                    "typology": {
                         "$ref": "#/components/schemas/CustomerTypology"
                     },
                     "canvassing_step": {
@@ -12110,18 +12125,6 @@
                         "maxLength": 150,
                         "example": "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
                         "nullable": true
-                    },
-                    "address_name": {
-                        "description": "Nom personnalisé de l'adresse",
-                        "type": "string",
-                        "maxLength": 64,
-                        "example": "Domicile",
-                        "nullable": true
-                    },
-                    "has_difficult_access": {
-                        "description": "Accès difficile",
-                        "type": "boolean",
-                        "example": false
                     },
                     "created_at": {
                         "description": "Date de création",
@@ -13032,7 +13035,7 @@
                 "title": "CustomerTypology",
                 "description": "Modèle de typologie client",
                 "properties": {
-                    "id_customer_typologie": {
+                    "id_customer_typology": {
                         "description": "ID unique de la typologie client",
                         "type": "integer",
                         "example": 1
@@ -13173,6 +13176,18 @@
                         "type": "boolean",
                         "example": true,
                         "nullable": true
+                    },
+                    "address_name": {
+                        "description": "Nom personnalisé de l'adresse",
+                        "type": "string",
+                        "maxLength": 64,
+                        "example": "Domicile",
+                        "nullable": true
+                    },
+                    "has_difficult_access": {
+                        "description": "Accès difficile",
+                        "type": "boolean",
+                        "example": false
                     },
                     "created_at": {
                         "description": "Date de création",

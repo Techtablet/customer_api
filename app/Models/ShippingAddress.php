@@ -37,6 +37,20 @@ use Illuminate\Database\Eloquent\Model;
  *         nullable=true
  *     ),
  *     @OA\Property(
+ *         property="address_name",
+ *         type="string",
+ *         maxLength=64,
+ *         nullable=true,
+ *         description="Nom personnalisé de l'adresse",
+ *         example="Domicile"
+ *     ),
+ *     @OA\Property(
+ *         property="has_difficult_access",
+ *         type="boolean",
+ *         description="Accès difficile",
+ *         example=false
+ *     ),
+ *     @OA\Property(
  *         property="created_at",
  *         type="string",
  *         format="date-time",
@@ -77,6 +91,8 @@ class ShippingAddress extends Model
         'id_customer_address',
         'id_customer',
         'is_default',
+        'address_name',
+        'has_difficult_access',
     ];
 
     /**

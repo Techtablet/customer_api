@@ -260,6 +260,7 @@ class CustomerStat extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_customer_stat',
         'id_customer',
         'arevage_ordervalue',
         'last_order',

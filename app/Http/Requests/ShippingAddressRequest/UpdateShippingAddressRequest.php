@@ -26,6 +26,20 @@ use Illuminate\Validation\Rule;
  *         description="Indique si c'est l'adresse de livraison par défaut",
  *         example=true,
  *         nullable=true
+ *     ),
+ *     @OA\Property(
+ *         property="address_name",
+ *         type="string",
+ *         maxLength=64,
+ *         nullable=true,
+ *         description="Nom personnalisé de l'adresse",
+ *         example="Domicile"
+ *     ),
+ *     @OA\Property(
+ *         property="has_difficult_access",
+ *         type="boolean",
+ *         description="Accès difficile",
+ *         example=false
  *     )
  * )
  */
@@ -68,6 +82,8 @@ class UpdateShippingAddressRequest extends FormRequest
                     })
                     ->ignore($shippingAddressId, 'id_shipping_address'),
             ],
+            'address_name' => 'sometimes|string|max:100',
+            'has_difficult_access' => 'sometimes|boolean',
         ];
     }
 
@@ -82,6 +98,9 @@ class UpdateShippingAddressRequest extends FormRequest
             'id_customer_address.exists' => 'L\'adresse client spécifiée n\'existe pas.',
             'id_customer.exists' => 'Le client spécifié n\'existe pas.',
             'is_default.unique' => 'Une adresse de livraison par défaut existe déjà.',
+            'address_name.string' => 'Le nom d\'adresse doit être une chaîne de caractères.',
+            'address_name.max' => 'Le nom d\'adresse ne peut pas dépasser :max caractères.',
+            'has_difficult_access.boolean' => 'Le champ accès difficile doit être vrai ou faux.',
         ];
     }
 

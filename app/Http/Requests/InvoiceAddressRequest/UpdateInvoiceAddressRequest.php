@@ -25,6 +25,13 @@ use Illuminate\Validation\Rule;
  *         type="string",
  *         description="Email de l'adresse de facturation",
  *         example="contact@techcorp.com"
+ *     ),
+ *     @OA\Property(
+ *         property="address_infos",
+ *         allOf={
+ *             @OA\Schema(ref="#/components/schemas/UpdateCustomerAddressRequest"),
+ *         },
+ *         description="Informations de l'adresse de facturation du client"
  *     )
  * )
  */
@@ -65,6 +72,9 @@ class UpdateInvoiceAddressRequest extends FormRequest
                 'email',
                 'max:255',
             ],
+
+            // Règles pour l'adresse de facturation
+            'address_infos' => 'sometimes|array',
         ];
     }
 
@@ -81,6 +91,7 @@ class UpdateInvoiceAddressRequest extends FormRequest
             'id_customer.exists' => 'Le client spécifié n\'existe pas.',
             'email.email' => 'L\'email doit être une adresse email valide.',
             'email.max' => 'L\'email ne peut pas dépasser :max caractères.',
+            'address_infos.array' => 'Les informations utilisateur doivent être un tableau.',
         ];
     }
 }

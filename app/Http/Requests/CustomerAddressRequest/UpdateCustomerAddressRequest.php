@@ -95,20 +95,6 @@ use Illuminate\Validation\Rule;
  *         nullable=true,
  *         description="ID de lieu Google Maps",
  *         example="ChIJD7fiBh9u5kcRYJSMaMOCCwQ"
- *     ),
- *     @OA\Property(
- *         property="address_name",
- *         type="string",
- *         maxLength=64,
- *         nullable=true,
- *         description="Nom personnalisé de l'adresse",
- *         example="Domicile"
- *     ),
- *     @OA\Property(
- *         property="has_difficult_access",
- *         type="boolean",
- *         description="Accès difficile",
- *         example=false
  *     )
  * )
  */
@@ -137,13 +123,11 @@ class UpdateCustomerAddressRequest extends FormRequest
             'postal_code' => 'sometimes|string|max:10',
             'city' => 'sometimes|string|max:64',
             'id_country' => 'sometimes|integer|exists:customer_countries,id_customer_country',
-            'phone' => 'sometimes|string|max:20',
+            'phone' => 'nullable|string|max:20',
             'fax' => 'nullable|string|max:20',
             'longitude' => 'nullable|numeric|between:-180,180',
             'latitude' => 'nullable|numeric|between:-90,90',
             'place_id' => 'nullable|string|max:150',
-            'address_name' => 'nullable|string|max:64',
-            'has_difficult_access' => 'sometimes|boolean',
         ];
     }
 
@@ -179,9 +163,6 @@ class UpdateCustomerAddressRequest extends FormRequest
             'latitude.between' => 'La latitude doit être comprise entre -90 et 90.',
             'place_id.string' => 'L\'ID de lieu doit être une chaîne de caractères.',
             'place_id.max' => 'L\'ID de lieu ne peut pas dépasser :max caractères.',
-            'address_name.string' => 'Le nom d\'adresse doit être une chaîne de caractères.',
-            'address_name.max' => 'Le nom d\'adresse ne peut pas dépasser :max caractères.',
-            'has_difficult_access.boolean' => 'Le champ accès difficile doit être vrai ou faux.',
         ];
     }
 }

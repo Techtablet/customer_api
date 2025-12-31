@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 /**
  * @OA\Schema(
  *     schema="StoreCustomerAddressRequest",
- *     required={"first_name", "last_name", "address", "postal_code", "city", "id_country", "phone"},
+ *     required={"first_name", "last_name", "address", "postal_code", "city", "id_country"},
  *     @OA\Property(
  *         property="first_name",
  *         type="string",
@@ -96,20 +96,6 @@ use Illuminate\Validation\Rule;
  *         nullable=true,
  *         description="ID de lieu Google Maps",
  *         example="ChIJD7fiBh9u5kcRYJSMaMOCCwQ"
- *     ),
- *     @OA\Property(
- *         property="address_name",
- *         type="string",
- *         maxLength=64,
- *         nullable=true,
- *         description="Nom personnalisé de l'adresse",
- *         example="Domicile"
- *     ),
- *     @OA\Property(
- *         property="has_difficult_access",
- *         type="boolean",
- *         description="Accès difficile",
- *         example=false
  *     )
  * )
  */
@@ -138,13 +124,11 @@ class StoreCustomerAddressRequest extends FormRequest
             'postal_code' => 'required|string|max:10',
             'city' => 'required|string|max:64',
             'id_country' => 'required|integer|exists:customer_countries,id_customer_country',
-            'phone' => 'required|string|max:20',
+            'phone' => 'nullable|string|max:20',
             'fax' => 'nullable|string|max:20',
             'longitude' => 'nullable|numeric|between:-180,180',
             'latitude' => 'nullable|numeric|between:-90,90',
             'place_id' => 'nullable|string|max:150',
-            'address_name' => 'nullable|string|max:64',
-            'has_difficult_access' => 'boolean',
         ];
     }
 
@@ -187,9 +171,6 @@ class StoreCustomerAddressRequest extends FormRequest
             'latitude.between' => 'La latitude doit être comprise entre -90 et 90.',
             'place_id.string' => 'L\'ID de lieu doit être une chaîne de caractères.',
             'place_id.max' => 'L\'ID de lieu ne peut pas dépasser :max caractères.',
-            'address_name.string' => 'Le nom d\'adresse doit être une chaîne de caractères.',
-            'address_name.max' => 'Le nom d\'adresse ne peut pas dépasser :max caractères.',
-            'has_difficult_access.boolean' => 'Le champ accès difficile doit être vrai ou faux.',
         ];
     }
 }

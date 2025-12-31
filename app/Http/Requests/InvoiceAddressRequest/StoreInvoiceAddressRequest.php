@@ -8,13 +8,7 @@ use Illuminate\Validation\Rule;
 /**
  * @OA\Schema(
  *     schema="StoreInvoiceAddressRequest",
- *     required={"id_customer_address", "id_customer", "email"},
- *     @OA\Property(
- *         property="id_customer_address",
- *         type="integer",
- *         description="ID de l'adresse client",
- *         example=1
- *     ),
+ *     required={"address_infos", "id_customer", "email"},
  *     @OA\Property(
  *         property="id_customer",
  *         type="integer",
@@ -26,6 +20,13 @@ use Illuminate\Validation\Rule;
  *         type="string",
  *         description="Email de l'adresse de facturation",
  *         example="contact@techcorp.com"
+ *     ),
+ *     @OA\Property(
+ *         property="address_infos",
+ *         allOf={
+ *             @OA\Schema(ref="#/components/schemas/StoreCustomerAddressRequest"),
+ *         },
+ *         description="Informations de l'adresse de facturation du client"
  *     )
  * )
  */
@@ -47,11 +48,6 @@ class StoreInvoiceAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_customer_address' => [
-                'required',
-                'integer',
-                'exists:customer_addresses,id_customer_address',
-            ],
             'id_customer' => [
                 'required',
                 'integer',
@@ -64,6 +60,9 @@ class StoreInvoiceAddressRequest extends FormRequest
                 'email',
                 'max:255',
             ],
+
+            // Règles pour l'adresse de facturation
+            'address_infos' => 'required|array',
         ];
     }
 
@@ -75,14 +74,16 @@ class StoreInvoiceAddressRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id_customer_address.required' => 'L\'ID de l\'adresse client est obligatoire.',
-            'id_customer_address.exists' => 'L\'adresse client spécifiée n\'existe pas.',
+            //'id_customer_address.required' => 'L\'ID de l\'adresse client est obligatoire.',
+            //'id_customer_address.exists' => 'L\'adresse client spécifiée n\'existe pas.',
             'id_customer.required' => 'L\'ID du client est obligatoire.',
             'id_customer.unique' => 'Ce client a déjà une adresse de facturation.',
             'id_customer.exists' => 'Le client spécifié n\'existe pas.',
             'email.required' => 'L\'email de l\'adresse de facturation est obligatoire.',
             'email.email' => 'L\'email doit être une adresse email valide.',
             'email.max' => 'L\'email ne peut pas dépasser :max caractères.',
+            'address_infos.required' => 'Les informations address sont obligatoires.',
+            'address_infos.array' => 'Les informations address doivent être un tableau.',
         ];
     }
 }

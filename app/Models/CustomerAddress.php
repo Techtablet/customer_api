@@ -107,20 +107,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *         example="ChIJD7fiBh9u5kcRYJSMaMOCCwQ"
  *     ),
  *     @OA\Property(
- *         property="address_name",
- *         type="string",
- *         maxLength=64,
- *         nullable=true,
- *         description="Nom personnalisé de l'adresse",
- *         example="Domicile"
- *     ),
- *     @OA\Property(
- *         property="has_difficult_access",
- *         type="boolean",
- *         description="Accès difficile",
- *         example=false
- *     ),
- *     @OA\Property(
  *         property="created_at",
  *         type="string",
  *         format="date-time",
@@ -163,6 +149,7 @@ class CustomerAddress extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_customer_address',
         'first_name',
         'last_name',
         'address',
@@ -175,8 +162,6 @@ class CustomerAddress extends Model
         'longitude',
         'latitude',
         'place_id',
-        'address_name',
-        'has_difficult_access',
     ];
 
     /**
@@ -197,7 +182,6 @@ class CustomerAddress extends Model
     protected $casts = [
         'longitude' => 'decimal:7',
         'latitude' => 'decimal:7',
-        'has_difficult_access' => 'boolean',
     ];
 
     /**
@@ -206,7 +190,7 @@ class CustomerAddress extends Model
      * @var array<string, mixed>
      */
     protected $attributes = [
-        'has_difficult_access' => false,
+        
     ];
 
     /**

@@ -19,6 +19,14 @@ use \App\Http\Requests\CustomerStatRequest\StoreCustomerStatRequest;
 use \App\Http\Requests\CustomerStatRequest\UpdateCustomerStatRequest;
 use \App\Models\CustomerStat;
 
+use App\Http\Requests\CustomerAddressRequest\StoreCustomerAddressRequest;
+use App\Http\Requests\CustomerAddressRequest\UpdateCustomerAddressRequest;
+use App\Models\CustomerAddress;
+
+use App\Http\Requests\InvoiceAddressRequest\StoreInvoiceAddressRequest;
+use App\Http\Requests\InvoiceAddressRequest\UpdateInvoiceAddressRequest;
+use App\Models\InvoiceAddress;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -182,11 +190,13 @@ class CustomerController extends Controller
             $userData = $customerData['user_infos'] ?? [];
             $comptaData = $customerData['compta_infos'] ?? [];
             $statData = $customerData['stat_infos'] ?? [];
+            $invoiceAddressData = $customerData['invoice_address_infos'];
             
             // Supprimer compta des données du customer
             unset($customerData['user_infos']);
             unset($customerData['compta_infos']);
             unset($customerData['stat_infos']);
+            unset($customerData['invoice_address_infos']);
 
             // Créer les données du user avant de créer le customer
             $storeUserRequest = new StoreUserRequest();
@@ -202,7 +212,7 @@ class CustomerController extends Controller
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             
-            // Créer la comptabilité
+            // Créer user
             $validatedUserData = $userValidator->validated();
             $user = User::create($validatedUserData);
 
@@ -211,6 +221,55 @@ class CustomerController extends Controller
             $customer = Customer::create($customerData);
             $comptaData['id_customer'] = $customer->id_customer;
             $statData['id_customer'] = $customer->id_customer;
+            $invoiceAddressData['id_customer'] = $customer->id_customer;
+
+            // Si des données invoice_address_infos sont présentes, valider avec StoreCustomerInvoiceAddressRequest
+            if ($invoiceAddressData) {
+                $addressData = $invoiceAddressData['address_infos'] ?? null;
+
+                if ($addressData) {
+                    $storeCustomerAddressRequest = new StoreCustomerAddressRequest();
+
+                    $addressValidator = Validator::make($addressData, $storeCustomerAddressRequest->rules(), $storeCustomerAddressRequest->messages());
+                    
+                    if ($addressValidator->fails()) {
+                        DB::rollBack();
+                        return response()->json([
+                            'success' => false,
+                            'errors' => $addressValidator->errors(),
+                            'message' => 'Validation des données de l\'adresse échouée.',
+                        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                    }
+                    
+                    // Créer l'adresse client
+                    $validatedAddressData = $addressValidator->validated();
+                    $customerAddress = CustomerAddress::create($validatedAddressData);
+                    $invoiceAddressData['id_customer_address'] = $customerAddress->id_customer_address;
+                    
+                    // Associer l'adresse créée aux données de l'adresse de facturation
+                    $invoiceAddressData['id_customer_address'] = $customerAddress->id_customer_address;
+
+                    $storeInvoiceAddressRequest = new StoreInvoiceAddressRequest();
+
+                    $invoiceAddressValidator = Validator::make($invoiceAddressData, $storeInvoiceAddressRequest->rules(), $storeInvoiceAddressRequest->messages());
+                    
+                    if ($invoiceAddressValidator->fails()) {
+                        DB::rollBack();
+                        return response()->json([
+                            'success' => false,
+                            'errors' => $invoiceAddressValidator->errors(),
+                            'message' => 'Validation des données de l\'adresse de facturation échouée.',
+                        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                    }
+                    
+                    // Créer l'adresse de facturation
+                    
+                    unset($invoiceAddressData['address_infos']);
+                    $validatedInvoiceAddressData = $invoiceAddressValidator->validated();
+                    InvoiceAddress::create(array_merge($validatedInvoiceAddressData, ['id_customer_address' => $customerAddress->id_customer_address]));
+                }
+                
+            }
             
             // Si des données compta sont présentes, valider avec StoreCustomerComptaRequest
             if ($comptaData) {

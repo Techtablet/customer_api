@@ -332,6 +332,7 @@ class CustomerCompta extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_customer_compta',
         'id_customer',
         'devise',
         'tva_intra_number',
