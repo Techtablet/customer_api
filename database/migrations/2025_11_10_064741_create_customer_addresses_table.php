@@ -12,13 +12,13 @@ return new class extends Migration
             $table->id('id_customer_address');
             
             // Informations personnelles
-            $table->string('first_name', 64);
-            $table->string('last_name', 64);
+            $table->string('first_name', 64)->nullable();
+            $table->string('last_name', 64)->nullable();
             
             // Adresse
             $table->string('address', 255);
             $table->string('complement_address', 200)->nullable();
-            $table->string('postal_code', 10);
+            $table->string('postal_code');
             $table->string('city', 64);
             $table->unsignedBigInteger('id_country');
             

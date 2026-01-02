@@ -116,11 +116,11 @@ class UpdateCustomerAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'sometimes|string|max:64',
-            'last_name' => 'sometimes|string|max:64',
+            'first_name' => 'nullable|string|max:64',
+            'last_name' => 'nullable|string|max:64',
             'address' => 'sometimes|string|max:255',
             'complement_address' => 'nullable|string|max:200',
-            'postal_code' => 'sometimes|string|max:10',
+            'postal_code' => 'sometimes|string|max:100',
             'city' => 'sometimes|string|max:64',
             'id_country' => 'sometimes|integer|exists:customer_countries,id_customer_country',
             'phone' => 'nullable|string|max:20',

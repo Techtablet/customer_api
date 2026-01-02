@@ -8909,8 +8909,6 @@
             },
             "StoreCustomerAddressRequest": {
                 "required": [
-                    "first_name",
-                    "last_name",
                     "address",
                     "postal_code",
                     "city",
@@ -10002,10 +10000,7 @@
             "StoreCustomerRequest": {
                 "required": [
                     "user_infos",
-                    "invoice_address_infos",
                     "name",
-                    "siren",
-                    "siret",
                     "newsletter",
                     "already_called",
                     "to_callback",
@@ -10015,7 +10010,6 @@
                     "information_request_send",
                     "information_request_validated",
                     "information_request_validated_once",
-                    "shipping_schedule",
                     "has_customer_order_number",
                     "receive_stock_software_file",
                     "id_lang",

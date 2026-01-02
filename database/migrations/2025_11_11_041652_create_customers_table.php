@@ -16,8 +16,8 @@ return new class extends Migration
             //$table->foreignId('id_user')->constrained('users')->restrictOnDelete();
             
             $table->string('name', 100);
-            $table->string('siren', 32);
-            $table->string('siret', 32);
+            $table->string('siren', 32)->nullable();
+            $table->string('siret', 32)->nullable();
             $table->unsignedTinyInteger('newsletter')->default(0);
             //alreadycalled
             $table->boolean('already_called')->default(0)->comment('Anciennement alreadycalled');;
@@ -64,7 +64,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_store_group')->nullable();
             $table->foreign('id_store_group')->references('id_store_group')->on('store_groups')->onDelete('restrict');
             
-            $table->text('shipping_schedule')->comment('exemple de valeur ["1", "2", "3", "4", "5", "6", "7"]');
+            $table->text('shipping_schedule')->comment('exemple de valeur ["1", "2", "3", "4", "5", "6", "7"]')->nullable();
             $table->boolean('has_customer_order_number')->default(0);
             $table->string('last_website_key', 500)->nullable();
             $table->boolean('receive_stock_software_file')->default(0);

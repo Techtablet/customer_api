@@ -187,10 +187,10 @@ class CustomerController extends Controller
         try {
             // Valider les données du customer
             $customerData = $request->validated();
-            $userData = $customerData['user_infos'] ?? [];
-            $comptaData = $customerData['compta_infos'] ?? [];
-            $statData = $customerData['stat_infos'] ?? [];
-            $invoiceAddressData = $customerData['invoice_address_infos'];
+            $userData = $customerData['user_infos'] ?? null;
+            $comptaData = $customerData['compta_infos'] ?? null;
+            $statData = $customerData['stat_infos'] ?? null;
+            $invoiceAddressData = $customerData['invoice_address_infos'] ?? null;
             
             // Supprimer compta des données du customer
             unset($customerData['user_infos']);
@@ -219,12 +219,11 @@ class CustomerController extends Controller
             // Créer le customer
             $customerData['id_user'] = $user->id_user;
             $customer = Customer::create($customerData);
-            $comptaData['id_customer'] = $customer->id_customer;
-            $statData['id_customer'] = $customer->id_customer;
-            $invoiceAddressData['id_customer'] = $customer->id_customer;
 
             // Si des données invoice_address_infos sont présentes, valider avec StoreCustomerInvoiceAddressRequest
             if ($invoiceAddressData) {
+                
+                $invoiceAddressData['id_customer'] = $customer->id_customer;
                 $addressData = $invoiceAddressData['address_infos'] ?? null;
 
                 if ($addressData) {
@@ -273,6 +272,7 @@ class CustomerController extends Controller
             
             // Si des données compta sont présentes, valider avec StoreCustomerComptaRequest
             if ($comptaData) {
+                $comptaData['id_customer'] = $customer->id_customer;
                 
                 $storeCustomerComptaRequest = new StoreCustomerComptaRequest();
 
@@ -294,6 +294,7 @@ class CustomerController extends Controller
 
             // Si des données stat sont présentes, valider avec StoreCustomerStatRequest
             if ($statData) {
+                $statData['id_customer'] = $customer->id_customer;  
                 
                 $storeCustomerStatRequest = new StoreCustomerStatRequest();
 

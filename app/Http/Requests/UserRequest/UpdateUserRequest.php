@@ -67,7 +67,7 @@ class UpdateUserRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($userId, 'id_user'),
             ],
             'user_key' => [
-                'sometimes',
+                'nullable',
                 'string',
                 'max:255',
                 Rule::unique('users', 'user_key')->ignore($userId, 'id_user'),

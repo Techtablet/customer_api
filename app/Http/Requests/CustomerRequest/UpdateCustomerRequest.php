@@ -334,8 +334,8 @@ class UpdateCustomerRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string|max:100',
-            'siren' => 'sometimes|string|max:32',
-            'siret' => 'sometimes|string|max:32',
+            'siren' => 'nullable|string|max:32',
+            'siret' => 'nullable|string|max:32',
             'newsletter' => 'sometimes|integer|in:0,1,2',
             'already_called' => 'sometimes|boolean',
             'id_franchise' => 'nullable|integer|exists:franchises,id_franchise',

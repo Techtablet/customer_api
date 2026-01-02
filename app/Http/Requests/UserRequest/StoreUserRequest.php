@@ -58,7 +58,7 @@ class StoreUserRequest extends FormRequest
         return [
             'type' => 'required|string|in:admin,customer',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'user_key' => 'required|string|max:255|unique:users,user_key',
+            'user_key' => 'nullable|string|max:255|unique:users,user_key',
             'password' => ['required', 'string', Password::defaults()],
         ];
     }

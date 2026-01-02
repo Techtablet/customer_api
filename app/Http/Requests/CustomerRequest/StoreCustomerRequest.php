@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @OA\Schema(
  *     schema="StoreCustomerRequest",
- *     required={"user_infos", "invoice_address_infos", "name", "siren", "siret", "newsletter", "already_called", "to_callback", "id_status", "repurchase_menu", "dropshipping_menu", "information_request_send", "information_request_validated", "information_request_validated_once", "shipping_schedule", "has_customer_order_number", "receive_stock_software_file", "id_lang", "id_shipping_plan", "id_price_list_info"},
+ *     required={"user_infos", "name", "newsletter", "already_called", "to_callback", "id_status", "repurchase_menu", "dropshipping_menu", "information_request_send", "information_request_validated", "information_request_validated_once", "has_customer_order_number", "receive_stock_software_file", "id_lang", "id_shipping_plan", "id_price_list_info"},
  *     @OA\Property(
  *         property="user_infos",
  *         ref="#/components/schemas/StoreUserRequest",
@@ -361,8 +361,8 @@ class StoreCustomerRequest extends FormRequest
 
             // Règles pour le customer
             'name' => 'required|string|max:100',
-            'siren' => 'required|string|max:32',
-            'siret' => 'required|string|max:32',
+            'siren' => 'nullable|string|max:32',
+            'siret' => 'nullable|string|max:32',
             'newsletter' => 'required|integer|in:0,1,2',
             'already_called' => 'required|boolean',
             'id_franchise' => 'nullable|integer|exists:franchises,id_franchise',
@@ -390,7 +390,7 @@ class StoreCustomerRequest extends FormRequest
             'tourist_area' => 'integer|in:0,1,2',
             'denomination' => 'string|max:50',
             'id_store_group' => 'nullable|integer|exists:store_groups,id_store_group',
-            'shipping_schedule' => 'required|string',
+            'shipping_schedule' => 'nullable|string',
             'has_customer_order_number' => 'required|integer',
             'last_website_key' => 'nullable|string|max:500',
             'receive_stock_software_file' => 'required|integer',
@@ -416,7 +416,7 @@ class StoreCustomerRequest extends FormRequest
             'stat_infos' => 'nullable|array',
 
             // Règles pour l'adresse de facturation
-            'invoice_address_infos' => 'required|array',
+            'invoice_address_infos' => 'nullable|array',
         ];
     }
 

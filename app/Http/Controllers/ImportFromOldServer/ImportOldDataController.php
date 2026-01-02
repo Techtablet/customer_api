@@ -57,6 +57,10 @@ class ImportOldDataController extends Controller
     {
         
         set_time_limit(600000);
+        ini_set('max_execution_time', 0);     // ou set_time_limit(0);
+        ini_set('max_input_time', -1);        // -1 = illimité
+        ini_set('memory_limit', '-1');        // -1 = illimité
+        set_time_limit(0);
         
         $baseurl_dev = "https://dev.techtablet.fr";
         $baseurl_prod = "https://www.techtablet.fr";
@@ -149,7 +153,7 @@ class ImportOldDataController extends Controller
                             }
                             
                             // Créer avec les données validées
-                            TechtabletSeller::create($validator->validated());
+                            TechtabletSeller::create(array_merge($validator->validated(), ['id_techtablet_seller' => $item['id_seller']]));
                             
                             dump("✅ Vendeur créé: {$item['name']} {$item['lastname']} (ID: {$item['id_seller']})");
                         }
@@ -242,7 +246,7 @@ class ImportOldDataController extends Controller
                             }
                             
                             // Mettre à jour avec les données validées
-                            $existingSeller->update($validator->validated());
+                            $existingSeller->update(array_merge($validator->validated(), ['id_store_group' => $item['id_group']]));
                             
                             dump("🔄 Item mis à jour: ID {$idItem}");
                         } else {
@@ -254,7 +258,7 @@ class ImportOldDataController extends Controller
                             }
                             
                             // Créer avec les données validées
-                            StoreGroup::create($validator->validated());
+                            StoreGroup::create(array_merge($validator->validated(), ['id_store_group' => $item['id_group']]));
                             
                             dump("✅ Item créé: ID {$idItem}");
                         }
@@ -323,9 +327,9 @@ class ImportOldDataController extends Controller
                             'user_infos' => [
                                 'id_user' => $item['id_customer'],
                                 'type' => 'customer',
-                                'email' => $item['email'],
-                                'user_key' => $item['key'],
-                                'password' => $item['key'],
+                                'email' => $item['id_customer'] . $item['email'],
+                                'user_key' => $item['key'] == "" ? null : $item['key'],
+                                'password' => "123456789",
                             ],
 
                             'id_customer' => $item['id_customer'],
@@ -364,7 +368,7 @@ class ImportOldDataController extends Controller
                             
                             'denomination' => $item['denomination'],
                             'id_store_group' => intval($item['id_group']) == 0 ? null : intval($item['id_group']),
-                            'shipping_schedule' => $item['shipping_schedule'],
+                            'shipping_schedule' => $item['shipping_schedule'] == "" ? null : $item['shipping_schedule'],
                             'has_customer_order_number' => $item['has_customer_order_number'],
                             'last_website_key' => $item['last_website_key'],
                             'receive_stock_software_file' => $item['receive_stock_software_file'],
@@ -410,9 +414,9 @@ class ImportOldDataController extends Controller
                                 'rolling_period_cron_date' => $item['rolling_period_cron_date'],
                                 'bic' => $item['bic'],
                                 'iban' => $item['iban'],
-                                'grouped_invoice' => $item['grouped_invoice'],
-                                'grouped_invoice_begin' => $item['grouped_invoice_begin'], //"0000-00-00"
-                                'grouped_invoice_end' => $item['grouped_invoice_end'], // "0000-00-00"
+                                'grouped_invoice' => intval($item['grouped_invoice']) == 0 ? false : true,
+                                'grouped_invoice_begin' => $item['grouped_invoice_begin'] == "0000-00-00" ? null : $item['grouped_invoice_begin'],
+                                'grouped_invoice_end' => $item['grouped_invoice_end'] == "0000-00-00" ? null : $item['grouped_invoice_end'],
 
                                 'cb_register_info' => $item['cb_register_info'],
                                 'cb_register_always_ask' => $item['cb_register_always_ask'],
@@ -428,7 +432,7 @@ class ImportOldDataController extends Controller
                                 'sepa_debtor_address_city' => $item['sepa_debtor_address_city'],
                                 'sepa_signature_location' => $item['sepa_signature_location'],
 
-                                'sepa_signature_date' => $item['sepa_signature_date'], // "0000-00-00"
+                                'sepa_signature_date' => $item['sepa_signature_date'] == "0000-00-00" ? null : $item['sepa_signature_date'],
                                 'sepa_request_validated' => $item['sepa_request_validated'],
                                 'sepa_request_validated_once' => $item['sepa_request_validated_once'],
                                 'is_blprice' => $item['is_blprice'],
@@ -466,33 +470,36 @@ class ImportOldDataController extends Controller
                                 'profitability_lifepercent' => $item['profitability_lifepercent'],
                                 'profitability_yearrpercent' => $item['profitability_yearrpercent'],
                                 'profitability_threepercent' => $item['profitability_threepercent'],
-                                'promise_of_order_added' => $item['promise_of_order_added'], // "0000-00-00 00:00:00"
-                                'promise_of_order' => $item['promise_of_order'], // "0000-00-00 00:00:00"
+                                'promise_of_order_added' => $item['promise_of_order_added'] == "0000-00-00 00:00:00" || $item['promise_of_order_added'] == '0000-00-00' ? null : $item['promise_of_order_added'],
+                                'promise_of_order' => $item['promise_of_order'] == "0000-00-00 00:00:00" || $item['promise_of_order'] == '0000-00-00' ? null : $item['promise_of_order'],
                             ],
+                        ];
 
-                            'invoice_address_infos' => [
+                        if ($item['adressef'] && $item['adressef'] != '' && $item['adressef_pc'] && $item['adressef_pc'] != '') {
+                            $mappedData['invoice_address_infos'] = [
                                 'id_invoice_address' => $item['id_customer'],
                                 //'id_customer_address',
                                 'id_customer' => $item['id_customer'],
                                 'email' => $item['adressef_email'],
-
-                                'address_infos' => [
-                                    'id_customer_address' => $item['id_customer'],
-                                    'first_name' => $item['firstnamef'],
-                                    'last_name' => $item['lastnamef'],
-                                    'address' => $item['adressef'],
-                                    'complement_address' => '',
-                                    'postal_code' => $item['adressef_pc'],
-                                    'city' => $item['adressef_ville'],
-                                    'id_country' => CustomerCountry::where('name', $item['adressef_pays'])->orWhere('name_en', $item['adressef_pays'])->orWhere('name_de', $item['adressef_pays'])->value('id_customer_country'),
-                                    'phone' => $item['adressef_phone'] == '' ? null : $item['adressef_phone'],
-                                    'fax' => $item['adressef_fax'],
-                                    'longitude' => $item['adressef_lng'],
-                                    'latitude' => $item['adressef_lat'],
-                                    'place_id' => $item['adressef_place_id'],
-                                ]
-                            ],
-                        ];
+                            ];
+                            $mappedData['invoice_address_infos']['address_infos'] = [
+                                'id_customer_address' => $item['id_customer'],
+                                'first_name' => $item['firstnamef'],
+                                'last_name' => $item['lastnamef'],
+                                'address' => $item['adressef'],
+                                'complement_address' => '',
+                                'postal_code' => $item['adressef_pc'],
+                                'city' => $item['adressef_ville'],
+                                'id_country' => CustomerCountry::where('name', $item['adressef_pays'])->orWhere('name_en', $item['adressef_pays'])->orWhere('name_de', $item['adressef_pays'])->value('id_customer_country'),
+                                'phone' => $item['adressef_phone'] == '' ? null : $item['adressef_phone'],
+                                'fax' => $item['adressef_fax'],
+                                'longitude' => $item['adressef_lng'],
+                                'latitude' => $item['adressef_lat'],
+                                'place_id' => $item['adressef_place_id'],
+                            ];
+                        } else {
+                            $mappedData['invoice_address_infos'] = null;
+                        }
 
                         //dd($mappedData);
 
@@ -527,10 +534,10 @@ class ImportOldDataController extends Controller
                             
                             // Valider les données du customer
                             $customerData = $validator->validated();
-                            $userData = $customerData['user_infos'] ?? [];
-                            $comptaData = $customerData['compta_infos'] ?? [];
-                            $statData = $customerData['stat_infos'] ?? [];
-                            $invoiceAddressData = $customerData['invoice_address_infos'];
+                            $userData = $customerData['user_infos'] ?? null;
+                            $comptaData = $customerData['compta_infos'] ?? null;
+                            $statData = $customerData['stat_infos'] ?? null;
+                            $invoiceAddressData = $customerData['invoice_address_infos'] ?? null;
                             
                             // Supprimer compta des données du customer
                             unset($customerData['user_infos']);
@@ -554,13 +561,11 @@ class ImportOldDataController extends Controller
                             
                             // Créer le customer
                             $customerData['id_user'] = $user->id_user;
-                            $customer = Customer::create($customerData);
-                            $comptaData['id_customer'] = $customer->id_customer;
-                            $statData['id_customer'] = $customer->id_customer;
-                            $invoiceAddressData['id_customer'] = $customer->id_customer;
+                            $customer = Customer::create(array_merge($customerData, ['id_customer' => $item['id_customer']]));
                             
                             // Si des données invoice_address_infos sont présentes, valider avec StoreCustomerInvoiceAddressRequest
                             if ($invoiceAddressData) {
+                                $invoiceAddressData['id_customer'] = $customer->id_customer;
                                 $addressData = $invoiceAddressData['address_infos'] ?? null;
 
                                 if ($addressData) {
@@ -598,7 +603,8 @@ class ImportOldDataController extends Controller
                             }
 
                             // Si des données compta sont présentes, valider avec StoreCustomerComptaRequest
-                            if ($comptaData) {
+                            /*if ($comptaData) {
+                                $comptaData['id_customer'] = $customer->id_customer;
                                 
                                 $storeCustomerComptaRequest = new StoreCustomerComptaRequest();
 
@@ -611,12 +617,11 @@ class ImportOldDataController extends Controller
                                 // Créer la comptabilité
                                 $validatedComptaData = $comptaValidator->valid();
                                 CustomerCompta::create($validatedComptaData);
-                                dd('stop');
-                            }
+                            }*/
                             
                             // Si des données stat sont présentes, valider avec StoreCustomerStatRequest
-                            if ($statData) {
-                                
+                            /*if ($statData) {
+                                $statData['id_customer'] = $customer->id_customer;
                                 $storeCustomerStatRequest = new StoreCustomerStatRequest();
 
                                 $statValidator = Validator::make($statData, $storeCustomerStatRequest->rules(), $storeCustomerStatRequest->messages());
@@ -628,7 +633,7 @@ class ImportOldDataController extends Controller
                                 // Créer la statistique
                                 $validatedStatData = $statValidator->all();
                                 CustomerStat::create($validatedStatData);
-                            }
+                            }*/
                             
                             dump("✅ Item créé: ID {$idItem}");
                         }
@@ -649,7 +654,7 @@ class ImportOldDataController extends Controller
             dump("Importation $for à ". round((intval($page) * 100) / $lastPage, 2) . " %");
 
             if ($nextPageUrl && count($dataError) == 0) {
-                return $this->importStoreGroupData($baseUrl, intval($page) + 1, $dataImported, $dataError);
+                return $this->importCustomerData($baseUrl, intval($page) + 1, $dataImported, $dataError);
             }
 
             $return =  [
@@ -664,7 +669,7 @@ class ImportOldDataController extends Controller
                 $waitTime = $response->header('Retry-After', 60); // Temps d'attente par défaut de 60 secondes
                 dump("⏳ Rate limit atteint, attente de {$waitTime}s...");
                 sleep($waitTime);
-                return $this->importStoreGroupData($baseUrl,intval($page), $dataImported, $dataError);
+                return $this->importCustomerData($baseUrl,intval($page), $dataImported, $dataError);
             }
             throw new \Exception("Erreur HTTP " . $response->status() . " lors de la récupération des données depuis $url");
         }
