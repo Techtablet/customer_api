@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('shipping_invoice')->default(true);
             $table->float('en_cours')->default(0);
             $table->integer('future_payment_mode')->nullable();
-            $table->string('future_payment_delay_type', 11); // longueur variable, pas fixe
+            $table->string('future_payment_delay_type', 11)->nullable(); // longueur variable, pas fixe
             $table->integer('future_payment_delay')->nullable();
             $table->integer('rolling_period_days')->nullable()->comment("Nombre de jours d'une periode glissante");
             $table->decimal('rolling_period_amount', 15, 2)->nullable()->comment("Montant pour une periode glissante");

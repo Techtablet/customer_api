@@ -307,7 +307,15 @@ class ImportOldDataController extends Controller
         $object = null;
         $uri = "/services/customers/export_to_new_server/customers?page=$page";
         $url = $baseUrl . $uri;
-        $response = Http::get($url);
+
+        // CONFIGURATION DU TIMEOUT - AJOUTEZ CES LIGNES
+        $httpClient = Http::timeout(120)  // 2 minutes pour la requête complète
+                        ->connectTimeout(30)  // 30 secondes pour la connexion
+                        ->retry(3, 1000);  // 3 tentatives avec délai
+        
+        $response = $httpClient->get($url);
+
+        //$response = Http::get($url);
         
         if ($response->successful()) {
 
@@ -443,8 +451,8 @@ class ImportOldDataController extends Controller
                                 'id_customer_stat' => $item['id_customer'],
                                 'id_customer' => $item['id_customer'],
                                 'arevage_ordervalue' => $item['arevage_ordervalue'],
-                                'last_order' => $item['last_order'],
-                                'first_order' => $item['first_order'],
+                                'last_order' => $item['last_order'] == "0000-00-00 00:00:00" || $item['last_order'] == '0000-00-00' ? null : $item['last_order'],
+                                'first_order' => $item['first_order'] == "0000-00-00 00:00:00" || $item['first_order'] == '0000-00-00' ? null : $item['first_order'],
                                 'profitability' => $item['profitability'],
 
                                 'profitabilityOneYear' => $item['profitabilityOneYear'],
@@ -603,7 +611,7 @@ class ImportOldDataController extends Controller
                             }
 
                             // Si des données compta sont présentes, valider avec StoreCustomerComptaRequest
-                            /*if ($comptaData) {
+                            if ($comptaData) {
                                 $comptaData['id_customer'] = $customer->id_customer;
                                 
                                 $storeCustomerComptaRequest = new StoreCustomerComptaRequest();
@@ -616,11 +624,11 @@ class ImportOldDataController extends Controller
                                 
                                 // Créer la comptabilité
                                 $validatedComptaData = $comptaValidator->valid();
-                                CustomerCompta::create($validatedComptaData);
-                            }*/
+                                CustomerCompta::create(array_merge($validatedComptaData, ['id_customer_compta' => $customer->id_customer]));
+                            }
                             
                             // Si des données stat sont présentes, valider avec StoreCustomerStatRequest
-                            /*if ($statData) {
+                            if ($statData) {
                                 $statData['id_customer'] = $customer->id_customer;
                                 $storeCustomerStatRequest = new StoreCustomerStatRequest();
 
@@ -631,9 +639,9 @@ class ImportOldDataController extends Controller
                                 }
 
                                 // Créer la statistique
-                                $validatedStatData = $statValidator->all();
-                                CustomerStat::create($validatedStatData);
-                            }*/
+                                $validatedStatData = $statValidator->valid();
+                                CustomerStat::create(array_merge($validatedStatData, ['id_customer_stat' => $customer->id_customer]));
+                            }
                             
                             dump("✅ Item créé: ID {$idItem}");
                         }

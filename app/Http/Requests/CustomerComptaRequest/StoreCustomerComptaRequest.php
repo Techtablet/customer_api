@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 /**
  * @OA\Schema(
  *     schema="StoreCustomerComptaRequest",
- *     required={"id_customer", "payment_mode", "future_payment_delay_type", "sepa_payment_type"},
+ *     required={"id_customer", "payment_mode", "sepa_payment_type"},
  *     @OA\Property(
  *         property="id_customer",
  *         type="integer",
@@ -319,7 +319,7 @@ class StoreCustomerComptaRequest extends FormRequest
             'shipping_invoice' => 'sometimes|boolean',
             'en_cours' => 'sometimes|numeric|min:0',
             'future_payment_mode' => 'nullable|integer',
-            'future_payment_delay_type' => 'required|string|max:11',
+            'future_payment_delay_type' => 'nullable|string|max:11',
             'future_payment_delay' => 'nullable|integer|min:0',
             'rolling_period_days' => 'nullable|integer|min:0',
             'rolling_period_amount' => 'nullable|numeric|min:0',
@@ -328,7 +328,7 @@ class StoreCustomerComptaRequest extends FormRequest
             'iban' => 'nullable|string|max:500',
             'grouped_invoice' => 'sometimes|boolean',
             'grouped_invoice_begin' => 'nullable|date|required_if:grouped_invoice,true',
-            'grouped_invoice_end' => 'nullable|date|after_or_equal:grouped_invoice_begin|required_if:grouped_invoice,true',
+            'grouped_invoice_end' => 'nullable|date|after_or_equal:grouped_invoice_begin',
             'cb_register_info' => 'sometimes|boolean',
             'cb_register_always_ask' => 'sometimes|boolean',
             'cb_token' => 'nullable|string|max:250',
