@@ -6,8 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ShippingAddressRequest\StoreShippingAddressRequest;
 use App\Http\Requests\ShippingAddressRequest\UpdateShippingAddressRequest;
 use App\Models\ShippingAddress;
+
+use App\Http\Requests\CustomerAddressRequest\StoreCustomerAddressRequest;
+use App\Http\Requests\CustomerAddressRequest\UpdateCustomerAddressRequest;
+use App\Models\CustomerAddress;
+
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\Tag(
@@ -197,15 +205,56 @@ class ShippingAddressController extends Controller
      */
     public function store(StoreShippingAddressRequest $request): JsonResponse
     {
-        $shippingAddress = ShippingAddress::create($request->validated());
+        DB::beginTransaction();
+        
+        try {
+            $customerShippingData = $request->validated();
+            $addressData = $customerShippingData['address_infos'] ?? null;
+            
+            unset($customerShippingData['address_infos']);
 
-        $shippingAddress->load(['customer', 'customerAddress']);
+            // Si des données invoice_address_infos sont présentes, valider avec StoreCustomerInvoiceAddressRequest
+            
+            $storeCustomerAddressRequest = new StoreCustomerAddressRequest();
 
-        return response()->json([
-            'success' => true,
-            'data' => $shippingAddress,
-            'message' => 'Adresse de livraison créée avec succès.',
-        ], Response::HTTP_CREATED);
+            $addressValidator = Validator::make($addressData, $storeCustomerAddressRequest->rules(), $storeCustomerAddressRequest->messages());
+            
+            if ($addressValidator->fails()) {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'errors' => $addressValidator->errors(),
+                    'message' => 'Validation des données de l\'adresse échouée.',
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            
+            // Créer l'adresse client
+            $validatedAddressData = $addressValidator->validated();
+            $customerAddress = CustomerAddress::create($validatedAddressData);
+            //$customerShippingData['id_customer_address'] = $customerAddress->id_customer_address;
+
+            $shippingAddress = ShippingAddress::create(array_merge($customerShippingData, ['id_customer_address' => $customerAddress->id_customer_address]));
+            
+            $shippingAddress->load(['customer', 'customerAddress']);
+
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+                'data' => $shippingAddress,
+                'message' => "L'adresse de livraison créée avec succès",
+            ], Response::HTTP_CREATED);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Erreur lors de la création d\'une adresse de livraison: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la création de l\'adresse de livraison.',
+                'error' => env('APP_DEBUG') ? $e->getMessage() : null,
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

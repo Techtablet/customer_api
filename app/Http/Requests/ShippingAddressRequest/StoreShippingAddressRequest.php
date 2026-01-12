@@ -8,13 +8,7 @@ use Illuminate\Validation\Rule;
 /**
  * @OA\Schema(
  *     schema="StoreShippingAddressRequest",
- *     required={"id_customer_address", "id_customer", "address_name"},
- *     @OA\Property(
- *         property="id_customer_address",
- *         type="integer",
- *         description="ID de l'adresse client",
- *         example=1
- *     ),
+ *     required={"id_customer", "address_name", "address_infos"},
  *     @OA\Property(
  *         property="id_customer",
  *         type="integer",
@@ -62,11 +56,11 @@ class StoreShippingAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_customer_address' => [
+            /*'id_customer_address' => [
                 'required',
                 'integer',
                 'exists:customer_addresses,id_customer_address',
-            ],
+            ],*/
             'id_customer' => [
                 'required',
                 'integer',
@@ -81,6 +75,9 @@ class StoreShippingAddressRequest extends FormRequest
             ],
             'address_name' => 'required|string|max:100',
             'has_difficult_access' => 'boolean',
+
+            // Règles pour l'adresse de facturation
+            'address_infos' => 'required|array',
         ];
     }
 
@@ -101,6 +98,8 @@ class StoreShippingAddressRequest extends FormRequest
             'address_name.string' => 'Le nom d\'adresse doit être une chaîne de caractères.',
             'address_name.max' => 'Le nom d\'adresse ne peut pas dépasser :max caractères.',
             'has_difficult_access.boolean' => 'Le champ accès difficile doit être vrai ou faux.',
+            'address_infos.required' => 'Les informations address sont obligatoires.',
+            'address_infos.array' => 'Les informations address doivent être un tableau.',
         ];
     }
 

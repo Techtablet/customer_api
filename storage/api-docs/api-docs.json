@@ -9115,7 +9115,6 @@
                 "required": [
                     "id_customer",
                     "payment_mode",
-                    "future_payment_delay_type",
                     "sepa_payment_type"
                 ],
                 "properties": {
@@ -11164,16 +11163,11 @@
             },
             "StoreShippingAddressRequest": {
                 "required": [
-                    "id_customer_address",
                     "id_customer",
-                    "address_name"
+                    "address_name",
+                    "address_infos"
                 ],
                 "properties": {
-                    "id_customer_address": {
-                        "description": "ID de l'adresse client",
-                        "type": "integer",
-                        "example": 1
-                    },
                     "id_customer": {
                         "description": "ID du client",
                         "type": "integer",
