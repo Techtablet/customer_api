@@ -35,7 +35,14 @@ use Illuminate\Validation\Rule;
  *         type="boolean",
  *         description="Accès difficile",
  *         example=false
- *     )
+ *     ),
+ *     @OA\Property(
+ *         property="address_infos",
+ *         allOf={
+ *             @OA\Schema(ref="#/components/schemas/StoreCustomerAddressRequest"),
+ *         },
+ *         description="Informations de l'adresse de facturation du client"
+ *     ) 
  * )
  */
 class StoreShippingAddressRequest extends FormRequest
@@ -56,11 +63,6 @@ class StoreShippingAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            /*'id_customer_address' => [
-                'required',
-                'integer',
-                'exists:customer_addresses,id_customer_address',
-            ],*/
             'id_customer' => [
                 'required',
                 'integer',
@@ -69,9 +71,13 @@ class StoreShippingAddressRequest extends FormRequest
             'is_default' => [
                 'nullable',
                 'boolean',
-                Rule::unique('shipping_addresses', 'is_default')->where(function ($query) {
-                    return $query->where('is_default', true);
-                }),
+                Rule::unique('shipping_addresses')
+                    ->where(function ($query) {
+                        return $query
+                            ->where('is_default', true)
+                            ->where('id_customer', $this->id_customer);
+                    })
+                    ->ignore($this->route('id_shipping_address'), 'id_shipping_address'),
             ],
             'address_name' => 'required|string|max:100',
             'has_difficult_access' => 'boolean',
@@ -89,11 +95,9 @@ class StoreShippingAddressRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id_customer_address.required' => 'L\'ID de l\'adresse client est obligatoire.',
-            'id_customer_address.exists' => 'L\'adresse client spécifiée n\'existe pas.',
             'id_customer.required' => 'L\'ID du client est obligatoire.',
             'id_customer.exists' => 'Le client spécifié n\'existe pas.',
-            'is_default.unique' => 'Une adresse de livraison par défaut existe déjà.',
+            'is_default.unique' => 'Ce client a déjà une adresse de livraison par défaut.',
             'address_name.required' => 'Le nom d\'adresse est obligatoire.',
             'address_name.string' => 'Le nom d\'adresse doit être une chaîne de caractères.',
             'address_name.max' => 'Le nom d\'adresse ne peut pas dépasser :max caractères.',
@@ -108,21 +112,24 @@ class StoreShippingAddressRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        // Si is_default est true, on s'assure qu'il n'y a pas déjà une adresse par défaut
-        if ($this->is_default) {
+        // Si is_default est true et qu'une adresse par défaut existe déjà pour ce client,
+        // on définit is_default à false
+        if ($this->is_default && $this->id_customer) {
             $this->merge([
-                'is_default' => $this->checkDefaultAddress() ? false : true,
+                'is_default' => $this->hasExistingDefaultAddress() ? false : true,
             ]);
         }
     }
 
     /**
-     * Vérifier si une adresse par défaut existe déjà.
+     * Vérifier si une adresse par défaut existe déjà pour ce client.
      *
      * @return bool
      */
-    private function checkDefaultAddress(): bool
+    private function hasExistingDefaultAddress(): bool
     {
-        return \App\Models\ShippingAddress::where('is_default', true)->exists();
+        return \App\Models\ShippingAddress::where('is_default', true)
+            ->where('id_customer', $this->id_customer)
+            ->exists();
     }
 }

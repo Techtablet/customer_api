@@ -45,6 +45,14 @@ use App\Http\Requests\InvoiceAddressRequest\StoreInvoiceAddressRequest;
 use App\Http\Requests\InvoiceAddressRequest\UpdateInvoiceAddressRequest;
 use App\Models\InvoiceAddress;
 
+use App\Http\Requests\ShippingAddressRequest\StoreShippingAddressRequest;
+use App\Http\Requests\ShippingAddressRequest\UpdateShippingAddressRequest;
+use App\Models\ShippingAddress;
+
+use App\Http\Requests\CustomerContactRequest\StoreCustomerContactRequest;
+use App\Http\Requests\CustomerContactRequest\UpdateCustomerContactRequest;
+use App\Models\CustomerContact;
+
 class ImportOldDataController extends Controller
 {
     /**
@@ -80,7 +88,11 @@ class ImportOldDataController extends Controller
             dump("Début import Customers");
             $d = $this->importCustomerData($baseurl, $page = 1);
             dump("Fin import Customers");
-            
+
+            dump("Début import Shipping Addresses");
+            $d = $this->importShippingAddressData($baseurl, $page = 1);
+            dump("Fin import Shipping Addresses");
+
             DB::commit();
             dd("Fin import");
         } catch (\Throwable $th) {
@@ -98,7 +110,12 @@ class ImportOldDataController extends Controller
         $object = null;
         $uri = "/services/customers/export_to_new_server/techtablet_sellers?page=$page";
         $url = $baseUrl . $uri;
-        $response = Http::get($url);
+        // CONFIGURATION DU TIMEOUT - AJOUTEZ CES LIGNES
+        $httpClient = Http::timeout(120)  // 2 minutes pour la requête complète
+                        ->connectTimeout(30)  // 30 secondes pour la connexion
+                        ->retry(3, 1000);  // 3 tentatives avec délai
+        
+        $response = $httpClient->get($url);
         
         if ($response->successful()) {
 
@@ -203,7 +220,12 @@ class ImportOldDataController extends Controller
         $object = null;
         $uri = "/services/customers/export_to_new_server/store_groups?page=$page";
         $url = $baseUrl . $uri;
-        $response = Http::get($url);
+        // CONFIGURATION DU TIMEOUT - AJOUTEZ CES LIGNES
+        $httpClient = Http::timeout(120)  // 2 minutes pour la requête complète
+                        ->connectTimeout(30)  // 30 secondes pour la connexion
+                        ->retry(3, 1000);  // 3 tentatives avec délai
+        
+        $response = $httpClient->get($url);
         
         if ($response->successful()) {
 
@@ -260,7 +282,7 @@ class ImportOldDataController extends Controller
                             // Créer avec les données validées
                             StoreGroup::create(array_merge($validator->validated(), ['id_store_group' => $item['id_group']]));
                             
-                            dump("✅ Item créé: ID {$idItem}");
+                            dump("✅ $for Item créé: ID {$idItem}");
                         }
                         
                         $dataImported = $dataImported + 1;
@@ -643,7 +665,7 @@ class ImportOldDataController extends Controller
                                 CustomerStat::create(array_merge($validatedStatData, ['id_customer_stat' => $customer->id_customer]));
                             }
                             
-                            dump("✅ Item créé: ID {$idItem}");
+                            dump("✅ $for Item créé: ID {$idItem}");
                         }
                         
                         $dataImported = $dataImported + 1;
@@ -661,7 +683,7 @@ class ImportOldDataController extends Controller
 
             dump("Importation $for à ". round((intval($page) * 100) / $lastPage, 2) . " %");
 
-            if ($nextPageUrl && count($dataError) == 0) {
+            if ($nextPageUrl && count($dataError) == 0 && intval($page) < 2) {
                 return $this->importCustomerData($baseUrl, intval($page) + 1, $dataImported, $dataError);
             }
 
@@ -678,6 +700,268 @@ class ImportOldDataController extends Controller
                 dump("⏳ Rate limit atteint, attente de {$waitTime}s...");
                 sleep($waitTime);
                 return $this->importCustomerData($baseUrl,intval($page), $dataImported, $dataError);
+            }
+            throw new \Exception("Erreur HTTP " . $response->status() . " lors de la récupération des données depuis $url");
+        }
+    }
+
+    public function importShippingAddressData(string $baseUrl, int $page = 1, int $dataImported = 0, array $dataError = [])
+    {
+        $for = 'shipping_addresses';
+        $dataError = $dataError;
+        $object = null;
+        $uri = "/services/customers/export_to_new_server/shipping_addresses?page=$page";
+        $url = $baseUrl . $uri;
+
+        // CONFIGURATION DU TIMEOUT - AJOUTEZ CES LIGNES
+        $httpClient = Http::timeout(120)  // 2 minutes pour la requête complète
+                        ->connectTimeout(30)  // 30 secondes pour la connexion
+                        ->retry(3, 1000);  // 3 tentatives avec délai
+        
+        $response = $httpClient->get($url);
+
+        //$response = Http::get($url);
+        
+        if ($response->successful()) {
+
+            $responseJson = $response->json();
+            $nextPageUrl = $responseJson['data']['next_page_url'];
+            $lastPage = intval($responseJson['data']['last_page']);
+            $to = intval($responseJson['data']['to']);
+            $data = $responseJson['data']['data'];
+           
+            if($data) {
+                foreach($data as $k => $item) {
+                    $idItem = $item['id'] ?? 'unknown';
+                    $erreurExceptionMessage = "Erreur lors de l'import à la page $page pour $for ID {$idItem}: ";
+                    try {
+                        // Mapper les données de l'ancien serveur vers le nouveau format
+                        $mappedData = [];
+                        
+                        $mappedData = [
+                            'id_customer' => $item['id_customer'],
+                            'is_default' => $item['default'],
+                            'address_name' => $item['named'],
+                            'has_difficult_access' => $item['difficult_access'],
+                        ];
+                        $mappedData['address_infos'] = [
+                            'first_name' => $item['firstname'],
+                            'last_name' => $item['lastname'],
+                            'address' => $item['adress'],
+                            'complement_address' => $item['complement_adress'],
+                            'postal_code' => $item['pc'],
+                            'city' => $item['ville'],
+                            //'id_country' => CustomerCountry::where('name', $item['adressef_pays'])->orWhere('name_en', $item['adressef_pays'])->orWhere('name_de', $item['adressef_pays'])->value('id_customer_country'),
+                            'id_country' => $item['id_pays'],
+                            'phone' => $item['phone'] == '' ? null : $item['phone'],
+                            'fax' => $item['fax'],
+                            'longitude' => $item['lng'],
+                            'latitude' => $item['lat'],
+                            'place_id' => $item['place_id'],
+                        ];
+
+                        //dd($mappedData);
+
+                        // Vérifier si le vendeur existe déjà dans la base de données
+                        $existingSeller = ShippingAddress::where('id_shipping_address', $item['id'])->first();
+                        
+                        if ($existingSeller) {
+                            // Valider les données
+                            /*$validator = Validator::make($mappedData, (new UpdateCustomerRequest())->rules());
+                            
+                            if ($validator->fails()) {
+                                throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
+                            }
+                            
+                            // Mettre à jour avec les données validées
+                            $existingSeller->update($validator->validated());*/
+                            
+                            dump("🔄 Item mis à jour: ID {$idItem}");
+                        } else {
+                            // Valider les données
+                            $storeShippingAddressRequest = new StoreShippingAddressRequest();
+                            //$validator = Validator::make($mappedData, (new StoreCustomerRequest())->rules());
+                            $validator = Validator::make($mappedData, $storeShippingAddressRequest->rules(), $storeShippingAddressRequest->messages());
+                            
+                
+                            if ($validator->fails()) {
+                                throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
+                            }
+                            
+                            // Valider les données du customer
+                            $customerShippingData = $validator->validated();
+                            $addressData = $customerShippingData['address_infos'] ?? null;
+                            
+                            // Supprimer compta des données du customer
+                            unset($customerShippingData['address_infos']);
+                            
+                            // Si des données invoice_address_infos sont présentes, valider avec StoreCustomerInvoiceAddressRequest
+                            
+                            $storeCustomerAddressRequest = new StoreCustomerAddressRequest();
+
+                            $addressValidator = Validator::make($addressData, $storeCustomerAddressRequest->rules(), $storeCustomerAddressRequest->messages());
+                            
+                            if ($addressValidator->fails()) {
+                                throw new \Exception($erreurExceptionMessage . $addressValidator->errors()->first());
+                            }
+                            
+                            // Créer l'adresse client
+                            $validatedAddressData = $addressValidator->validate();
+                            $customerAddress = CustomerAddress::create($validatedAddressData);
+                            
+                            // Créer l'adresse de livraison
+                            ShippingAddress::create(array_merge($customerShippingData, ['id_customer_address' => $customerAddress->id_customer_address, 'id_shipping_address' => $item['id']]) );
+                            
+                            
+                            dump("✅ $for item créé: ID {$idItem}");
+                        }
+                        
+                        $dataImported = $dataImported + 1;
+                        
+                    } catch (\Throwable  $e) {
+                        $response = method_exists($e, 'getResponse') ? $e->getResponse() : $e;
+                        $dataError = [
+                            "id_$for" => $idItem,
+                            "message" => method_exists($response, 'getMessage') ? $response->getMessage() : (string)$response,
+                        ];
+                        throw new \Exception($erreurExceptionMessage . $dataError['message'] ?? 'Erreur inconnue', 0, $e);
+                    }
+                }
+            }
+
+            dump("Importation $for à ". round((intval($page) * 100) / $lastPage, 2) . " %");
+
+            if ($nextPageUrl && count($dataError) == 0 && intval($page) < 1) {
+                return $this->importShippingAddressData($baseUrl, intval($page) + 1, $dataImported, $dataError);
+            }
+
+            $return =  [
+                'success' => count($dataError) == 0 ? true : false,
+                'message' => count($dataError) == 0 ? "Opération réussite" : "Opération interrompue",
+                'data_imported' => $dataImported,
+                'data_error' => $dataError,
+            ];
+            return $return;
+        } else {
+            if ($response->status() === 429) {
+                $waitTime = $response->header('Retry-After', 60); // Temps d'attente par défaut de 60 secondes
+                dump("⏳ Rate limit atteint, attente de {$waitTime}s...");
+                sleep($waitTime);
+                return $this->importShippingAddressData($baseUrl,intval($page), $dataImported, $dataError);
+            }
+            throw new \Exception("Erreur HTTP " . $response->status() . " lors de la récupération des données depuis $url");
+        }
+    }
+
+    public function importCustomerContactData(string $baseUrl, int $page = 1, int $dataImported = 0, array $dataError = [])
+    {
+        $for = 'shipping_addresses';
+        $dataError = $dataError;
+        $object = null;
+        $uri = "/services/customers/export_to_new_server/customer_contacts?page=$page";
+        $url = $baseUrl . $uri;
+
+        // CONFIGURATION DU TIMEOUT - AJOUTEZ CES LIGNES
+        $httpClient = Http::timeout(120)  // 2 minutes pour la requête complète
+                        ->connectTimeout(30)  // 30 secondes pour la connexion
+                        ->retry(3, 1000);  // 3 tentatives avec délai
+        
+        $response = $httpClient->get($url);
+
+        //$response = Http::get($url);
+        
+        if ($response->successful()) {
+
+            $responseJson = $response->json();
+            $nextPageUrl = $responseJson['data']['next_page_url'];
+            $lastPage = intval($responseJson['data']['last_page']);
+            $to = intval($responseJson['data']['to']);
+            $data = $responseJson['data']['data'];
+           
+            if($data) {
+                foreach($data as $k => $item) {
+                    $idItem = $item['id'] ?? 'unknown';
+                    $erreurExceptionMessage = "Erreur lors de l'import à la page $page pour $for ID {$idItem}: ";
+                    try {
+                        // Mapper les données de l'ancien serveur vers le nouveau format
+                        $mappedData = [];
+                        
+                        $mappedData = [
+                            'id_customer' => $item['id_customer'],
+                            'is_default' => $item['default'],
+                            'address_name' => $item['named'],
+                            'has_difficult_access' => $item['difficult_access'],
+                        ];
+
+                        //dd($mappedData);
+
+                        // Vérifier si le vendeur existe déjà dans la base de données
+                        $existingSeller = ShippingAddress::where('id_shipping_address', $item['id'])->first();
+                        
+                        if ($existingSeller) {
+                            // Valider les données
+                            /*$validator = Validator::make($mappedData, (new UpdateCustomerRequest())->rules());
+                            
+                            if ($validator->fails()) {
+                                throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
+                            }
+                            
+                            // Mettre à jour avec les données validées
+                            $existingSeller->update($validator->validated());*/
+                            
+                            dump("🔄 Item mis à jour: ID {$idItem}");
+                        } else {
+                            // Valider les données
+                            $storeShippingAddressRequest = new StoreShippingAddressRequest();
+                            //$validator = Validator::make($mappedData, (new StoreCustomerRequest())->rules());
+                            $validator = Validator::make($mappedData, $storeShippingAddressRequest->rules(), $storeShippingAddressRequest->messages());
+                            
+                
+                            if ($validator->fails()) {
+                                throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
+                            }
+                            
+                            // Valider les données du customer
+                            $customerShippingData = $validator->validated();
+                            
+                            ShippingAddress::create(array_merge($customerShippingData, ['id_customer_address' => $customerAddress->id_customer_address, 'id_shipping_address' => $item['id']]) );
+                            
+                            
+                            dump("✅ $for item créé: ID {$idItem}");
+                        }
+                        
+                        $dataImported = $dataImported + 1;
+                        
+                    } catch (\Throwable  $e) {
+                        $response = method_exists($e, 'getResponse') ? $e->getResponse() : $e;
+                        $dataError = [
+                            "id_$for" => $idItem,
+                            "message" => method_exists($response, 'getMessage') ? $response->getMessage() : (string)$response,
+                        ];
+                        throw new \Exception($erreurExceptionMessage . $dataError['message'] ?? 'Erreur inconnue', 0, $e);
+                    }
+                }
+            }
+
+            dump("Importation $for à ". round((intval($page) * 100) / $lastPage, 2) . " %");
+
+            if ($nextPageUrl && count($dataError) == 0 && intval($page) < 1) {
+                return $this->importShippingAddressData($baseUrl, intval($page) + 1, $dataImported, $dataError);
+            }
+
+            $return =  [
+                'success' => count($dataError) == 0 ? true : false,
+                'message' => count($dataError) == 0 ? "Opération réussite" : "Opération interrompue",
+                'data_imported' => $dataImported,
+                'data_error' => $dataError,
+            ];
+            return $return;
+        } else {
+            if ($response->status() === 429) {
+                $waitTime = $response->header('Retry-After', 60); // Temps d'attente par défaut de 60 secondes
+                dump("⏳ Rate limit atteint, attente de {$waitTime}s...");
+                sleep($waitTime);
+                return $this->importShippingAddressData($baseUrl,intval($page), $dataImported, $dataError);
             }
             throw new \Exception("Erreur HTTP " . $response->status() . " lors de la récupération des données depuis $url");
         }

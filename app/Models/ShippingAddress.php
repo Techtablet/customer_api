@@ -88,6 +88,7 @@ class ShippingAddress extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        "id_shipping_address",
         'id_customer_address',
         'id_customer',
         'is_default',

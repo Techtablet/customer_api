@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 /**
  * @OA\Schema(
  *     schema="StoreCustomerAddressRequest",
- *     required={"address", "postal_code", "city", "id_country"},
+ *     required={"id_country"},
  *     @OA\Property(
  *         property="first_name",
  *         type="string",
@@ -119,10 +119,10 @@ class StoreCustomerAddressRequest extends FormRequest
         return [
             'first_name' => 'nullable|string|max:64',
             'last_name' => 'nullable|string|max:64',
-            'address' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
             'complement_address' => 'nullable|string|max:200',
-            'postal_code' => 'required|string|max:100',
-            'city' => 'required|string|max:64',
+            'postal_code' => 'nullable|string|max:100',
+            'city' => 'nullable|string|max:64',
             'id_country' => 'required|integer|exists:customer_countries,id_customer_country',
             'phone' => 'nullable|string|max:20',
             'fax' => 'nullable|string|max:20',

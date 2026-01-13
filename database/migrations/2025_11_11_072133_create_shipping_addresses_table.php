@@ -14,7 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_customer_address');
             $table->unsignedBigInteger('id_customer');
             $table->foreign('id_customer')->references('id_customer')->on('customers')->onDelete('restrict');
-            $table->boolean('is_default')->nullable()->unique(); // UNIQUE boolean flag
+            $table->boolean('is_default')->default(false); // UNIQUE boolean flag
             // Métadonnées
             $table->string('address_name', 100)->comment('Nom personnalisé de l\'adresse');
             $table->boolean('has_difficult_access')->default(false)->comment('Accès difficile');

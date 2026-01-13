@@ -11190,6 +11190,14 @@
                         "description": "Accès difficile",
                         "type": "boolean",
                         "example": false
+                    },
+                    "address_infos": {
+                        "description": "Informations de l'adresse de facturation du client",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/StoreCustomerAddressRequest"
+                            }
+                        ]
                     }
                 },
                 "type": "object"

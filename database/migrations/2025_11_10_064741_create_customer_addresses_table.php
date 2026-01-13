@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('last_name', 64)->nullable();
             
             // Adresse
-            $table->string('address', 255);
+            $table->string('address', 255)->nullable();
             $table->string('complement_address', 200)->nullable();
-            $table->string('postal_code');
-            $table->string('city', 64);
+            $table->string('postal_code')->nullable();
+            $table->string('city', 64)->nullable();
             $table->unsignedBigInteger('id_country');
             
             // Coordonnées
