@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 /**
  * @OA\Schema(
  *     schema="StoreCustomerContactRequest",
- *     required={"id_customer", "first_name", "last_name", "phone_number", "email_address", "id_contact_title", "id_contact_role"},
+ *     required={"id_customer", "first_name", "phone_number", "email_address", "id_contact_title", "id_contact_role"},
  *     @OA\Property(
  *         property="id_customer",
  *         type="integer",
@@ -91,7 +91,7 @@ class StoreCustomerContactRequest extends FormRequest
         return [
             'id_customer' => 'required|integer|exists:customers,id_customer',
             'first_name' => 'required|string|max:64',
-            'last_name' => 'required|string|max:64',
+            'last_name' => 'nullable|string|max:64',
             'phone_number' => 'required|string|max:16',
             'email_address' => 'required|email|max:80',
             'id_contact_title' => 'required|integer|exists:customer_contact_titles,id_customer_contact_title',

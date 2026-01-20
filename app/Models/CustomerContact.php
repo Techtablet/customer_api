@@ -115,6 +115,7 @@ class CustomerContact extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_customer_contact',
         'id_customer',
         'first_name',
         'last_name',

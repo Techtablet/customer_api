@@ -53,6 +53,10 @@ use App\Http\Requests\CustomerContactRequest\StoreCustomerContactRequest;
 use App\Http\Requests\CustomerContactRequest\UpdateCustomerContactRequest;
 use App\Models\CustomerContact;
 
+use App\Http\Requests\CustomerContactProfileRequest\StoreCustomerContactProfileRequest;
+use App\Http\Requests\CustomerContactProfileRequest\UpdateCustomerContactProfileRequest;
+use App\Models\CustomerContactProfile;
+
 class ImportOldDataController extends Controller
 {
     /**
@@ -92,6 +96,10 @@ class ImportOldDataController extends Controller
             dump("Début import Shipping Addresses");
             $d = $this->importShippingAddressData($baseurl, $page = 1);
             dump("Fin import Shipping Addresses");
+
+            dump("Début import customer Contacts");
+            $d = $this->importCustomerContactData($baseurl, $page = 1);
+            dump("Fin import customer Contacts");
 
             DB::commit();
             dd("Fin import");
@@ -683,7 +691,7 @@ class ImportOldDataController extends Controller
 
             dump("Importation $for à ". round((intval($page) * 100) / $lastPage, 2) . " %");
 
-            if ($nextPageUrl && count($dataError) == 0 && intval($page) < 2) {
+            if ($nextPageUrl && count($dataError) == 0 && intval($page) < 3) {
                 return $this->importCustomerData($baseUrl, intval($page) + 1, $dataImported, $dataError);
             }
 
@@ -855,9 +863,8 @@ class ImportOldDataController extends Controller
 
     public function importCustomerContactData(string $baseUrl, int $page = 1, int $dataImported = 0, array $dataError = [])
     {
-        $for = 'shipping_addresses';
+        $for = 'customer_contacts';
         $dataError = $dataError;
-        $object = null;
         $uri = "/services/customers/export_to_new_server/customer_contacts?page=$page";
         $url = $baseUrl . $uri;
 
@@ -880,27 +887,31 @@ class ImportOldDataController extends Controller
            
             if($data) {
                 foreach($data as $k => $item) {
-                    $idItem = $item['id'] ?? 'unknown';
+                    $idItem = $item['id_contact'] ?? 'unknown';
                     $erreurExceptionMessage = "Erreur lors de l'import à la page $page pour $for ID {$idItem}: ";
                     try {
                         // Mapper les données de l'ancien serveur vers le nouveau format
                         $mappedData = [];
                         
                         $mappedData = [
+                            //'id_customer_contact' => $item['id_contact'],
                             'id_customer' => $item['id_customer'],
+                            'first_name' => $item['firstname'],
+                            'last_name' => $item['lastname'],
+                            'phone_number' => $item['phone_number'],
+                            'email_address' => $item['email'],
+                            'id_contact_title' => $item['title'],
+                            'phone_number_2' => $item['phone_number_2'],
                             'is_default' => $item['default'],
-                            'address_name' => $item['named'],
-                            'has_difficult_access' => $item['difficult_access'],
+                            'id_contact_role' => $item['role'],
                         ];
 
-                        //dd($mappedData);
-
                         // Vérifier si le vendeur existe déjà dans la base de données
-                        $existingSeller = ShippingAddress::where('id_shipping_address', $item['id'])->first();
+                        $existingSeller = CustomerContact::where('id_customer_contact', $idItem)->first();
                         
                         if ($existingSeller) {
                             // Valider les données
-                            /*$validator = Validator::make($mappedData, (new UpdateCustomerRequest())->rules());
+                            /*$validator = Validator::make($mappedData, (new UpdateCustomerContactRequest())->rules());
                             
                             if ($validator->fails()) {
                                 throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
@@ -912,9 +923,8 @@ class ImportOldDataController extends Controller
                             dump("🔄 Item mis à jour: ID {$idItem}");
                         } else {
                             // Valider les données
-                            $storeShippingAddressRequest = new StoreShippingAddressRequest();
-                            //$validator = Validator::make($mappedData, (new StoreCustomerRequest())->rules());
-                            $validator = Validator::make($mappedData, $storeShippingAddressRequest->rules(), $storeShippingAddressRequest->messages());
+                            $storeCustomerContactRequest = new StoreCustomerContactRequest();
+                            $validator = Validator::make($mappedData, $storeCustomerContactRequest->rules(), $storeCustomerContactRequest->messages());
                             
                 
                             if ($validator->fails()) {
@@ -924,7 +934,7 @@ class ImportOldDataController extends Controller
                             // Valider les données du customer
                             $customerShippingData = $validator->validated();
                             
-                            ShippingAddress::create(array_merge($customerShippingData, ['id_customer_address' => $customerAddress->id_customer_address, 'id_shipping_address' => $item['id']]) );
+                            CustomerContact::create(array_merge($customerShippingData, ['id_customer_contact' => $idItem]) );
                             
                             
                             dump("✅ $for item créé: ID {$idItem}");
@@ -945,8 +955,8 @@ class ImportOldDataController extends Controller
 
             dump("Importation $for à ". round((intval($page) * 100) / $lastPage, 2) . " %");
 
-            if ($nextPageUrl && count($dataError) == 0 && intval($page) < 1) {
-                return $this->importShippingAddressData($baseUrl, intval($page) + 1, $dataImported, $dataError);
+            if ($nextPageUrl && count($dataError) == 0 && intval($page) < 2) {
+                return $this->importCustomerContactData($baseUrl, intval($page) + 1, $dataImported, $dataError);
             }
 
             $return =  [
@@ -961,7 +971,123 @@ class ImportOldDataController extends Controller
                 $waitTime = $response->header('Retry-After', 60); // Temps d'attente par défaut de 60 secondes
                 dump("⏳ Rate limit atteint, attente de {$waitTime}s...");
                 sleep($waitTime);
-                return $this->importShippingAddressData($baseUrl,intval($page), $dataImported, $dataError);
+                return $this->importCustomerContactData($baseUrl,intval($page), $dataImported, $dataError);
+            }
+            throw new \Exception("Erreur HTTP " . $response->status() . " lors de la récupération des données depuis $url");
+        }
+    }
+
+    public function importCustomerContactProfileData(string $baseUrl, int $page = 1, int $dataImported = 0, array $dataError = [])
+    {
+        $for = 'customer_contact_profile';
+        $dataError = $dataError;
+        $uri = "/services/customers/export_to_new_server/contact_profiles?page=$page";
+        $url = $baseUrl . $uri;
+
+        // CONFIGURATION DU TIMEOUT - AJOUTEZ CES LIGNES
+        $httpClient = Http::timeout(120)  // 2 minutes pour la requête complète
+                        ->connectTimeout(30)  // 30 secondes pour la connexion
+                        ->retry(3, 1000);  // 3 tentatives avec délai
+        
+        $response = $httpClient->get($url);
+
+        //$response = Http::get($url);
+        
+        if ($response->successful()) {
+
+            $responseJson = $response->json();
+            $nextPageUrl = $responseJson['data']['next_page_url'];
+            $lastPage = intval($responseJson['data']['last_page']);
+            $to = intval($responseJson['data']['to']);
+            $data = $responseJson['data']['data'];
+           
+            if($data) {
+                foreach($data as $k => $item) {
+                    $idItem = $item['id_contact_profile'] ?? 'unknown';
+                    $erreurExceptionMessage = "Erreur lors de l'import à la page $page pour $for ID {$idItem}: ";
+                    try {
+                        // Mapper les données de l'ancien serveur vers le nouveau format
+                        $mappedData = [];
+                        
+                        $mappedData = [
+                            //'id_customer_contact' => $item['id_contact'],
+                            'id_customer' => $item['id_customer'],
+                            'first_name' => $item['firstname'],
+                            'last_name' => $item['lastname'],
+                            'phone_number' => $item['phone_number'],
+                            'email_address' => $item['email'],
+                            'id_contact_title' => $item['title'],
+                            'phone_number_2' => $item['phone_number_2'],
+                            'is_default' => $item['default'],
+                            'id_contact_role' => $item['role'],
+                        ];
+
+                        // Vérifier si le vendeur existe déjà dans la base de données
+                        $existingSeller = CustomerContact::where('id_customer_contact', $idItem)->first();
+                        
+                        if ($existingSeller) {
+                            // Valider les données
+                            /*$validator = Validator::make($mappedData, (new UpdateCustomerContactRequest())->rules());
+                            
+                            if ($validator->fails()) {
+                                throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
+                            }
+                            
+                            // Mettre à jour avec les données validées
+                            $existingSeller->update($validator->validated());*/
+                            
+                            dump("🔄 Item mis à jour: ID {$idItem}");
+                        } else {
+                            // Valider les données
+                            $storeCustomerContactRequest = new StoreCustomerContactRequest();
+                            $validator = Validator::make($mappedData, $storeCustomerContactRequest->rules(), $storeCustomerContactRequest->messages());
+                            
+                
+                            if ($validator->fails()) {
+                                throw new \Exception($erreurExceptionMessage . $validator->errors()->first());
+                            }
+                            
+                            // Valider les données du customer
+                            $customerShippingData = $validator->validated();
+                            
+                            CustomerContact::create(array_merge($customerShippingData, ['id_customer_contact' => $idItem]) );
+                            
+                            
+                            dump("✅ $for item créé: ID {$idItem}");
+                        }
+                        
+                        $dataImported = $dataImported + 1;
+                        
+                    } catch (\Throwable  $e) {
+                        $response = method_exists($e, 'getResponse') ? $e->getResponse() : $e;
+                        $dataError = [
+                            "id_$for" => $idItem,
+                            "message" => method_exists($response, 'getMessage') ? $response->getMessage() : (string)$response,
+                        ];
+                        throw new \Exception($erreurExceptionMessage . $dataError['message'] ?? 'Erreur inconnue', 0, $e);
+                    }
+                }
+            }
+
+            dump("Importation $for à ". round((intval($page) * 100) / $lastPage, 2) . " %");
+
+            if ($nextPageUrl && count($dataError) == 0 && intval($page) < 2) {
+                return $this->importCustomerContactData($baseUrl, intval($page) + 1, $dataImported, $dataError);
+            }
+
+            $return =  [
+                'success' => count($dataError) == 0 ? true : false,
+                'message' => count($dataError) == 0 ? "Opération réussite" : "Opération interrompue",
+                'data_imported' => $dataImported,
+                'data_error' => $dataError,
+            ];
+            return $return;
+        } else {
+            if ($response->status() === 429) {
+                $waitTime = $response->header('Retry-After', 60); // Temps d'attente par défaut de 60 secondes
+                dump("⏳ Rate limit atteint, attente de {$waitTime}s...");
+                sleep($waitTime);
+                return $this->importCustomerContactData($baseUrl,intval($page), $dataImported, $dataError);
             }
             throw new \Exception("Erreur HTTP " . $response->status() . " lors de la récupération des données depuis $url");
         }

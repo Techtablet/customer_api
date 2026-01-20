@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone_number', 16);            
             $table->string('email_address', 80);
             //title => civilité
-            $table->unsignedBigInteger('id_contact_title');
+            $table->integer('id_contact_title');
             $table->foreign('id_contact_title')->references('id_customer_contact_title')->on('customer_contact_titles')->onDelete('restrict');
             $table->string('phone_number_2', 16)->nullable();
             //default
