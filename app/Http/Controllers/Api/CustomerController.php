@@ -88,7 +88,7 @@ class CustomerController extends Controller
             'seller',
             'lang',
             'location',
-            'typologie',
+            'typology',
             'canvassing_step',
             'store_group',
             'refusal_reason'
