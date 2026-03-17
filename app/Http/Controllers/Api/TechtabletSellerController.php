@@ -8,6 +8,7 @@ use App\Http\Requests\TechtabletSellerRequest\UpdateTechtabletSellerRequest;
 use App\Models\TechtabletSeller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Tag(
@@ -22,6 +23,13 @@ class TechtabletSellerController extends Controller
      *     path="/techtablet-sellers",
      *     summary="Liste tous les vendeurs Techtablet",
      *     tags={"TechtabletSellers"},
+     *    @OA\Parameter(
+     *         name="key",
+     *         in="query",
+     *         required=false,
+     *         description="key du vendeur Techtablet",
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste des vendeurs Techtablet récupérée avec succès",
@@ -35,9 +43,16 @@ class TechtabletSellerController extends Controller
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $techtabletSellers = TechtabletSeller::all();
+        $techtabletSellers = TechtabletSeller::query();
+        if ($request->has('key')) {
+            $techtabletSellers->where('key', $request->input('key'));
+        }
+        if ($request->has('is_active')) {
+            $techtabletSellers->where('is_active', $request->input('is_active'));
+        }
+        $techtabletSellers = $techtabletSellers->get();
 
         return response()->json([
             'success' => true,

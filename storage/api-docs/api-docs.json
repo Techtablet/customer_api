@@ -7920,6 +7920,17 @@
                 ],
                 "summary": "Liste tous les vendeurs Techtablet",
                 "operationId": "1b5d8df36d9b3badcda19da995df33bd",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "description": "key du vendeur Techtablet",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des vendeurs Techtablet récupérée avec succès",
@@ -8909,9 +8920,6 @@
             },
             "StoreCustomerAddressRequest": {
                 "required": [
-                    "address",
-                    "postal_code",
-                    "city",
                     "id_country"
                 ],
                 "properties": {
@@ -9633,7 +9641,6 @@
                 "required": [
                     "id_customer",
                     "first_name",
-                    "last_name",
                     "phone_number",
                     "email_address",
                     "id_contact_title",

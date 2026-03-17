@@ -131,6 +131,8 @@ class TechtabletSeller extends Model
         'key',
         'signature',
         'is_active',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -139,8 +141,7 @@ class TechtabletSeller extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'created_at',
-        'updated_at',
+        
     ];
 
     /**
