@@ -153,20 +153,36 @@ class ShippingAddress extends Model
     {
         parent::boot();
 
-        static::creating(function ($model) {
+       /* static::creating(function ($model) {
             if ($model->is_default) {
                 // Désactiver les autres adresses par défaut
-                static::where('is_default', true)->update(['is_default' => false]);
+                static::where('is_default', true)->where('id_customer', $model->id_customer)->update(['is_default' => false]);
             }
-        });
+        });*/
 
-        static::updating(function ($model) {
+        /*static::updating(function ($model) {
             if ($model->isDirty('is_default') && $model->is_default) {
                 // Désactiver les autres adresses par défaut
                 static::where('id_shipping_address', '!=', $model->id_shipping_address)
                     ->where('is_default', true)
+                    ->where('id_customer', $model->id_customer)
                     ->update(['is_default' => false]);
             }
-        });
+        });*/
+
+        /*static::saving(function ($model) {
+            if ($model->is_default) {
+                try {
+                    // Laisser la BD gérer la contrainte
+                    $model->save();
+                } catch (\Illuminate\Database\QueryException $e) {
+                    if ($e->errorInfo[1] == 1062) { // Duplicate entry error
+                        throw new \Exception('Ce client a déjà une adresse par défaut.');
+                    }
+                    throw $e;
+                }
+                return false; // Empêche la double sauvegarde
+            }
+        });*/
     }
 }

@@ -35,6 +35,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 
+use App\Http\Services\CustomerService;
+
 /**
  * @OA\Tag(
  *     name="Customers",
@@ -62,6 +64,125 @@ class CustomerController extends Controller
      *         required=false,
      *         @OA\Schema(type="integer", default=100, minimum=1, maximum=100)
      *     ),
+     *     @OA\Parameter(
+     *         name="id_customer",
+     *         in="query",
+     *         description="ID du client",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="with_user",
+     *         in="query",
+     *         description="Inclure les utilisateurs associés",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="with_franchise",
+     *         in="query",
+     *         description="Inclure les franchises associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="with_seller",
+     *         in="query",
+     *         description="Inclure les vendeurs associés",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_lang",
+     *         in="query",
+     *         description="Inclure les langues associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_location",
+     *         in="query",
+     *         description="Inclure les lieux associés",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_typology",
+     *         in="query",
+     *         description="Inclure les typologies associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_canvassing_step",
+     *         in="query",
+     *         description="Inclure les étapes de canvassing associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_store_group",
+     *         in="query",
+     *         description="Inclure les groupes de magasins associés",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_refusal_reason",
+     *         in="query",
+     *         description="Inclure les raisons de refus associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_invoice_address",
+     *         in="query",
+     *         description="Inclure les adresses de facturation associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_shipping_addresses",
+     *         in="query",
+     *         description="Inclure les adresses de livraison associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_shipping_addresse_default",
+     *         in="query",
+     *         description="Inclure l'adresses de livraison par defaut associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_customer_compta",
+     *         in="query",
+     *         description="Inclure les données comptables du client",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_customer_contacts",
+     *         in="query",
+     *         description="Inclure les contacts du client",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_customer_contact_default",
+     *         in="query",
+     *         description="Inclure le contact du client par défaut",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste paginée des clients récupérée avec succès",
@@ -83,16 +204,67 @@ class CustomerController extends Controller
     {
         $perPage = min($request->input('per_page', 100), 100);
         
-        $customers = Customer::with([
-            'franchise',
-            'seller',
-            'lang',
-            'location',
-            'typology',
-            'canvassing_step',
-            'store_group',
-            'refusal_reason'
-        ])->paginate($perPage);
+        $customers = Customer::query();
+
+        if ($request->has('id_customer')) {
+            $customers->where('id_customer', $request->input('id_customer'));
+        }
+        if ($request->has('with_user') && $request->boolean('with_user')) {
+            $customers->with('user');
+        }
+        if ($request->has('with_franchise') && $request->boolean('with_franchise')) {
+            $customers->with('franchise');
+        }
+        if ($request->has('with_seller') && $request->boolean('with_seller')) {
+            $customers->with('seller');
+        }
+        if ($request->has('with_lang') && $request->boolean('with_lang')) {
+            $customers->with('lang');
+        }
+        if ($request->has('with_location') && $request->boolean('with_location')) {
+            $customers->with('location');
+        }
+        if ($request->has('with_typology') && $request->boolean('with_typology')) {
+            $customers->with('typology');
+        }
+        if ($request->has('with_canvassing_step') && $request->boolean('with_canvassing_step')) {
+            $customers->with('canvassing_step');
+        }
+        if ($request->has('with_store_group') && $request->boolean('with_store_group')) {
+            $customers->with('store_group');
+        }
+        if ($request->has('with_refusal_reason') && $request->boolean('with_refusal_reason')) {
+            $customers->with('refusal_reason');
+        }
+        if ($request->has('with_invoice_address') && $request->boolean('with_invoice_address')) {
+            $customers->with('invoice_address.customerAddress');
+        }
+        if ($request->has('with_shipping_addresses') && $request->boolean('with_shipping_addresses')) {
+            $customers->with('shipping_addresses.customerAddress');
+        }
+        if ($request->has('with_shipping_addresse_default') && $request->boolean('with_shipping_addresse_default')) {
+            $customers->with('shipping_addresse_default.customerAddress');
+        }
+        if ($request->has('with_customer_compta') && $request->boolean('with_customer_compta')) {
+            $customers->with('customer_compta');
+        }
+        if ($request->has('with_customer_contacts') && $request->boolean('with_customer_contacts')) {
+            $customers->with('customer_contacts.contactTitle', 'customer_contacts.contactRole');
+        }
+        if ($request->has('with_customer_contact_default') && $request->boolean('with_customer_contact_default')) {
+            $customers->with('customer_contact_default.contactTitle', 'customer_contact_default.contactRole');
+        }
+
+        $customers = $customers->paginate($perPage);
+
+        $data = $customers->items();
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($customers->items() as $customer) {
+                $dataFormated[] = CustomerService::format_data_for_customer_manager($customer->toArray());
+            }
+            $data = $dataFormated;
+        }
 
         return response()->json([
             'success' => true,
@@ -121,6 +293,69 @@ class CustomerController extends Controller
      *         description="ID du client",
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         description="Nombre d'éléments par page (max: 100)",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=100, minimum=1, maximum=100)
+     *     ),
+     *     @OA\Parameter(
+     *         name="with_franchise",
+     *         in="query",
+     *         description="Inclure les franchises associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *     @OA\Parameter(
+     *         name="with_seller",
+     *         in="query",
+     *         description="Inclure les vendeurs associés",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_lang",
+     *         in="query",
+     *         description="Inclure les langues associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_location",
+     *         in="query",
+     *         description="Inclure les lieux associés",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_typology",
+     *         in="query",
+     *         description="Inclure les typologies associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_canvassing_step",
+     *         in="query",
+     *         description="Inclure les étapes de canvassing associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_store_group",
+     *         in="query",
+     *         description="Inclure les groupes de magasins associés",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="with_refusal_reason",
+     *         in="query",
+     *         description="Inclure les raisons de refus associées",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Client récupéré avec succès",
@@ -136,18 +371,33 @@ class CustomerController extends Controller
      *     )
      * )
      */
-    public function show(Customer $customer): JsonResponse
+    public function show(Customer $customer, Request $request): JsonResponse
     {
-        $customer->load([
-            'franchise',
-            'seller',
-            'lang',
-            'location',
-            'typologie',
-            'canvassing_step',
-            'store_group',
-            'refusal_reason'
-        ]);
+        if ($request->has('with_franchise') && $request->boolean('with_franchise')) {
+            $customer->load('franchise');
+        }
+        if ($request->has('with_seller') && $request->boolean('with_seller')) {
+            $customer->load('seller');
+        }
+        if ($request->has('with_lang') && $request->boolean('with_lang')) {
+            $customer->load('lang');
+        }
+        if ($request->has('with_location') && $request->boolean('with_location')) {
+            $customer->load('location');
+        }
+        if ($request->has('with_typology') && $request->boolean('with_typology')) {
+            $customer->load('typology');
+        }
+        if ($request->has('with_canvassing_step') && $request->boolean('with_canvassing_step')) {
+            $customer->load('canvassing_step');
+        }
+        if ($request->has('with_store_group') && $request->boolean('with_store_group')) {
+            $customer->load('store_group');
+        }
+        if ($request->has('with_refusal_reason') && $request->boolean('with_refusal_reason')) {
+            $customer->load('refusal_reason');
+        }
+        /*$customer->load(['franchise','seller',]);*/
 
         return response()->json([
             'success' => true,

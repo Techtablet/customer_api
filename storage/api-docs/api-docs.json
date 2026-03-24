@@ -4084,6 +4084,159 @@
                             "maximum": 100,
                             "minimum": 1
                         }
+                    },
+                    {
+                        "name": "id_customer",
+                        "in": "query",
+                        "description": "ID du client",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "with_user",
+                        "in": "query",
+                        "description": "Inclure les utilisateurs associés",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_franchise",
+                        "in": "query",
+                        "description": "Inclure les franchises associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_seller",
+                        "in": "query",
+                        "description": "Inclure les vendeurs associés",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_lang",
+                        "in": "query",
+                        "description": "Inclure les langues associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_location",
+                        "in": "query",
+                        "description": "Inclure les lieux associés",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_typology",
+                        "in": "query",
+                        "description": "Inclure les typologies associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_canvassing_step",
+                        "in": "query",
+                        "description": "Inclure les étapes de canvassing associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_store_group",
+                        "in": "query",
+                        "description": "Inclure les groupes de magasins associés",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_refusal_reason",
+                        "in": "query",
+                        "description": "Inclure les raisons de refus associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_invoice_address",
+                        "in": "query",
+                        "description": "Inclure les adresses de facturation associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_shipping_addresses",
+                        "in": "query",
+                        "description": "Inclure les adresses de livraison associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_shipping_addresse_default",
+                        "in": "query",
+                        "description": "Inclure l'adresses de livraison par defaut associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_customer_compta",
+                        "in": "query",
+                        "description": "Inclure les données comptables du client",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_customer_contacts",
+                        "in": "query",
+                        "description": "Inclure les contacts du client",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_customer_contact_default",
+                        "in": "query",
+                        "description": "Inclure le contact du client par défaut",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
                     }
                 ],
                 "responses": {
@@ -4179,6 +4332,90 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Nombre d'éléments par page (max: 100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "with_franchise",
+                        "in": "query",
+                        "description": "Inclure les franchises associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_seller",
+                        "in": "query",
+                        "description": "Inclure les vendeurs associés",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_lang",
+                        "in": "query",
+                        "description": "Inclure les langues associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_location",
+                        "in": "query",
+                        "description": "Inclure les lieux associés",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_typology",
+                        "in": "query",
+                        "description": "Inclure les typologies associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_canvassing_step",
+                        "in": "query",
+                        "description": "Inclure les étapes de canvassing associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_store_group",
+                        "in": "query",
+                        "description": "Inclure les groupes de magasins associés",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "with_refusal_reason",
+                        "in": "query",
+                        "description": "Inclure les raisons de refus associées",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
                         }
                     }
                 ],

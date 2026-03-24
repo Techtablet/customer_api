@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @OA\Schema(
@@ -520,6 +522,14 @@ class Customer extends Model
     ];
 
     /**
+     * Relation avec user.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+
+    /**
      * Relation avec la franchise.
      */
     public function franchise(): BelongsTo
@@ -581,5 +591,53 @@ class Customer extends Model
     public function refusal_reason(): BelongsTo
     {
         return $this->belongsTo(CustomerRefusalReason::class, 'id_refusal_reason', 'id_customer_refusal_reason');
+    }
+
+    /**
+     * Relation avec l'adresse de facturation.
+     */
+    public function invoice_address(): HasOne
+    {
+        return $this->hasOne(InvoiceAddress::class, 'id_customer', 'id_customer');
+    }
+
+    /**
+     * Relation avec les adresses de livraison.
+     */
+    public function shipping_addresses(): hasMany
+    {
+        return $this->hasMany(ShippingAddress::class, 'id_customer', 'id_customer');
+    }
+
+    /**
+     * Relation avec l'adresses de livraison par defaut.
+     */
+    public function shipping_addresse_default(): hasMany
+    {
+        return $this->hasMany(ShippingAddress::class, 'id_customer', 'id_customer')->where('is_default', true);
+    }
+
+    /**
+     * Relation avec les données comptables du client.
+     */
+    public function customer_compta(): HasOne
+    {
+        return $this->hasOne(CustomerCompta::class, 'id_customer', 'id_customer');
+    }
+
+    /**
+     * Relation avec les contacts du client.
+     */
+    public function customer_contacts(): hasMany
+    {
+        return $this->hasMany(CustomerContact::class, 'id_customer', 'id_customer');
+    }
+
+    /**
+     * Relation avec le contact du client par defaut.
+     */
+    public function customer_contact_default(): hasMany
+    {
+        return $this->hasMany(CustomerContact::class, 'id_customer', 'id_customer')->where('is_default', true);
     }
 }
