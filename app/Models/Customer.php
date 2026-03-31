@@ -530,6 +530,14 @@ class Customer extends Model
     }
 
     /**
+     * Relation avec le statut.
+     */
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(CustomerStatus::class, 'id_status', 'id_customer_status');
+    }
+
+    /**
      * Relation avec la franchise.
      */
     public function franchise(): BelongsTo
@@ -620,7 +628,7 @@ class Customer extends Model
     /**
      * Relation avec les données comptables du client.
      */
-    public function customer_compta(): HasOne
+    public function compta(): HasOne
     {
         return $this->hasOne(CustomerCompta::class, 'id_customer', 'id_customer');
     }
@@ -628,7 +636,7 @@ class Customer extends Model
     /**
      * Relation avec les contacts du client.
      */
-    public function customer_contacts(): hasMany
+    public function contacts(): hasMany
     {
         return $this->hasMany(CustomerContact::class, 'id_customer', 'id_customer');
     }
@@ -636,7 +644,7 @@ class Customer extends Model
     /**
      * Relation avec le contact du client par defaut.
      */
-    public function customer_contact_default(): hasMany
+    public function contact_default(): hasMany
     {
         return $this->hasMany(CustomerContact::class, 'id_customer', 'id_customer')->where('is_default', true);
     }

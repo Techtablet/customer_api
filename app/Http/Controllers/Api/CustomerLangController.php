@@ -8,6 +8,8 @@ use App\Http\Requests\CustomerLangRequest\UpdateCustomerLangRequest;
 use App\Models\CustomerLang;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use App\Http\Services\CustomerLangService;
 
 /**
  * @OA\Tag(
@@ -22,6 +24,13 @@ class CustomerLangController extends Controller
      *     path="/customer-langs",
      *     summary="Liste toutes les langues clients",
      *     tags={"CustomerLangs"},
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste des langues clients récupérée avec succès",
@@ -35,13 +44,22 @@ class CustomerLangController extends Controller
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $customerLangs = CustomerLang::all();
 
+        $data = $customerLangs;
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($customerLangs as $customerLang) {
+                $dataFormated[] = CustomerLangService::format_data_for_customer_manager($customerLang->toArray());
+            }
+            $data = $dataFormated;
+        }
+
         return response()->json([
             'success' => true,
-            'data' => $customerLangs,
+            'data' => $data,
             'message' => 'Liste des langues clients récupérée avec succès.',
         ]);
     }

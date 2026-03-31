@@ -8,6 +8,8 @@ use App\Http\Requests\CustomerLocationRequest\UpdateCustomerLocationRequest;
 use App\Models\CustomerLocation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use App\Http\Services\CustomerLocationService;
 
 /**
  * @OA\Tag(
@@ -22,6 +24,13 @@ class CustomerLocationController extends Controller
      *     path="/customer-locations",
      *     summary="Liste toutes les localisations clients",
      *     tags={"CustomerLocations"},
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste des localisations clients récupérée avec succès",
@@ -35,13 +44,22 @@ class CustomerLocationController extends Controller
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $customerLocations = CustomerLocation::all();
+        $customerLocations = CustomerLocation::orderBy('name')->get();
+
+        $data = $customerLocations;
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($customerLocations as $customerLocation) {
+                $dataFormated[] = CustomerLocationService::format_data_for_customer_manager($customerLocation->toArray());
+            }
+            $data = $dataFormated;
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $customerLocations,
+            'data' => $data,
             'message' => 'Liste des localisations clients récupérée avec succès.',
         ]);
     }

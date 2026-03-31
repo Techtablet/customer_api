@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest\StoreProfileRequest;
 use App\Http\Requests\ProfileRequest\UpdateProfileRequest;
 use App\Models\Profile;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use App\Http\Services\ProfileService;
 
 /**
  * @OA\Tag(
@@ -22,6 +24,13 @@ class ProfileController extends Controller
      *     path="/profiles",
      *     summary="Liste tous les profils",
      *     tags={"Profiles"},
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste des profils récupérée avec succès",
@@ -35,13 +44,22 @@ class ProfileController extends Controller
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $profiles = Profile::all();
+        $profiles = Profile::orderBy('name')->get();
+
+        $data = $profiles;
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($profiles as $profile) {
+                $dataFormated[] = ProfileService::format_data_for_customer_manager($profile->toArray());
+            }
+            $data = $dataFormated;
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $profiles,
+            'data' => $data,
             'message' => 'Liste des profils récupérée avec succès.',
         ]);
     }

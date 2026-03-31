@@ -4203,7 +4203,7 @@
                         }
                     },
                     {
-                        "name": "with_customer_compta",
+                        "name": "with_compta",
                         "in": "query",
                         "description": "Inclure les données comptables du client",
                         "required": false,
@@ -4212,7 +4212,7 @@
                         }
                     },
                     {
-                        "name": "with_customer_contacts",
+                        "name": "with_contacts",
                         "in": "query",
                         "description": "Inclure les contacts du client",
                         "required": false,
@@ -4221,7 +4221,7 @@
                         }
                     },
                     {
-                        "name": "with_customer_contact_default",
+                        "name": "with_contact_default",
                         "in": "query",
                         "description": "Inclure le contact du client par défaut",
                         "required": false,
@@ -4558,6 +4558,35 @@
                 ],
                 "summary": "Liste tous les pays clients",
                 "operationId": "f4c982c7c324d35f6bb365745a82c768",
+                "parameters": [
+                    {
+                        "name": "is_intracom_vat",
+                        "in": "query",
+                        "description": "Filtrer les pays clients par statut de TVA intracommunautaire",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "format_data_for_shipping",
+                        "in": "query",
+                        "description": "Formater les données pour le shipping",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des pays clients récupérée avec succès",
@@ -4790,6 +4819,17 @@
                 ],
                 "summary": "Liste toutes les langues clients",
                 "operationId": "cb26602595a4acd44d916784c40ff349",
+                "parameters": [
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des langues clients récupérée avec succès",
@@ -5022,6 +5062,17 @@
                 ],
                 "summary": "Liste toutes les localisations clients",
                 "operationId": "67b48d271c10f1f02fdcc166295f55e2",
+                "parameters": [
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des localisations clients récupérée avec succès",
@@ -6322,6 +6373,17 @@
                 ],
                 "summary": "Liste toutes les typologies clients",
                 "operationId": "f0590bb490a8039bca09bd991a39625a",
+                "parameters": [
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des typologies clients récupérée avec succès",
@@ -6554,6 +6616,17 @@
                 ],
                 "summary": "Liste toutes les franchises",
                 "operationId": "e6ea012114de677c6c7aa821e3a2899f",
+                "parameters": [
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des franchises récupérée avec succès",
@@ -7139,6 +7212,17 @@
                 ],
                 "summary": "Liste tous les profils",
                 "operationId": "41b89a8b93a04ae5e520bed1e866c3c9",
+                "parameters": [
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des profils récupérée avec succès",
@@ -7692,6 +7776,17 @@
                 "summary": "Liste tous les logiciels",
                 "description": "Liste tous les logiciels",
                 "operationId": "a7e48c50262a6f9cac458d4f52e5fd31",
+                "parameters": [
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des logiciels récupérée avec succès",

@@ -7,6 +7,8 @@ use App\Models\StockSoftware;
 use App\Http\Requests\StockSoftwareRequest\StoreStockSoftwareRequest;
 use App\Http\Requests\StockSoftwareRequest\UpdateStockSoftwareRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use App\Http\Services\StockSoftwareService;
 
 /**
  * @OA\Tag(
@@ -23,6 +25,13 @@ class StockSoftwareController extends Controller
      *     path="/stock-softwares",
      *     tags={"StockSoftware"},
      *     summary="Liste tous les logiciels",
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste des logiciels récupérée avec succès",
@@ -41,14 +50,23 @@ class StockSoftwareController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $softwares = StockSoftware::all();
+        $softwares = StockSoftware::orderBy('name')->get();
+
+        $data = $softwares;
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($softwares as $software) {
+                $dataFormated[] = StockSoftwareService::format_data_for_customer_manager($software->toArray());
+            }
+            $data = $dataFormated;
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Liste des logiciels récupérée avec succès',
-            'data' => $softwares
+            'data' => $data
         ]);
     }
 

@@ -156,21 +156,21 @@ class CustomerController extends Controller
      *         @OA\Schema(type="boolean")
      *     ),
      *    @OA\Parameter(
-     *         name="with_customer_compta",
+     *         name="with_compta",
      *         in="query",
      *         description="Inclure les données comptables du client",
      *         required=false,
      *         @OA\Schema(type="boolean")
      *     ),
      *    @OA\Parameter(
-     *         name="with_customer_contacts",
+     *         name="with_contacts",
      *         in="query",
      *         description="Inclure les contacts du client",
      *         required=false,
      *         @OA\Schema(type="boolean")
      *     ),
      *    @OA\Parameter(
-     *         name="with_customer_contact_default",
+     *         name="with_contact_default",
      *         in="query",
      *         description="Inclure le contact du client par défaut",
      *         required=false,
@@ -209,8 +209,20 @@ class CustomerController extends Controller
         if ($request->has('id_customer')) {
             $customers->where('id_customer', $request->input('id_customer'));
         }
+        if ($request->has('id_customers')) {
+            $idCustomers = [];
+            if (is_array($request->input('id_customers'))) {
+                $idCustomers = $request->input('id_customers');
+            } else {
+                $idCustomers = explode(',', $request->input('id_customers'));
+            }
+            $customers->whereIn('id_customer', $idCustomers);
+        }
         if ($request->has('with_user') && $request->boolean('with_user')) {
             $customers->with('user');
+        }
+        if ($request->has('with_status') && $request->boolean('with_status')) {
+            $customers->with('status');
         }
         if ($request->has('with_franchise') && $request->boolean('with_franchise')) {
             $customers->with('franchise');
@@ -237,22 +249,22 @@ class CustomerController extends Controller
             $customers->with('refusal_reason');
         }
         if ($request->has('with_invoice_address') && $request->boolean('with_invoice_address')) {
-            $customers->with('invoice_address.customerAddress');
+            $customers->with('invoice_address.customerAddress.country');
         }
         if ($request->has('with_shipping_addresses') && $request->boolean('with_shipping_addresses')) {
-            $customers->with('shipping_addresses.customerAddress');
+            $customers->with('shipping_addresses.customerAddress.country');
         }
         if ($request->has('with_shipping_addresse_default') && $request->boolean('with_shipping_addresse_default')) {
-            $customers->with('shipping_addresse_default.customerAddress');
+            $customers->with('shipping_addresse_default.customerAddress.country');
         }
-        if ($request->has('with_customer_compta') && $request->boolean('with_customer_compta')) {
-            $customers->with('customer_compta');
+        if ($request->has('with_compta') && $request->boolean('with_compta')) {
+            $customers->with('compta');
         }
-        if ($request->has('with_customer_contacts') && $request->boolean('with_customer_contacts')) {
-            $customers->with('customer_contacts.contactTitle', 'customer_contacts.contactRole');
+        if ($request->has('with_contacts') && $request->boolean('with_contacts')) {
+            $customers->with('contacts.contactTitle', 'contacts.contactRole');
         }
-        if ($request->has('with_customer_contact_default') && $request->boolean('with_customer_contact_default')) {
-            $customers->with('customer_contact_default.contactTitle', 'customer_contact_default.contactRole');
+        if ($request->has('with_contact_default') && $request->boolean('with_contact_default')) {
+            $customers->with('contact_default.contactTitle', 'contact_default.contactRole');
         }
 
         $customers = $customers->paginate($perPage);
@@ -268,7 +280,7 @@ class CustomerController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $customers->items(),
+            'data' => $data,
             'pagination' => [
                 'current_page' => $customers->currentPage(),
                 'per_page' => $customers->perPage(),

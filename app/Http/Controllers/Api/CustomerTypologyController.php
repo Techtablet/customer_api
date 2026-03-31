@@ -8,6 +8,8 @@ use App\Http\Requests\CustomerTypologyRequest\UpdateCustomerTypologyRequest;
 use App\Models\CustomerTypology;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use App\Http\Services\CustomerTypologyService;
 
 /**
  * @OA\Tag(
@@ -22,6 +24,13 @@ class CustomerTypologyController extends Controller
      *     path="/customer-typologies",
      *     summary="Liste toutes les typologies clients",
      *     tags={"CustomerTypologies"},
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste des typologies clients récupérée avec succès",
@@ -35,13 +44,22 @@ class CustomerTypologyController extends Controller
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $customerTypologies = CustomerTypology::all();
+        $customerTypologies = CustomerTypology::orderBy('name')->get();
+
+         $data = $customerTypologies;
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($customerTypologies as $customerTypology) {
+                $dataFormated[] = CustomerTypologyService::format_data_for_customer_manager($customerTypology->toArray());
+            }
+            $data = $dataFormated;
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $customerTypologies,
+            'data' => $data,
             'message' => 'Liste des typologies clients récupérée avec succès.',
         ]);
     }

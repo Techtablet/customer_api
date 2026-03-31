@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FranchiseRequest\StoreFranchiseRequest;
 use App\Http\Requests\FranchiseRequest\UpdateFranchiseRequest;
 use App\Models\Franchise;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use App\Http\Services\FranchiseService;
 
 /**
  * @OA\Tag(
@@ -22,6 +24,13 @@ class FranchiseController extends Controller
      *     path="/franchises",
      *     summary="Liste toutes les franchises",
      *     tags={"Franchises"},
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste des franchises récupérée avec succès",
@@ -38,13 +47,22 @@ class FranchiseController extends Controller
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $franchises = Franchise::all();
+        $franchises = Franchise::orderBy('name')->get();
+
+        $data = $franchises;
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($franchises as $franchise) {
+                $dataFormated[] = FranchiseService::format_data_for_customer_manager($franchise->toArray());
+            }
+            $data = $dataFormated;
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $franchises,
+            'data' => $data,
             'message' => 'Liste des franchises récupérée avec succès.',
         ]);
     }

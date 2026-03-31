@@ -8,6 +8,8 @@ use App\Http\Requests\CustomerCountryRequest\UpdateCustomerCountryRequest;
 use App\Models\CustomerCountry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
+use App\Http\Services\CustomerCountryService;
 
 /**
  * @OA\Tag(
@@ -22,6 +24,27 @@ class CustomerCountryController extends Controller
      *     path="/customer-countries",
      *     summary="Liste tous les pays clients",
      *     tags={"CustomerCountries"},
+     *    @OA\Parameter(
+     *         name="is_intracom_vat",
+     *         in="query",
+     *         description="Filtrer les pays clients par statut de TVA intracommunautaire",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="format_data_for_shipping",
+     *         in="query",
+     *         description="Formater les données pour le shipping",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Liste des pays clients récupérée avec succès",
@@ -35,13 +58,35 @@ class CustomerCountryController extends Controller
      *     )
      * )
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $customerCountries = CustomerCountry::all();
+        $customerCountries = CustomerCountry::orderBy('name');
+        if ($request->has('is_intracom_vat') && $request->boolean('is_intracom_vat')) {
+            $customerCountries->where('is_intracom_vat', true);
+        }
+
+        $customerCountries = $customerCountries->get();
+
+        $data = $customerCountries;
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($customerCountries as $customerCountry) {
+                $dataFormated[] = CustomerCountryService::format_data_for_customer_manager($customerCountry->toArray());
+            }
+            $data = $dataFormated;
+        }
+
+        if ($request->has('format_data_for_shipping') && $request->boolean('format_data_for_shipping')) {
+            $dataFormated = [];
+            foreach ($customerCountries as $customerCountry) {
+                $dataFormated[] = CustomerCountryService::format_data_for_shipping($customerCountry->toArray());
+            }
+            $data = $dataFormated;
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $customerCountries,
+            'data' => $data,
             'message' => 'Liste des pays clients récupérée avec succès.',
         ]);
     }
