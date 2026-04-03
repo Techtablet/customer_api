@@ -8261,6 +8261,24 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "format_data",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "format_data_with_more_info",
+                        "in": "query",
+                        "description": "Formater les données pour le gestionnaire de clients",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
                     }
                 ],
                 "responses": {

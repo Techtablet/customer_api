@@ -9,6 +9,7 @@ use App\Models\TechtabletSeller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use App\Http\Services\TechtabletSellerService;
 
 /**
  * @OA\Tag(
@@ -29,6 +30,20 @@ class TechtabletSellerController extends Controller
      *         required=false,
      *         description="key du vendeur Techtablet",
      *         @OA\Schema(type="string")
+     *     ),
+     *    @OA\Parameter(
+     *         name="format_data",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
+     *     ),
+     *    @OA\Parameter(
+     *         name="format_data_with_more_info",
+     *         in="query",
+     *         description="Formater les données pour le gestionnaire de clients",
+     *         required=false,
+     *         @OA\Schema(type="boolean")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -54,9 +69,26 @@ class TechtabletSellerController extends Controller
         }
         $techtabletSellers = $techtabletSellers->get();
 
+        $data = $techtabletSellers;
+        if ($request->has('format_data') && $request->boolean('format_data')) {
+            $dataFormated = [];
+            foreach ($techtabletSellers as $seller) {
+                $dataFormated[] = TechtabletSellerService::format_data_for_customer_manager($seller->toArray());
+            }
+            $data = $dataFormated;
+        }
+
+        if ($request->has('format_data_with_more_info') && $request->boolean('format_data_with_more_info')) {
+            $dataFormated = [];
+            foreach ($techtabletSellers as $seller) {
+                $dataFormated[] = TechtabletSellerService::format_data_with_more_info_for_customer_manager($seller->toArray());
+            }
+            $data = $dataFormated;
+        }
+
         return response()->json([
             'success' => true,
-            'data' => $techtabletSellers,
+            'data' => $data,
             'message' => 'Liste des vendeurs Techtablet récupérée avec succès.',
         ]);
     }
